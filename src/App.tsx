@@ -13,7 +13,8 @@ import { LabsExplorer } from '@/features/labs/LabsExplorer';
 import { LabHost } from '@/features/labs/LabHost';
 import ProjectsScreen from '@/features/projects/ProjectsScreen';
 import SettingsScreen from '@/features/settings/SettingsScreen';
-import { Home, FlaskConical, Folder, Settings } from 'lucide-react';
+import PracticeScreen from '@/features/practice/PracticeScreen';
+import { Home, FlaskConical, Target, Folder, Settings } from 'lucide-react';
 import { ToastContainer } from '@/components/ui/ToastContainer';
 
 export default function App() {
@@ -45,6 +46,7 @@ export default function App() {
   };
 
   useEffect(() => {
+    import('@capacitor/splash-screen').then(m => m.SplashScreen.hide()).catch(() => {});
     const cleanupTheme = initializeThemeListener();
     useProjectStore.getState().loadProjects();
     return cleanupTheme;
@@ -53,6 +55,7 @@ export default function App() {
   const navItems = [
     { href: '/', icon: Home, label: (t as any)('nav.home') },
     { href: '/labs', icon: FlaskConical, label: (t as any)('nav.labs') },
+    { href: '/practice', icon: Target, label: (t as any)('nav.practice') },
     { href: '/projects', icon: Folder, label: (t as any)('nav.projects') },
     { href: '/settings', icon: Settings, label: (t as any)('nav.settings') }
   ];
@@ -74,6 +77,7 @@ export default function App() {
           <Route component={HomeScreen} path="/" />
           <Route component={LabsExplorer} path="/labs" />
           <Route component={LabHost} path="/labs/:id" />
+          <Route component={PracticeScreen} path="/practice" />
           <Route component={ProjectsScreen} path="/projects" />
           <Route component={SettingsScreen} path="/settings" />
           <Route>

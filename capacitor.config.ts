@@ -4,7 +4,15 @@ const config: CapacitorConfig = {
   appId: 'com.cryptxploit.controllab',
   appName: 'ControlLab',
   webDir: 'dist',
-  bundledWebRuntime: false
+  bundledWebRuntime: false,
+  plugins: {
+    SplashScreen: {
+      launchShowDuration: 2000,
+      backgroundColor: "#0f172a",
+      androidSplashResourceName: "splash",
+      showSpinner: false
+    }
+  }
 };
 
 export default config;

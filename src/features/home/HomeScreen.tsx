@@ -4,15 +4,14 @@ import { SearchOmnibox } from '@/features/search/SearchOmnibox';
 import { useProjectStore } from '@/store/useProjectStore';
 import { useChallengeStore } from '@/store/useChallengeStore';
 import { useTranslation } from '@/store/useLocaleStore';
-import { CHALLENGES, type Challenge } from '@/core/challenges/content';
+import { CHALLENGES } from '@/core/challenges/content';
 import { Play } from 'lucide-react';
 import type { Project } from '@/services/storage/db';
 
 export default function HomeScreen() {
   const [, setLocation] = useLocation();
   const { projects } = useProjectStore();
-  const { setActiveChallenge } = useChallengeStore();
-  const { t } = useTranslation();
+    const { t } = useTranslation();
   const [greetingKey, setGreetingKey] = useState<'home.greeting.morning' | 'home.greeting.afternoon' | 'home.greeting.evening'>('home.greeting.morning');
 
   useEffect(() => {
@@ -32,10 +31,7 @@ export default function HomeScreen() {
     setLocation(`/labs/${mapping[labType] || labType}`);
   };
 
-  const handleStartChallenge = (challenge: Challenge) => {
-    setActiveChallenge(challenge);
-    handleNavigateToLab(challenge.labType);
-  };
+
 
   const handleLoadProject = (project: Project) => {
     handleNavigateToLab(project.labType);
@@ -121,25 +117,22 @@ export default function HomeScreen() {
 
       {/* Practice & Challenges */}
       <div className="w-full">
-        <h2 className="text-lg font-semibold text-text-primary mb-4 uppercase tracking-wider text-sm">{t('home.practice')}</h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          {CHALLENGES.map(challenge => (
-            <button
-              key={challenge.id}
-              onClick={() => handleStartChallenge(challenge)}
-              className="flex flex-col items-start text-left p-5 bg-background-elevated border border-border-subtle rounded-xl hover:border-accent-primary hover:shadow-md hover:-translate-y-0.5 active:scale-[0.98] transition-all duration-200 group"
-            >
-              <div className="flex justify-between w-full mb-2">
-                <h3 className="font-semibold text-text-primary group-hover:text-accent-primary transition-colors">{(t as any)(challenge.titleKey)}</h3>
-                <span className="font-mono text-xs bg-background-base text-accent-primary px-2 py-1 rounded">
-                  {challenge.labType}
-                </span>
-              </div>
+        <h2 className="text-lg font-semibold text-text-primary mb-4 uppercase tracking-wider text-sm">{(t as any)('nav.practice')}</h2>
+        <div className="grid grid-cols-1 gap-4">
+          <button
+            onClick={() => setLocation('/practice')}
+            className="flex items-center justify-between p-5 bg-background-elevated border border-border-subtle rounded-xl hover:border-accent-primary hover:shadow-md hover:-translate-y-0.5 active:scale-[0.98] transition-all duration-200 group"
+          >
+            <div className="text-left">
+              <h3 className="font-semibold text-text-primary group-hover:text-accent-primary transition-colors">{(t as any)('practice.progress')}</h3>
               <p className="text-sm text-text-secondary leading-relaxed">
-                {(t as any)(challenge.descKey)}
+                {useChallengeStore.getState().completedIds?.length || 0} / {CHALLENGES.length} {(t as any)('practice.completed')}
               </p>
-            </button>
-          ))}
+            </div>
+            <div className="shrink-0">
+              <Play className="w-5 h-5 text-accent-primary" />
+            </div>
+          </button>
         </div>
       </div>
 
