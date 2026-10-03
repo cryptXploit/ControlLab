@@ -24,7 +24,7 @@ export function SaveDialog({ isOpen, defaultName = '', onSave, onCancel }: SaveD
 
   return (
     <div className="fixed inset-0 z-[60] flex items-center justify-center bg-black/60 p-4 animate-in fade-in">
-      <div className="bg-bg-surface-elevated border border-border-subtle rounded-xl p-6 w-full max-w-sm shadow-2xl animate-in zoom-in-95">
+      <div className="bg-background-elevated border border-border-subtle rounded-xl p-6 w-full max-w-sm shadow-2xl animate-in zoom-in-95">
         <h3 className="text-lg font-semibold text-text-primary mb-4">{(t as any)('projects.save.title')}</h3>
         <input
           type="text"
@@ -32,7 +32,7 @@ export function SaveDialog({ isOpen, defaultName = '', onSave, onCancel }: SaveD
           value={name}
           onChange={(e) => setName(e.target.value)}
           placeholder={(t as any)('projects.save.placeholder')}
-          className="w-full px-3 py-2 mb-6 bg-bg-surface border border-border-strong rounded-md focus:outline-none focus:border-accent-primary text-text-primary placeholder:text-text-muted"
+          className="w-full px-3 py-2 mb-6 bg-background-surface border border-border-strong rounded-md focus:outline-none focus:border-accent-primary text-text-primary placeholder:text-text-muted"
           onKeyDown={(e) => e.key === 'Enter' && handleSave()}
         />
         <div className="flex justify-end gap-3">

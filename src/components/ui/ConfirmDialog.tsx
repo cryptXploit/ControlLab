@@ -27,7 +27,7 @@ export function ConfirmDialog({
 
   return (
     <div className="fixed inset-0 z-[200] flex items-center justify-center bg-black/50 p-4 animate-in fade-in">
-      <div className="bg-bg-surface-elevated border border-border-subtle rounded-xl p-6 w-full max-w-sm shadow-xl animate-in zoom-in-95">
+      <div className="bg-background-elevated border border-border-subtle rounded-xl p-6 w-full max-w-sm shadow-xl animate-in zoom-in-95">
         {title && <h3 className="text-text-primary text-lg font-bold mb-2">{title}</h3>}
         <p className="text-text-primary text-base mb-6 font-medium">{description || message}</p>
         <div className="flex justify-end gap-3">
