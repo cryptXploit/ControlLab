@@ -26,9 +26,9 @@
   }
 
   .dark {
-    --bg-base: #020617; /* Deep slate */
-    --bg-surface: #0f172a;
-    --bg-surface-elevated: #1e293b;
+    --bg-base: #0f172a; /* Deep gray */
+    --bg-surface: #1e293b;
+    --bg-surface-elevated: #334155;
     
     --text-primary: #f8fafc;
     --text-secondary: #cbd5e1;

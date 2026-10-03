@@ -3,9 +3,10 @@ import InfrastructureTest from '@/features/settings/InfrastructureTest';
 import { useSettingsStore } from '@/store/useSettingsStore';
 import { useTranslation, useLocaleStore } from '@/store/useLocaleStore';
 import { HapticService } from '@/services/haptics/HapticService';
-import { Sparkles, CheckCircle2, Globe, Bell } from 'lucide-react';
+import { Sparkles, CheckCircle2, Globe, Bell, Monitor, Sun, Moon } from 'lucide-react';
 import { Card, CardHeader } from '@/components/ui/Card';
 import { NotificationService } from '@/services/notifications/NotificationService';
+import { useThemeStore } from '@/store/useThemeStore';
 
 export default function SettingsScreen() {
   const { isPro, togglePro, notificationsEnabled, toggleNotifications } = useSettingsStore();
@@ -19,6 +20,12 @@ export default function SettingsScreen() {
 
   const handleLanguageChange = (newLocale: 'en' | 'bn') => {
     setLocale(newLocale);
+    HapticService.triggerSelection();
+  };
+
+  const { theme, setTheme } = useThemeStore();
+  const handleThemeChange = (newTheme: 'light' | 'dark' | 'system') => {
+    setTheme(newTheme);
     HapticService.triggerSelection();
   };
 
@@ -64,6 +71,46 @@ export default function SettingsScreen() {
               }`}
             >
               {(t as any)('settings.language.bn')}
+            </button>
+          </div>
+          <div className="h-px w-full bg-border-subtle my-2" />
+          <div className="flex items-center gap-2 mb-2">
+            <Monitor className="w-5 h-5 text-accent-primary" />
+            <h2 className="text-sm font-semibold text-text-primary">{(t as any)('settings.theme')}</h2>
+          </div>
+          <div className="flex bg-bg-surface border border-border-strong rounded-lg p-1">
+            <button
+              onClick={() => handleThemeChange('light')}
+              className={`flex-1 py-2 rounded-md font-medium transition-colors flex items-center justify-center gap-2 text-sm ${
+                theme === 'light' 
+                  ? 'bg-accent-primary text-white shadow-sm' 
+                  : 'text-text-secondary hover:text-text-primary'
+              }`}
+            >
+              <Sun className="w-4 h-4" />
+              {(t as any)('settings.theme.light')}
+            </button>
+            <button
+              onClick={() => handleThemeChange('dark')}
+              className={`flex-1 py-2 rounded-md font-medium transition-colors flex items-center justify-center gap-2 text-sm ${
+                theme === 'dark' 
+                  ? 'bg-accent-primary text-white shadow-sm' 
+                  : 'text-text-secondary hover:text-text-primary'
+              }`}
+            >
+              <Moon className="w-4 h-4" />
+              {(t as any)('settings.theme.dark')}
+            </button>
+            <button
+              onClick={() => handleThemeChange('system')}
+              className={`flex-1 py-2 rounded-md font-medium transition-colors flex items-center justify-center gap-2 text-sm ${
+                theme === 'system' 
+                  ? 'bg-accent-primary text-white shadow-sm' 
+                  : 'text-text-secondary hover:text-text-primary'
+              }`}
+            >
+              <Monitor className="w-4 h-4" />
+              {(t as any)('settings.theme.system')}
             </button>
           </div>
         </div>
