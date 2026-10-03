@@ -3,6 +3,7 @@ import { useProjectStore } from '@/store/useProjectStore';
 import { useChallengeStore } from '@/store/useChallengeStore';
 import { useSettingsStore } from '@/store/useSettingsStore';
 import { useTranslation } from '@/store/useLocaleStore';
+import { useToastStore } from '@/store/useToastStore';
 import { EntitlementEngine } from '@/core/entitlements/EntitlementEngine';
 import { HapticService } from '@/services/haptics/HapticService';
 import { explainPID } from '@/core/rules/explainWhy';
@@ -31,7 +32,7 @@ export default function PidLab() {
     const { allowed, message } = EntitlementEngine.canSaveNewProject(projects.length, isPro);
     if (!allowed) {
       HapticService.triggerWarning();
-      alert(message);
+      useToastStore.getState().showToast(message || 'Upgrade required', 'error');
       return;
     }
 
@@ -42,7 +43,7 @@ export default function PidLab() {
       explanation.why
     );
     HapticService.triggerSuccess();
-    alert('Project Saved Successfully!');
+    useToastStore.getState().showToast((t as any)('messages.projectSaved'), 'success');
   };
 
   const handleCheckSolution = () => {

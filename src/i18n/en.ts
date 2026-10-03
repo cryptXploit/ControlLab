@@ -41,6 +41,14 @@ export const en = {
   'settings.subtitle': 'Manage your application preferences and data.',
   'settings.language': 'Language',
   'settings.language.en': 'English',
-  'settings.language.bn': 'বাংলা'
+  'settings.language.bn': 'বাংলা',
+  'projects.empty.title': 'No Saved Projects',
+  'projects.empty.desc': 'Your saved engineering experiments will appear here.',
+  'settings.appearance': 'Appearance',
+  'settings.data': 'Data & Storage',
+  'messages.projectSaved': 'Project saved successfully',
+  'messages.projectDeleted': 'Project deleted',
+  'common.confirm': 'Confirm',
+  'common.deleteConfirm': 'Are you sure you want to delete this project?'
 } as const;
 export type TranslationKey = keyof typeof en;

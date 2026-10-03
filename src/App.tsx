@@ -6,20 +6,22 @@ import { LabHost } from '@/features/labs/LabHost';
 import ProjectsScreen from '@/features/projects/ProjectsScreen';
 import SettingsScreen from '@/features/settings/SettingsScreen';
 import { Home, FlaskConical, Folder, Settings } from 'lucide-react';
+import { ToastContainer } from '@/components/ui/ToastContainer';
 
 export default function App() {
   const { t } = useTranslation();
   const [location] = useLocation();
 
   const navItems = [
-    { href: '/', icon: Home, label: t('nav.home') },
-    { href: '/labs', icon: FlaskConical, label: t('nav.labs') },
-    { href: '/projects', icon: Folder, label: t('nav.projects') },
-    { href: '/settings', icon: Settings, label: t('nav.settings') }
+    { href: '/', icon: Home, label: (t as any)('nav.home') },
+    { href: '/labs', icon: FlaskConical, label: (t as any)('nav.labs') },
+    { href: '/projects', icon: Folder, label: (t as any)('nav.projects') },
+    { href: '/settings', icon: Settings, label: (t as any)('nav.settings') }
   ];
 
   return (
-    <div className="min-h-screen bg-bg-base text-text-primary font-sans flex flex-col">
+    <div className="min-h-screen bg-bg-base text-text-primary font-sans flex flex-col relative">
+      <ToastContainer />
       <main className="flex-1 overflow-y-auto">
         <Switch>
           <Route component={HomeScreen} path="/" />

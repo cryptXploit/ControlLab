@@ -43,5 +43,13 @@ export const bn: Record<TranslationKey, string> = {
   'settings.subtitle': 'আপনার অ্যাপ্লিকেশন পছন্দ এবং ডেটা পরিচালনা করুন।',
   'settings.language': 'ভাষা',
   'settings.language.en': 'English',
-  'settings.language.bn': 'বাংলা'
+  'settings.language.bn': 'বাংলা',
+  'projects.empty.title': 'কোনো সেভ করা প্রজেক্ট নেই',
+  'projects.empty.desc': 'আপনার সেভ করা ইঞ্জিনিয়ারিং এক্সপেরিমেন্টগুলো এখানে দেখা যাবে।',
+  'settings.appearance': 'অ্যাপিয়ারেন্স',
+  'settings.data': 'ডেটা ও স্টোরেজ',
+  'messages.projectSaved': 'প্রজেক্ট সফলভাবে সেভ হয়েছে',
+  'messages.projectDeleted': 'প্রজেক্ট ডিলিট করা হয়েছে',
+  'common.confirm': 'নিশ্চিত করুন',
+  'common.deleteConfirm': 'আপনি কি নিশ্চিত যে এই প্রজেক্টটি ডিলিট করতে চান?'
 };
