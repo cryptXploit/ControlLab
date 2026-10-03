@@ -72,7 +72,7 @@ export default function FirstOrderLab() {
           <Card className="p-4 bg-background-surface border border-accent-primary/20">
             <p className="text-sm text-text-primary mb-2 leading-relaxed">{(t as any)(explanation.whyKey)}</p>
             <div className="text-xs text-text-secondary bg-background-base p-2 rounded inline-block">
-              <strong className="text-text-primary">Suggestion:</strong> {(t as any)(explanation.actionKey)}
+              <strong className="text-text-primary">{(t as any)('common.suggestion')}</strong> {(t as any)(explanation.actionKey)}
             </div>
           </Card>
         }

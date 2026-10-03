@@ -6,6 +6,7 @@ export const en = {
   'common.save': 'Save',
   'common.cancel': 'Cancel',
   'common.delete': 'Delete',
+  'common.suggestion': 'Suggestion:',
   'workspace.parameters': 'Parameters',
   'workspace.metrics': 'Metrics',
   'search.placeholder': 'Search tools, labs...',

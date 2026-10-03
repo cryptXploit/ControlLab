@@ -8,6 +8,7 @@ export const bn: Record<TranslationKey, string> = {
   'common.save': 'সেভ করুন',
   'common.cancel': 'বাতিল',
   'common.delete': 'ডিলিট',
+  'common.suggestion': 'পরামর্শ:',
   'workspace.parameters': 'প্যারামিটার',
   'workspace.metrics': 'মেট্রিক্স',
   'search.placeholder': 'টুলস বা ল্যাব খুঁজুন...',
