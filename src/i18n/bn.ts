@@ -60,6 +60,7 @@ export const bn: Record<TranslationKey, string> = {
   'projects.save.action': 'প্রজেক্ট সেভ করুন',
   'notification.practice.title': 'প্র্যাকটিস করার সময়',
   'notification.practice.body': 'আপনার ইঞ্জিনিয়ারিং স্কিল ঠিক রাখতে আজই একটি কন্ট্রোল-ল্যাব চ্যালেঞ্জ সম্পূর্ণ করুন।',
+  'settings.notification.denied': 'বিজ্ঞপ্তির অনুমতি প্রত্যাখ্যান করা হয়েছে।',
   'settings.notifications': 'নোটিফিকেশন',
   'settings.practiceReminder': 'ডেইলি প্র্যাকটিস রিমাইন্ডার',
   'settings.theme': 'থিম',

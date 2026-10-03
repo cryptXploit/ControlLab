@@ -48,6 +48,18 @@ export default function App() {
   useEffect(() => {
     import('@capacitor/splash-screen').then(m => m.SplashScreen.hide()).catch(() => {});
     useProjectStore.getState().loadProjects();
+    
+    // Push notifications back 24h to avoid spamming active users
+    import('@/services/notifications/NotificationService').then(({ NotificationService }) => {
+      import('@/store/useSettingsStore').then(({ useSettingsStore }) => {
+        if (useSettingsStore.getState().notificationsEnabled) {
+          NotificationService.schedulePracticeReminder(
+            (t as any)('notification.practice.title'),
+            (t as any)('notification.practice.body')
+          );
+        }
+      });
+    });
   }, []);
 
   const navItems = [

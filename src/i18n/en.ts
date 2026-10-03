@@ -58,6 +58,7 @@ export const en = {
   'projects.save.action': 'Save Project',
   'notification.practice.title': 'Time to Practice',
   'notification.practice.body': 'Keep your engineering skills sharp. Complete a ControlLab challenge today.',
+  'settings.notification.denied': 'Notification permission denied.',
   'settings.notifications': 'Notifications',
   'settings.practiceReminder': 'Daily Practice Reminder',
   'settings.theme': 'Theme',
