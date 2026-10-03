@@ -46,7 +46,7 @@ export default function HomeScreen() {
     .slice(0, 3);
 
   return (
-    <div className="flex flex-col gap-10 w-full max-w-3xl mx-auto pb-24">
+    <div className="flex flex-col gap-10 w-full max-w-3xl mx-auto pb-24 px-4 overflow-x-hidden">
       
       {/* Header */}
       <div className="text-center mt-4">

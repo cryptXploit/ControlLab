@@ -107,7 +107,7 @@ export default function DCMotorLab() {
   };
 
   return (
-    <div className="w-full flex flex-col h-full">
+    <div className="w-full flex flex-col flex-1">
       {activeChallenge && activeChallenge.labType === 'DC_MOTOR' && (
         <div className={`m-4 p-4 rounded-xl border ${isCompleted ? 'bg-status-success/10 border-status-success' : 'bg-bg-surface-elevated border-accent-primary'} flex flex-col md:flex-row md:items-center justify-between gap-4 shadow-sm transition-colors`}>
           <div>

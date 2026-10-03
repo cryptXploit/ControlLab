@@ -14,7 +14,7 @@ export function SimulatorWorkspace({ title, graph, controls, metrics, explanatio
   const { t } = useTranslation();
   
   return (
-    <div className="flex flex-col md:flex-row h-full w-full max-w-screen-2xl mx-auto overflow-hidden bg-bg-base">
+    <div className="flex flex-col md:flex-row flex-1 w-full max-w-screen-2xl mx-auto bg-bg-base">
       
       {/* MOBILE STICKY TOP / DESKTOP RIGHT */}
       <div className="w-full md:w-2/3 flex flex-col order-1 md:order-2 border-b md:border-b-0 md:border-l border-border-subtle bg-bg-surface z-10 sticky top-0 md:relative">

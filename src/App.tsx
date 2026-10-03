@@ -1,5 +1,8 @@
+import { useEffect } from 'react';
 import { Route, Switch, Link, useLocation } from 'wouter';
 import { useTranslation } from '@/store/useLocaleStore';
+import { useProjectStore } from '@/store/useProjectStore';
+import { initializeThemeListener } from '@/store/useThemeStore';
 import HomeScreen from '@/features/home/HomeScreen';
 import { LabsExplorer } from '@/features/labs/LabsExplorer';
 import { LabHost } from '@/features/labs/LabHost';
@@ -12,6 +15,12 @@ export default function App() {
   const { t } = useTranslation();
   const [location] = useLocation();
 
+  useEffect(() => {
+    const cleanupTheme = initializeThemeListener();
+    useProjectStore.getState().loadProjects();
+    return cleanupTheme;
+  }, []);
+
   const navItems = [
     { href: '/', icon: Home, label: (t as any)('nav.home') },
     { href: '/labs', icon: FlaskConical, label: (t as any)('nav.labs') },
@@ -20,9 +29,9 @@ export default function App() {
   ];
 
   return (
-    <div className="min-h-screen bg-bg-base text-text-primary font-sans flex flex-col relative">
+    <div className="min-h-screen bg-bg-base text-text-primary font-sans flex flex-col relative w-full overflow-x-hidden">
       <ToastContainer />
-      <main className="flex-1 overflow-y-auto">
+      <main className="flex-1 flex flex-col w-full max-w-screen-xl mx-auto overflow-y-auto pb-20 overflow-x-hidden">
         <Switch>
           <Route component={HomeScreen} path="/" />
           <Route component={LabsExplorer} path="/labs" />
@@ -36,7 +45,7 @@ export default function App() {
       </main>
 
       {/* BOTTOM NAVIGATION */}
-      <nav className="fixed bottom-0 w-full bg-bg-surface-elevated border-t border-border-subtle pb-safe pt-1 z-50">
+      <nav className="fixed bottom-0 w-full bg-bg-surface-elevated z-50 border-t border-border-subtle pb-safe pt-1">
         <div className="flex justify-around items-center h-14">
           {navItems.map((item) => {
             const Icon = item.icon;
