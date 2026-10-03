@@ -1,15 +1,19 @@
-import FirstOrderLab from '@/features/labs/FirstOrderLab';
-import SecondOrderLab from '@/features/labs/SecondOrderLab';
-import PidLab from '@/features/labs/PidLab';
-import DCMotorLab from '@/features/labs/DCMotorLab';
+import { lazy } from 'react';
+import type { ComponentType } from 'react';
 
 export interface ToolDefinition {
   id: string;
   titleKey: string;
   descKey: string;
   categoryKey: string;
-  component: React.ComponentType;
+  route: string;
+  component: ComponentType;
 }
+
+const FirstOrderLab = lazy(() => import('@/features/labs/FirstOrderLab'));
+const SecondOrderLab = lazy(() => import('@/features/labs/SecondOrderLab'));
+const PidLab = lazy(() => import('@/features/labs/PidLab'));
+const DCMotorLab = lazy(() => import('@/features/labs/DCMotorLab'));
 
 export const TOOL_REGISTRY: ToolDefinition[] = [
   {
@@ -17,6 +21,7 @@ export const TOOL_REGISTRY: ToolDefinition[] = [
     titleKey: 'tools.firstOrder.title',
     descKey: 'tools.firstOrder.desc',
     categoryKey: 'category.timeDomain',
+    route: '/labs/first-order',
     component: FirstOrderLab
   },
   {
@@ -24,6 +29,7 @@ export const TOOL_REGISTRY: ToolDefinition[] = [
     titleKey: 'tools.secondOrder.title',
     descKey: 'tools.secondOrder.desc',
     categoryKey: 'category.timeDomain',
+    route: '/labs/second-order',
     component: SecondOrderLab
   },
   {
@@ -31,6 +37,7 @@ export const TOOL_REGISTRY: ToolDefinition[] = [
     titleKey: 'tools.pid.title',
     descKey: 'tools.pid.desc',
     categoryKey: 'category.controllers',
+    route: '/labs/pid',
     component: PidLab
   },
   {
@@ -38,6 +45,7 @@ export const TOOL_REGISTRY: ToolDefinition[] = [
     titleKey: 'tools.dcMotor.title',
     descKey: 'tools.dcMotor.desc',
     categoryKey: 'category.systems',
+    route: '/labs/dc-motor',
     component: DCMotorLab
   }
 ];
