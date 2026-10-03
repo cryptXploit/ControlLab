@@ -10,7 +10,7 @@ export default function InfrastructureTest() {
   };
 
   const handleSchedulePractice = () => {
-    NotificationService.schedulePracticeReminder(60);
+    NotificationService.schedulePracticeReminder('Practice Time', 'Keep up the good work!');
   };
 
   return (

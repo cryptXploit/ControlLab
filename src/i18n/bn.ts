@@ -54,5 +54,9 @@ export const bn: Record<TranslationKey, string> = {
   'common.deleteConfirm': 'আপনি কি নিশ্চিত যে এই প্রজেক্টটি ডিলিট করতে চান?',
   'projects.save.title': 'এক্সপেরিমেন্ট সেভ করুন',
   'projects.save.placeholder': 'যেমন: ল্যাব ৩ - হাই ড্যাম্পিং',
-  'projects.save.action': 'প্রজেক্ট সেভ করুন'
+  'projects.save.action': 'প্রজেক্ট সেভ করুন',
+  'notification.practice.title': 'প্র্যাকটিস করার সময়',
+  'notification.practice.body': 'আপনার ইঞ্জিনিয়ারিং স্কিল ঠিক রাখতে আজই একটি কন্ট্রোল-ল্যাব চ্যালেঞ্জ সম্পূর্ণ করুন।',
+  'settings.notifications': 'নোটিফিকেশন',
+  'settings.practiceReminder': 'ডেইলি প্র্যাকটিস রিমাইন্ডার'
 };

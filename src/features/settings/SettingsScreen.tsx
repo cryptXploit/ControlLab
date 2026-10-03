@@ -3,11 +3,12 @@ import InfrastructureTest from '@/features/settings/InfrastructureTest';
 import { useSettingsStore } from '@/store/useSettingsStore';
 import { useTranslation, useLocaleStore } from '@/store/useLocaleStore';
 import { HapticService } from '@/services/haptics/HapticService';
-import { Sparkles, CheckCircle2, Globe } from 'lucide-react';
+import { Sparkles, CheckCircle2, Globe, Bell } from 'lucide-react';
 import { Card, CardHeader } from '@/components/ui/Card';
+import { NotificationService } from '@/services/notifications/NotificationService';
 
 export default function SettingsScreen() {
-  const { isPro, togglePro } = useSettingsStore();
+  const { isPro, togglePro, notificationsEnabled, toggleNotifications } = useSettingsStore();
   const { t } = useTranslation();
   const { locale, setLocale } = useLocaleStore();
 
@@ -19,6 +20,14 @@ export default function SettingsScreen() {
   const handleLanguageChange = (newLocale: 'en' | 'bn') => {
     setLocale(newLocale);
     HapticService.triggerSelection();
+  };
+
+  const handleToggleNotifications = () => {
+    toggleNotifications();
+    HapticService.triggerSelection();
+    if (!notificationsEnabled) { // Turning ON (state hasn't updated yet in this render tick)
+      NotificationService.schedulePracticeReminder((t as any)('notification.practice.title'), (t as any)('notification.practice.body'));
+    }
   };
 
   return (
@@ -102,6 +111,24 @@ export default function SettingsScreen() {
           </div>
         )}
       </div>
+
+      <Card>
+        <CardHeader title={(t as any)('settings.notifications')} />
+        <div className="p-4 flex flex-col gap-4">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-2">
+              <Bell className="w-5 h-5 text-accent-primary" />
+              <h2 className="text-sm font-semibold text-text-primary">{(t as any)('settings.practiceReminder')}</h2>
+            </div>
+            <button 
+              onClick={handleToggleNotifications}
+              className={`w-12 h-6 rounded-full transition-colors relative ${notificationsEnabled ? 'bg-accent-primary' : 'bg-bg-surface border border-border-strong'}`}
+            >
+              <div className={`absolute top-0.5 w-5 h-5 rounded-full transition-all ${notificationsEnabled ? 'bg-white right-0.5' : 'bg-text-muted left-0.5'}`} />
+            </button>
+          </div>
+        </div>
+      </Card>
 
       <Card>
         <CardHeader title={(t as any)('settings.data')} />

@@ -52,6 +52,10 @@ export const en = {
   'common.deleteConfirm': 'Are you sure you want to delete this project?',
   'projects.save.title': 'Save Experiment',
   'projects.save.placeholder': 'e.g., Lab 3 - High Damping',
-  'projects.save.action': 'Save Project'
+  'projects.save.action': 'Save Project',
+  'notification.practice.title': 'Time to Practice',
+  'notification.practice.body': 'Keep your engineering skills sharp. Complete a ControlLab challenge today.',
+  'settings.notifications': 'Notifications',
+  'settings.practiceReminder': 'Daily Practice Reminder'
 } as const;
 export type TranslationKey = keyof typeof en;
