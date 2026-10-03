@@ -51,5 +51,8 @@ export const bn: Record<TranslationKey, string> = {
   'messages.projectSaved': 'প্রজেক্ট সফলভাবে সেভ হয়েছে',
   'messages.projectDeleted': 'প্রজেক্ট ডিলিট করা হয়েছে',
   'common.confirm': 'নিশ্চিত করুন',
-  'common.deleteConfirm': 'আপনি কি নিশ্চিত যে এই প্রজেক্টটি ডিলিট করতে চান?'
+  'common.deleteConfirm': 'আপনি কি নিশ্চিত যে এই প্রজেক্টটি ডিলিট করতে চান?',
+  'projects.save.title': 'এক্সপেরিমেন্ট সেভ করুন',
+  'projects.save.placeholder': 'যেমন: ল্যাব ৩ - হাই ড্যাম্পিং',
+  'projects.save.action': 'প্রজেক্ট সেভ করুন'
 };

@@ -49,6 +49,9 @@ export const en = {
   'messages.projectSaved': 'Project saved successfully',
   'messages.projectDeleted': 'Project deleted',
   'common.confirm': 'Confirm',
-  'common.deleteConfirm': 'Are you sure you want to delete this project?'
+  'common.deleteConfirm': 'Are you sure you want to delete this project?',
+  'projects.save.title': 'Save Experiment',
+  'projects.save.placeholder': 'e.g., Lab 3 - High Damping',
+  'projects.save.action': 'Save Project'
 } as const;
 export type TranslationKey = keyof typeof en;

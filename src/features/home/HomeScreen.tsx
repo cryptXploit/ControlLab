@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useLocation } from 'wouter';
-import SearchOmnibox from '@/features/search/SearchOmnibox';
+import { SearchOmnibox } from '@/features/search/SearchOmnibox';
 import { useProjectStore } from '@/store/useProjectStore';
 import { useChallengeStore } from '@/store/useChallengeStore';
 import { useTranslation } from '@/store/useLocaleStore';

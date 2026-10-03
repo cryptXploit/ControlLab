@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { usePidStore } from '@/store/usePidStore';
 import { useProjectStore } from '@/store/useProjectStore';
 import { useChallengeStore } from '@/store/useChallengeStore';
@@ -14,6 +15,7 @@ import { MetricCard } from '@/components/ui/MetricCard';
 import { Card } from '@/components/ui/Card';
 import { Button } from '@/components/ui/Button';
 import { CheckCircle } from 'lucide-react';
+import { SaveDialog } from '@/components/ui/SaveDialog';
 
 export default function PidLab() {
   const { Kp, Ki, Kd, setpoint, result, setParameters } = usePidStore();
@@ -28,22 +30,28 @@ export default function PidLab() {
     result?.metrics.steadyStateError || 0
   );
 
-  const handleSave = async () => {
+  const [isSaveModalOpen, setIsSaveModalOpen] = useState(false);
+
+  const handleSaveClick = () => {
     const { allowed, message } = EntitlementEngine.canSaveNewProject(projects.length, isPro);
     if (!allowed) {
       HapticService.triggerWarning();
       useToastStore.getState().showToast(message || 'Upgrade required', 'error');
       return;
     }
+    setIsSaveModalOpen(true);
+  };
 
+  const confirmSave = async (projectName: string) => {
     await addProject(
-      `PID Lab Kp=${Kp.toFixed(1)} Ki=${Ki.toFixed(1)} Kd=${Kd.toFixed(1)}`,
+      projectName,
       'PID',
       { Kp, Ki, Kd, setpoint },
       explanation.why
     );
     HapticService.triggerSuccess();
     useToastStore.getState().showToast((t as any)('messages.projectSaved'), 'success');
+    setIsSaveModalOpen(false);
   };
 
   const handleCheckSolution = () => {
@@ -77,7 +85,7 @@ export default function PidLab() {
 
       <SimulatorWorkspace 
         title={(t as any)('tools.pid.title')}
-        actions={<Button onClick={handleSave} size="sm" variant="secondary">{(t as any)('common.save')}</Button>}
+        actions={<Button onClick={handleSaveClick} size="sm" variant="secondary">{(t as any)('common.save')}</Button>}
         graph={result ? <Graph output={result.output} time={result.time} setpoint={result.setpoint} /> : <div />}
         controls={
           <>
@@ -105,6 +113,12 @@ export default function PidLab() {
             </div>
           </Card>
         }
+      />
+      <SaveDialog 
+        isOpen={isSaveModalOpen} 
+        defaultName={`PID Lab Kp=${Kp.toFixed(1)} Ki=${Ki.toFixed(1)} Kd=${Kd.toFixed(1)}`} 
+        onCancel={() => setIsSaveModalOpen(false)} 
+        onSave={confirmSave} 
       />
     </div>
   );

@@ -1,77 +1,63 @@
-import { Search, FlaskConical, BookOpen, Wrench } from 'lucide-react';
-import { useSearchStore } from '@/store/useSearchStore';
+import { useMemo, useState } from 'react';
+import Fuse from 'fuse.js';
+import { useLocation } from 'wouter';
+import { Search } from 'lucide-react';
+import { TOOL_REGISTRY } from '@/core/tools/registry';
+import { useTranslation } from '@/store/useLocaleStore';
+import { HapticService } from '@/services/haptics/HapticService';
 
-export default function SearchOmnibox() {
-  const { query, results, setQuery } = useSearchStore();
+export function SearchOmnibox() {
+  const { t } = useTranslation();
+  const [, setLocation] = useLocation();
+  const [query, setQuery] = useState('');
 
-  const hasResults = results.labs.length > 0 || results.concepts.length > 0 || results.tools.length > 0;
+  // Dynamically index the translated strings so Bangla search works natively
+  const fuse = useMemo(() => {
+    const searchableTools = TOOL_REGISTRY.map(tool => ({
+      id: tool.id,
+      title: (t as any)(tool.titleKey),
+      desc: (t as any)(tool.descKey),
+      category: (t as any)(tool.categoryKey),
+    }));
+    return new Fuse(searchableTools, {
+      keys: ['title', 'desc', 'category'],
+      threshold: 0.3,
+    });
+  }, [t]);
+
+  const results = query ? fuse.search(query).slice(0, 4) : [];
+
+  const handleSelect = (id: string) => {
+    HapticService.triggerSelection();
+    setQuery('');
+    setLocation(`/labs/${id}`);
+  };
 
   return (
-    <div className="w-full max-w-2xl relative mb-8 z-10">
-      <div className="relative">
-        <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-          <Search className="h-5 w-5 text-text-muted" />
-        </div>
+    <div className="relative w-full max-w-md mx-auto mb-6 z-40">
+      <div className="relative flex items-center">
+        <Search className="absolute left-3 w-5 h-5 text-text-muted"/>
         <input
           type="text"
-          className="block w-full pl-10 pr-3 py-3 border border-border-strong rounded-xl bg-background-surface text-text-primary placeholder-text-muted focus:outline-none focus:ring-2 focus:ring-accent-primary focus:border-transparent transition-all shadow-sm"
-          placeholder="Search for labs, concepts, or tools (e.g., 'prop', 'rc')..."
           value={query}
           onChange={(e) => setQuery(e.target.value)}
+          placeholder="Search tools, labs..."
+          className="w-full pl-10 pr-4 py-2.5 bg-bg-surface-elevated border border-border-strong rounded-xl focus:outline-none focus:ring-2 focus:ring-accent-primary focus:border-transparent text-text-primary placeholder:text-text-muted shadow-sm transition-all"
         />
       </div>
 
-      {query.length > 0 && (
-        <div className="absolute top-full left-0 right-0 mt-2 bg-background-elevated border border-border-subtle rounded-xl shadow-xl overflow-hidden max-h-96 overflow-y-auto">
-          {!hasResults ? (
-            <div className="p-6 text-center text-text-secondary">
-              No results found for "{query}"
-            </div>
-          ) : (
-            <div className="py-2">
-              {results.labs.length > 0 && (
-                <div className="mb-2">
-                  <div className="px-4 py-1 text-xs font-semibold text-text-muted tracking-wider uppercase flex items-center gap-2">
-                    <FlaskConical className="h-3 w-3" /> Labs
-                  </div>
-                  {results.labs.map(lab => (
-                    <div key={lab.id} className="px-4 py-3 hover:bg-background-surface cursor-pointer transition-colors border-l-2 border-transparent hover:border-accent-primary">
-                      <div className="font-medium text-text-primary">{lab.title}</div>
-                      <div className="text-sm text-text-secondary mt-0.5">{lab.description}</div>
-                    </div>
-                  ))}
-                </div>
-              )}
-
-              {results.concepts.length > 0 && (
-                <div className="mb-2">
-                  <div className="px-4 py-1 text-xs font-semibold text-text-muted tracking-wider uppercase flex items-center gap-2">
-                    <BookOpen className="h-3 w-3" /> Concepts
-                  </div>
-                  {results.concepts.map(concept => (
-                    <div key={concept.id} className="px-4 py-3 hover:bg-background-surface cursor-pointer transition-colors border-l-2 border-transparent hover:border-accent-primary">
-                      <div className="font-medium text-text-primary">{concept.title}</div>
-                      <div className="text-sm text-text-secondary mt-0.5">{concept.description}</div>
-                    </div>
-                  ))}
-                </div>
-              )}
-
-              {results.tools.length > 0 && (
-                <div>
-                  <div className="px-4 py-1 text-xs font-semibold text-text-muted tracking-wider uppercase flex items-center gap-2">
-                    <Wrench className="h-3 w-3" /> Tools
-                  </div>
-                  {results.tools.map(tool => (
-                    <div key={tool.id} className="px-4 py-3 hover:bg-background-surface cursor-pointer transition-colors border-l-2 border-transparent hover:border-accent-primary">
-                      <div className="font-medium text-text-primary">{tool.title}</div>
-                      <div className="text-sm text-text-secondary mt-0.5">{tool.description}</div>
-                    </div>
-                  ))}
-                </div>
-              )}
-            </div>
-          )}
+      {results.length > 0 && (
+        <div className="absolute top-full left-0 right-0 mt-2 bg-bg-surface-elevated border border-border-subtle rounded-xl shadow-xl overflow-hidden animate-in fade-in slide-in-from-top-2">
+          {results.map(({ item }) => (
+            <button
+              key={item.id}
+              onClick={() => handleSelect(item.id)}
+              className="w-full text-left px-4 py-3 border-b border-border-subtle hover:bg-bg-surface last:border-0 transition-colors focus:bg-bg-surface focus:outline-none"
+            >
+              <div className="text-sm font-semibold text-text-primary">{item.title}</div>
+              <div className="text-xs text-text-secondary truncate mt-0.5">{item.desc}</div>
+            </button>
+          ))}
         </div>
       )}
     </div>

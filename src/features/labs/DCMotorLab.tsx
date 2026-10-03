@@ -16,6 +16,7 @@ import { MetricCard } from '@/components/ui/MetricCard';
 import { Card } from '@/components/ui/Card';
 import { Button } from '@/components/ui/Button';
 import { Play, Square, CheckCircle } from 'lucide-react';
+import { SaveDialog } from '@/components/ui/SaveDialog';
 
 export default function DCMotorLab() {
   const { Kp, Kd, setpoint, result, setParameters } = useDCMotorStore();
@@ -31,22 +32,28 @@ export default function DCMotorLab() {
 
   const explanation = explainDCMotor(Kp, Kd, result?.metrics.overshoot || 0);
 
-  const handleSave = async () => {
+  const [isSaveModalOpen, setIsSaveModalOpen] = useState(false);
+
+  const handleSaveClick = () => {
     const { allowed, message } = EntitlementEngine.canSaveNewProject(projects.length, isPro);
     if (!allowed) {
       HapticService.triggerWarning();
       useToastStore.getState().showToast(message || 'Upgrade required', 'error');
       return;
     }
+    setIsSaveModalOpen(true);
+  };
 
+  const confirmSave = async (projectName: string) => {
     await addProject(
-      `DC Motor Kp=${Kp.toFixed(1)} Kd=${Kd.toFixed(2)}`,
+      projectName,
       'DC_MOTOR',
       { Kp, Kd, setpoint },
       explanation.why
     );
     HapticService.triggerSuccess();
     useToastStore.getState().showToast((t as any)('messages.projectSaved'), 'success');
+    setIsSaveModalOpen(false);
   };
 
   const handleCheckSolution = () => {
@@ -124,7 +131,7 @@ export default function DCMotorLab() {
 
       <SimulatorWorkspace 
         title={(t as any)('tools.dcMotor.title')}
-        actions={<Button onClick={handleSave} size="sm" variant="secondary">{(t as any)('common.save')}</Button>}
+        actions={<Button onClick={handleSaveClick} size="sm" variant="secondary">{(t as any)('common.save')}</Button>}
         graph={
           <div className="flex flex-col gap-4 h-full">
             <div className="flex justify-center items-center p-4 bg-background-base rounded-lg border border-border-subtle shrink-0">
@@ -168,6 +175,12 @@ export default function DCMotorLab() {
             </div>
           </Card>
         }
+      />
+      <SaveDialog 
+        isOpen={isSaveModalOpen} 
+        defaultName={`DC Motor Kp=${Kp.toFixed(1)} Kd=${Kd.toFixed(2)}`} 
+        onCancel={() => setIsSaveModalOpen(false)} 
+        onSave={confirmSave} 
       />
     </div>
   );
