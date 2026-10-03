@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">ControlLab</string>
+    <string name="title_activity_main">ControlLab</string>
+    <string name="package_name">com.cryptxploit.controllab</string>
+    <string name="custom_url_scheme">com.cryptxploit.controllab</string>
+</resources>
