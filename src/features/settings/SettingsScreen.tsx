@@ -1,5 +1,4 @@
 import DataManagement from '@/features/settings/DataManagement';
-import InfrastructureTest from '@/features/settings/InfrastructureTest';
 import { useSettingsStore } from '@/store/useSettingsStore';
 import { useTranslation, useLocaleStore } from '@/store/useLocaleStore';
 import { HapticService } from '@/services/haptics/HapticService';
@@ -186,9 +185,6 @@ export default function SettingsScreen() {
         <CardHeader title={(t as any)('settings.data')} />
         <div className="p-4 flex flex-col gap-6">
           <DataManagement />
-          <div className="border-t border-border-subtle pt-4">
-            <InfrastructureTest />
-          </div>
         </div>
       </Card>
     </div>

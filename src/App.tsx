@@ -7,7 +7,7 @@ import { usePidStore } from '@/store/usePidStore';
 import { useDCMotorStore } from '@/store/useDCMotorStore';
 import { useTranslation } from '@/store/useLocaleStore';
 import { useProjectStore } from '@/store/useProjectStore';
-import { initializeThemeListener } from '@/store/useThemeStore';
+
 import HomeScreen from '@/features/home/HomeScreen';
 import { LabsExplorer } from '@/features/labs/LabsExplorer';
 import { LabHost } from '@/features/labs/LabHost';
@@ -47,9 +47,7 @@ export default function App() {
 
   useEffect(() => {
     import('@capacitor/splash-screen').then(m => m.SplashScreen.hide()).catch(() => {});
-    const cleanupTheme = initializeThemeListener();
     useProjectStore.getState().loadProjects();
-    return cleanupTheme;
   }, []);
 
   const navItems = [
@@ -61,7 +59,7 @@ export default function App() {
   ];
 
   return (
-    <div className="min-h-screen bg-bg-base text-text-primary font-sans flex flex-col relative w-full overflow-x-hidden">
+    <div className="h-[100dvh] bg-background-base text-text-primary font-sans flex flex-col relative w-full overflow-hidden">
       <ToastContainer />
       <ConfirmDialog 
         isOpen={isWarningOpen} 
@@ -72,7 +70,7 @@ export default function App() {
         onCancel={() => setIsWarningOpen(false)} 
         isDanger 
       />
-      <main className="flex-1 flex flex-col w-full max-w-screen-xl mx-auto overflow-y-auto pb-24 overflow-x-hidden">
+      <main className="flex-1 flex flex-col w-full max-w-screen-xl mx-auto overflow-y-auto pb-20 overflow-x-hidden min-h-0">
         <Switch>
           <Route component={HomeScreen} path="/" />
           <Route component={LabsExplorer} path="/labs" />
@@ -87,7 +85,7 @@ export default function App() {
       </main>
 
       {/* BOTTOM NAVIGATION */}
-      <nav className="fixed bottom-0 w-full bg-bg-surface-elevated z-[100] border-t border-border-subtle shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.05)] pb-safe pt-1">
+      <nav className="fixed bottom-0 w-full bg-background-elevated z-[100] border-t border-border-subtle shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.05)] pb-safe pt-1">
         <div className="flex justify-around items-center h-14">
           {navItems.map((item) => {
             const Icon = item.icon;

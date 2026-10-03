@@ -113,7 +113,7 @@ export default function DCMotorLab() {
         <div className={`m-4 p-4 rounded-xl border ${isCompleted ? 'bg-status-success/10 border-status-success' : 'bg-bg-surface-elevated border-accent-primary'} flex flex-col md:flex-row md:items-center justify-between gap-4 shadow-sm transition-colors`}>
           <div>
             <div className="flex items-center gap-2 mb-1">
-              {isCompleted ? <CheckCircle className="w-5 h-5 text-status-success" /> : <div className="w-2 h-2 rounded-full bg-accent-primary animate-pulse" />}
+              {isCompleted ? <CheckCircle className="w-5 h-5 text-status-success" /> : <div className="w-2 h-2 rounded-full bg-accent-primary" />}
               <h3 className={`font-bold ${isCompleted ? 'text-status-success' : 'text-accent-primary'}`}>
                 {isCompleted ? 'Challenge Completed \uD83C\uDF89' : (t as any)(activeChallenge.titleKey)}
               </h3>
