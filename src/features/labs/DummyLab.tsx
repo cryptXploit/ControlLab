@@ -58,8 +58,8 @@ export default function DummyLab() {
             <Graph 
               time={result.time} 
               output={result.output} 
-              width={500} 
-              height={300} 
+              
+              
             />
           )}
         </div>

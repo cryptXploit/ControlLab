@@ -52,7 +52,7 @@ export default function FirstOrderLab() {
       <SimulatorWorkspace 
         title={(t as any)('tools.firstOrder.title')}
         actions={<Button onClick={handleSaveClick} size="sm">{(t as any)('common.save')}</Button>}
-        graph={result ? <Graph output={result.output} time={result.time} width={600} height={300} /> : <div />}
+        graph={result ? <Graph output={result.output} time={result.time} /> : <div />}
         controls={
           <>
             <SliderField label={(t as any)('params.gain')} max={5} min={0.1} step={0.1} value={K} onChange={(val) => setParameters(val, tau)} />

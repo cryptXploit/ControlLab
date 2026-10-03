@@ -64,6 +64,7 @@ export const en = {
   'workspace.unsavedChanges': 'Unsaved Changes',
   'workspace.unsavedWarning': 'You have unsaved parameters. Are you sure you want to leave?',
   'common.leave': 'Leave',
+  'graph.resetZoom': 'Reset Zoom',
   'explain.firstOrder.sluggish.why': 'A large time constant (\u03C4) makes the system sluggish, taking significantly longer to reach steady state.',
   'explain.firstOrder.sluggish.action': 'Try reducing \u03C4 to see a faster response.',
   'explain.firstOrder.fast.why': 'A small time constant (\u03C4) means the system responds rapidly to input changes.',
