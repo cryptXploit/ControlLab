@@ -67,7 +67,7 @@ export function SliderField({ label, value, min, max, step, unit = '', onChange 
             onChange={handleInputChange}
             onBlur={handleBlur}
             onKeyDown={handleKeyDown}
-            className="w-20 px-2 py-1 text-sm text-right bg-background-surface border border-border-strong rounded-md focus:outline-none focus:border-accent-primary text-text-primary font-mono"
+            className="w-20 px-2 py-1 text-sm text-right bg-background-surface border border-border-strong rounded-md focus:outline-none focus:border-accent-primary text-text-primary font-mono tabular-nums tracking-tight"
           />
           {unit && <span className="text-xs text-text-secondary w-6">{unit}</span>}
         </div>

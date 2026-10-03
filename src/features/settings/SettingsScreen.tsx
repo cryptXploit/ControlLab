@@ -182,9 +182,20 @@ export default function SettingsScreen() {
       </Card>
 
       <Card>
-        <CardHeader title={(t as any)('settings.data')} />
+        <CardHeader title={(t as any)('settings.data') || 'Data & Storage'} />
         <div className="p-4 flex flex-col gap-6">
           <DataManagement />
+        </div>
+      </Card>
+
+      <Card>
+        <CardHeader title={(t as any)('settings.about') || 'About'} />
+        <div className="p-4 flex flex-col items-center justify-center gap-2">
+          <h2 className="text-xl font-bold text-text-primary">ControlLab</h2>
+          <p className="text-text-secondary text-sm">{(t as any)('settings.version') || 'Version 1.0.0'}</p>
+          <a href="#" className="text-accent-primary text-sm hover:underline mt-2">
+            {(t as any)('settings.privacy') || 'Privacy Policy'}
+          </a>
         </div>
       </Card>
     </div>
