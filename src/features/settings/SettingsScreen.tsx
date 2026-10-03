@@ -7,6 +7,7 @@ import { Sparkles, CheckCircle2, Globe, Bell, Monitor, Sun, Moon } from 'lucide-
 import { Card, CardHeader } from '@/components/ui/Card';
 import { NotificationService } from '@/services/notifications/NotificationService';
 import { useThemeStore } from '@/store/useThemeStore';
+import { useToastStore } from '@/store/useToastStore';
 
 export default function SettingsScreen() {
   const { isPro, togglePro, notificationsEnabled, toggleNotifications } = useSettingsStore();
@@ -29,11 +30,15 @@ export default function SettingsScreen() {
     HapticService.triggerSelection();
   };
 
-  const handleToggleNotifications = () => {
+  const handleToggleNotifications = async () => {
     toggleNotifications();
     HapticService.triggerSelection();
     if (!notificationsEnabled) { // Turning ON (state hasn't updated yet in this render tick)
-      NotificationService.schedulePracticeReminder((t as any)('notification.practice.title'), (t as any)('notification.practice.body'));
+      const success = await NotificationService.schedulePracticeReminder((t as any)('notification.practice.title'), (t as any)('notification.practice.body'));
+      if (!success) {
+        toggleNotifications(); // Revert
+        useToastStore.getState().showToast((t as any)('settings.notification.denied'), 'error');
+      }
     }
   };
 

@@ -3,16 +3,16 @@ import { Capacitor } from '@capacitor/core';
 import { useSettingsStore } from '@/store/useSettingsStore';
 
 export class NotificationService {
-  static async schedulePracticeReminder(title: string, body: string) {
+  static async schedulePracticeReminder(title: string, body: string): Promise<boolean> {
     const { notificationsEnabled } = useSettingsStore.getState();
-    if (!notificationsEnabled) return;
+    if (!notificationsEnabled) return false;
 
     if (Capacitor.isNativePlatform()) {
       try {
         const permStatus = await LocalNotifications.checkPermissions();
         if (permStatus.display !== 'granted') {
           const requested = await LocalNotifications.requestPermissions();
-          if (requested.display !== 'granted') return;
+          if (requested.display !== 'granted') return false;
         }
 
         // Cancel previous practice reminders to prevent spam
@@ -30,11 +30,14 @@ export class NotificationService {
             }
           ]
         });
+        return true;
       } catch (e) {
         console.error('Notification failed:', e);
+        return false;
       }
     } else {
       console.log(`[Web Mock] Notification Scheduled: ${title} - ${body}`);
+      return true;
     }
   }
 }
