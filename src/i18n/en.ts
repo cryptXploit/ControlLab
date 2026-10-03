@@ -8,6 +8,8 @@ export const en = {
   'common.delete': 'Delete',
   'workspace.parameters': 'Parameters',
   'workspace.metrics': 'Metrics',
+  'search.placeholder': 'Search tools, labs...',
+  'search.noResults': 'No results found',
   'category.timeDomain': 'Time Domain',
   'category.controllers': 'Controllers',
   'category.systems': 'Systems',

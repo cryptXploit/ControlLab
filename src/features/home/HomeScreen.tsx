@@ -5,6 +5,7 @@ import { useProjectStore } from '@/store/useProjectStore';
 import { useChallengeStore } from '@/store/useChallengeStore';
 import { useTranslation } from '@/store/useLocaleStore';
 import { CHALLENGES } from '@/core/challenges/content';
+import { TOOL_REGISTRY } from '@/core/tools/registry';
 import { Play } from 'lucide-react';
 import type { Project } from '@/services/storage/db';
 
@@ -80,38 +81,23 @@ export default function HomeScreen() {
       {/* Quick Labs */}
       <div className="w-full">
         <h2 className="text-lg font-semibold text-text-primary mb-4 uppercase tracking-wider text-sm">{t('home.quickLabs')}</h2>
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-          <button 
-            onClick={() => handleNavigateToLab('FIRST_ORDER')}
-            className="flex flex-col items-center justify-center p-4 bg-background-elevated border border-border-subtle rounded-xl hover:border-accent-primary hover:shadow-md hover:-translate-y-0.5 active:scale-[0.98] transition-all duration-200 group"
-          >
-            <div className="font-mono text-accent-primary mb-2 text-2xl group-hover:scale-110 transition-transform">1°</div>
-            <div className="text-sm font-medium text-text-primary text-center">First-Order</div>
-          </button>
-          
-          <button 
-            onClick={() => handleNavigateToLab('SECOND_ORDER')}
-            className="flex flex-col items-center justify-center p-4 bg-background-elevated border border-border-subtle rounded-xl hover:border-accent-primary hover:shadow-md hover:-translate-y-0.5 active:scale-[0.98] transition-all duration-200 group"
-          >
-            <div className="font-mono text-accent-primary mb-2 text-2xl group-hover:scale-110 transition-transform">2°</div>
-            <div className="text-sm font-medium text-text-primary text-center">Second-Order</div>
-          </button>
-
-          <button 
-            onClick={() => handleNavigateToLab('PID')}
-            className="flex flex-col items-center justify-center p-4 bg-background-elevated border border-border-subtle rounded-xl hover:border-accent-primary hover:shadow-md hover:-translate-y-0.5 active:scale-[0.98] transition-all duration-200 group"
-          >
-            <div className="font-mono text-accent-primary mb-2 text-2xl group-hover:scale-110 transition-transform">PID</div>
-            <div className="text-sm font-medium text-text-primary text-center">Controller</div>
-          </button>
-
-          <button 
-            onClick={() => handleNavigateToLab('DC_MOTOR')}
-            className="flex flex-col items-center justify-center p-4 bg-background-elevated border border-border-subtle rounded-xl hover:border-accent-primary hover:shadow-md hover:-translate-y-0.5 active:scale-[0.98] transition-all duration-200 group"
-          >
-            <div className="font-mono text-accent-primary mb-2 text-2xl group-hover:scale-110 transition-transform">DC</div>
-            <div className="text-sm font-medium text-text-primary text-center">Motor Pos</div>
-          </button>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          {TOOL_REGISTRY.slice(0, 3).map((tool) => (
+            <button
+              key={tool.id}
+              onClick={() => setLocation(tool.route)}
+              className="text-left"
+            >
+              <div className="p-5 h-full flex flex-col bg-background-elevated border border-border-subtle rounded-xl hover:-translate-y-0.5 hover:shadow-md hover:border-accent-primary transition-all duration-200 group">
+                <h3 className="text-lg font-bold text-text-primary group-hover:text-accent-primary transition-colors">
+                  {(t as any)(tool.titleKey)}
+                </h3>
+                <p className="text-sm text-text-secondary mt-2 flex-1 leading-relaxed">
+                  {(t as any)(tool.descKey)}
+                </p>
+              </div>
+            </button>
+          ))}
         </div>
       </div>
 

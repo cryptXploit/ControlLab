@@ -10,6 +10,8 @@ export const bn: Record<TranslationKey, string> = {
   'common.delete': 'ডিলিট',
   'workspace.parameters': 'প্যারামিটার',
   'workspace.metrics': 'মেট্রিক্স',
+  'search.placeholder': 'টুলস বা ল্যাব খুঁজুন...',
+  'search.noResults': 'কোন ফলাফল পাওয়া যায়নি',
   'category.timeDomain': 'টাইম ডোমেইন',
   'category.controllers': 'কন্ট্রোলার',
   'category.systems': 'সিস্টেমস',
