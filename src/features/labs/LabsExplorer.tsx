@@ -12,7 +12,7 @@ export function LabsExplorer() {
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         {TOOL_REGISTRY.map((tool) => (
           <Link href={`/labs/${tool.id}`} key={tool.id} className="block group">
-            <Card className="p-4 h-full transition-colors hover:border-accent-primary hover:bg-gray-50 dark:hover:bg-gray-800/50 cursor-pointer">
+            <Card interactive className="p-4 h-full transition-colors hover:border-accent-primary hover:bg-gray-50 dark:hover:bg-gray-800/50">
               <h3 className="text-lg font-semibold text-text-primary group-hover:text-accent-primary transition-colors">
                 {(t as any)(tool.titleKey)}
               </h3>

@@ -46,10 +46,10 @@ export default function HomeScreen() {
     .slice(0, 3);
 
   return (
-    <div className="flex flex-col gap-10 w-full max-w-3xl mx-auto pb-24 px-4 overflow-x-hidden">
+    <div className="flex flex-col gap-10 w-full max-w-4xl mx-auto px-4 py-6 pb-24 overflow-x-hidden">
       
       {/* Header */}
-      <div className="text-center mt-4">
+      <div className="text-center mt-4 mb-2">
         <h1 className="text-4xl font-bold text-text-primary mb-2">{t(greetingKey)}</h1>
         <p className="text-text-secondary">{t('home.subtitle')}</p>
       </div>
@@ -57,6 +57,66 @@ export default function HomeScreen() {
       {/* Search */}
       <div className="w-full">
         <SearchOmnibox />
+      </div>
+
+      {/* Recent Projects */}
+      {recentProjects.length > 0 && (
+        <div className="w-full">
+          <h2 className="text-lg font-semibold text-text-primary mb-4 uppercase tracking-wider text-sm">{(t as any)('home.recent')}</h2>
+          <div className="flex flex-col gap-3">
+            {recentProjects.map(project => (
+              <div key={project.id} className="flex items-center justify-between p-4 bg-background-elevated border border-border-subtle rounded-lg cursor-pointer hover:shadow-md hover:-translate-y-0.5 active:scale-[0.98] transition-all duration-200" onClick={() => handleLoadProject(project)}>
+                <div className="text-left">
+                  <h3 className="font-medium text-text-primary">{project.name}</h3>
+                  <span className="font-mono text-xs text-text-muted">{project.labType}</span>
+                </div>
+                <button
+                  className="p-2 bg-background-base text-accent-primary rounded hover:bg-accent-primary hover:text-white transition-colors"
+                >
+                  <Play className="w-4 h-4" />
+                </button>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {/* Quick Labs */}
+      <div className="w-full">
+        <h2 className="text-lg font-semibold text-text-primary mb-4 uppercase tracking-wider text-sm">{t('home.quickLabs')}</h2>
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+          <button 
+            onClick={() => handleNavigateToLab('FIRST_ORDER')}
+            className="flex flex-col items-center justify-center p-4 bg-background-elevated border border-border-subtle rounded-xl hover:border-accent-primary hover:shadow-md hover:-translate-y-0.5 active:scale-[0.98] transition-all duration-200 group"
+          >
+            <div className="font-mono text-accent-primary mb-2 text-2xl group-hover:scale-110 transition-transform">1°</div>
+            <div className="text-sm font-medium text-text-primary text-center">First-Order</div>
+          </button>
+          
+          <button 
+            onClick={() => handleNavigateToLab('SECOND_ORDER')}
+            className="flex flex-col items-center justify-center p-4 bg-background-elevated border border-border-subtle rounded-xl hover:border-accent-primary hover:shadow-md hover:-translate-y-0.5 active:scale-[0.98] transition-all duration-200 group"
+          >
+            <div className="font-mono text-accent-primary mb-2 text-2xl group-hover:scale-110 transition-transform">2°</div>
+            <div className="text-sm font-medium text-text-primary text-center">Second-Order</div>
+          </button>
+
+          <button 
+            onClick={() => handleNavigateToLab('PID')}
+            className="flex flex-col items-center justify-center p-4 bg-background-elevated border border-border-subtle rounded-xl hover:border-accent-primary hover:shadow-md hover:-translate-y-0.5 active:scale-[0.98] transition-all duration-200 group"
+          >
+            <div className="font-mono text-accent-primary mb-2 text-2xl group-hover:scale-110 transition-transform">PID</div>
+            <div className="text-sm font-medium text-text-primary text-center">Controller</div>
+          </button>
+
+          <button 
+            onClick={() => handleNavigateToLab('DC_MOTOR')}
+            className="flex flex-col items-center justify-center p-4 bg-background-elevated border border-border-subtle rounded-xl hover:border-accent-primary hover:shadow-md hover:-translate-y-0.5 active:scale-[0.98] transition-all duration-200 group"
+          >
+            <div className="font-mono text-accent-primary mb-2 text-2xl group-hover:scale-110 transition-transform">DC</div>
+            <div className="text-sm font-medium text-text-primary text-center">Motor Pos</div>
+          </button>
+        </div>
       </div>
 
       {/* Practice & Challenges */}
@@ -67,7 +127,7 @@ export default function HomeScreen() {
             <button
               key={challenge.id}
               onClick={() => handleStartChallenge(challenge)}
-              className="flex flex-col items-start text-left p-5 bg-background-elevated border border-border-subtle rounded-xl hover:border-accent-primary hover:shadow-md transition-all group"
+              className="flex flex-col items-start text-left p-5 bg-background-elevated border border-border-subtle rounded-xl hover:border-accent-primary hover:shadow-md hover:-translate-y-0.5 active:scale-[0.98] transition-all duration-200 group"
             >
               <div className="flex justify-between w-full mb-2">
                 <h3 className="font-semibold text-text-primary group-hover:text-accent-primary transition-colors">{challenge.title}</h3>
@@ -81,71 +141,6 @@ export default function HomeScreen() {
             </button>
           ))}
         </div>
-      </div>
-
-      {/* Quick Labs */}
-      <div className="w-full">
-        <h2 className="text-lg font-semibold text-text-primary mb-4 uppercase tracking-wider text-sm">{t('home.quickLabs')}</h2>
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-          <button 
-            onClick={() => handleNavigateToLab('FIRST_ORDER')}
-            className="flex flex-col items-center justify-center p-4 bg-background-elevated border border-border-subtle rounded-xl hover:border-accent-primary hover:shadow-md transition-all group"
-          >
-            <div className="font-mono text-accent-primary mb-2 text-2xl group-hover:scale-110 transition-transform">1°</div>
-            <div className="text-sm font-medium text-text-primary text-center">First-Order</div>
-          </button>
-          
-          <button 
-            onClick={() => handleNavigateToLab('SECOND_ORDER')}
-            className="flex flex-col items-center justify-center p-4 bg-background-elevated border border-border-subtle rounded-xl hover:border-accent-primary hover:shadow-md transition-all group"
-          >
-            <div className="font-mono text-accent-primary mb-2 text-2xl group-hover:scale-110 transition-transform">2°</div>
-            <div className="text-sm font-medium text-text-primary text-center">Second-Order</div>
-          </button>
-
-          <button 
-            onClick={() => handleNavigateToLab('PID')}
-            className="flex flex-col items-center justify-center p-4 bg-background-elevated border border-border-subtle rounded-xl hover:border-accent-primary hover:shadow-md transition-all group"
-          >
-            <div className="font-mono text-accent-primary mb-2 text-2xl group-hover:scale-110 transition-transform">PID</div>
-            <div className="text-sm font-medium text-text-primary text-center">Controller</div>
-          </button>
-
-          <button 
-            onClick={() => handleNavigateToLab('DC_MOTOR')}
-            className="flex flex-col items-center justify-center p-4 bg-background-elevated border border-border-subtle rounded-xl hover:border-accent-primary hover:shadow-md transition-all group"
-          >
-            <div className="font-mono text-accent-primary mb-2 text-2xl group-hover:scale-110 transition-transform">DC</div>
-            <div className="text-sm font-medium text-text-primary text-center">Motor Pos</div>
-          </button>
-        </div>
-      </div>
-
-      {/* Recent Projects */}
-      <div className="w-full">
-        <h2 className="text-lg font-semibold text-text-primary mb-4 uppercase tracking-wider text-sm">{(t as any)('home.recent')}</h2>
-        {recentProjects.length === 0 ? (
-          <div className="text-center text-text-muted py-8 border border-dashed border-border-strong rounded-xl bg-background-surface">
-            {(t as any)('home.noRecent')}
-          </div>
-        ) : (
-          <div className="flex flex-col gap-3">
-            {recentProjects.map(project => (
-              <div key={project.id} className="flex items-center justify-between p-4 bg-background-elevated border border-border-subtle rounded-lg">
-                <div className="text-left">
-                  <h3 className="font-medium text-text-primary">{project.name}</h3>
-                  <span className="font-mono text-xs text-text-muted">{project.labType}</span>
-                </div>
-                <button
-                  onClick={() => handleLoadProject(project)}
-                  className="p-2 bg-background-base text-accent-primary rounded hover:bg-accent-primary hover:text-white transition-colors"
-                >
-                  <Play className="w-4 h-4" />
-                </button>
-              </div>
-            ))}
-          </div>
-        )}
       </div>
 
     </div>

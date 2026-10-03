@@ -1,8 +1,9 @@
 import React from 'react';
 
-export function Card({ children, className = '' }: { children: React.ReactNode; className?: string }) {
+export function Card({ children, className = '', interactive = false, ...props }: { children: React.ReactNode; className?: string; interactive?: boolean; [key: string]: any }) {
+  const interactiveClasses = interactive ? 'cursor-pointer hover:shadow-md hover:-translate-y-0.5 active:scale-[0.98] transition-all duration-200' : '';
   return (
-    <div className={`bg-bg-surface-elevated border border-border-subtle rounded-xl shadow-sm overflow-hidden ${className}`}>
+    <div className={`bg-bg-surface-elevated border border-border-subtle rounded-xl shadow-sm overflow-hidden ${interactiveClasses} ${className}`} {...props}>
       {children}
     </div>
   );

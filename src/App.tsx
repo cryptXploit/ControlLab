@@ -31,7 +31,7 @@ export default function App() {
   return (
     <div className="min-h-screen bg-bg-base text-text-primary font-sans flex flex-col relative w-full overflow-x-hidden">
       <ToastContainer />
-      <main className="flex-1 flex flex-col w-full max-w-screen-xl mx-auto overflow-y-auto pb-20 overflow-x-hidden">
+      <main className="flex-1 flex flex-col w-full max-w-screen-xl mx-auto overflow-y-auto pb-24 overflow-x-hidden">
         <Switch>
           <Route component={HomeScreen} path="/" />
           <Route component={LabsExplorer} path="/labs" />
@@ -45,7 +45,7 @@ export default function App() {
       </main>
 
       {/* BOTTOM NAVIGATION */}
-      <nav className="fixed bottom-0 w-full bg-bg-surface-elevated z-50 border-t border-border-subtle pb-safe pt-1">
+      <nav className="fixed bottom-0 w-full bg-bg-surface-elevated z-[100] border-t border-border-subtle shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.05)] pb-safe pt-1">
         <div className="flex justify-around items-center h-14">
           {navItems.map((item) => {
             const Icon = item.icon;
