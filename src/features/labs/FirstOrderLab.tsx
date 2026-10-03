@@ -39,7 +39,7 @@ export default function FirstOrderLab() {
       projectName,
       'FIRST_ORDER',
       { K, tau },
-      explanation.why
+      (t as any)(explanation.whyKey)
     );
     HapticService.triggerSuccess();
     useToastStore.getState().showToast((t as any)('messages.projectSaved'), 'success');
@@ -69,9 +69,9 @@ export default function FirstOrderLab() {
         }
         explanation={
           <Card className="p-4 bg-background-surface border border-accent-primary/20">
-            <p className="text-sm text-text-primary mb-2 leading-relaxed">{explanation.why}</p>
+            <p className="text-sm text-text-primary mb-2 leading-relaxed">{(t as any)(explanation.whyKey)}</p>
             <div className="text-xs text-text-secondary bg-background-base p-2 rounded inline-block">
-              <strong className="text-text-primary">Suggestion:</strong> {explanation.nextAction}
+              <strong className="text-text-primary">Suggestion:</strong> {(t as any)(explanation.actionKey)}
             </div>
           </Card>
         }

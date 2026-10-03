@@ -49,7 +49,7 @@ export default function DCMotorLab() {
       projectName,
       'DC_MOTOR',
       { Kp, Kd, setpoint },
-      explanation.why
+      (t as any)(explanation.whyKey)
     );
     HapticService.triggerSuccess();
     useToastStore.getState().showToast((t as any)('messages.projectSaved'), 'success');
@@ -114,10 +114,10 @@ export default function DCMotorLab() {
             <div className="flex items-center gap-2 mb-1">
               {isCompleted ? <CheckCircle className="w-5 h-5 text-status-success" /> : <div className="w-2 h-2 rounded-full bg-accent-primary animate-pulse" />}
               <h3 className={`font-bold ${isCompleted ? 'text-status-success' : 'text-accent-primary'}`}>
-                {isCompleted ? 'Challenge Completed \uD83C\uDF89' : activeChallenge.title}
+                {isCompleted ? 'Challenge Completed \uD83C\uDF89' : (t as any)(activeChallenge.titleKey)}
               </h3>
             </div>
-            <p className="text-sm text-text-secondary">{activeChallenge.description}</p>
+            <p className="text-sm text-text-secondary">{(t as any)(activeChallenge.descKey)}</p>
           </div>
           <div className="flex gap-2 shrink-0">
             {!isCompleted ? (
@@ -169,9 +169,9 @@ export default function DCMotorLab() {
         }
         explanation={
           <Card className="p-4 bg-background-surface border border-accent-primary/20">
-            <p className="text-sm text-text-primary mb-2 leading-relaxed">{explanation.why}</p>
+            <p className="text-sm text-text-primary mb-2 leading-relaxed">{(t as any)(explanation.whyKey)}</p>
             <div className="text-xs text-text-secondary bg-background-base p-2 rounded inline-block">
-              <strong className="text-text-primary">Suggestion:</strong> {explanation.nextAction}
+              <strong className="text-text-primary">Suggestion:</strong> {(t as any)(explanation.actionKey)}
             </div>
           </Card>
         }

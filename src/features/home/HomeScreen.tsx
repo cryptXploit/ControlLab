@@ -130,13 +130,13 @@ export default function HomeScreen() {
               className="flex flex-col items-start text-left p-5 bg-background-elevated border border-border-subtle rounded-xl hover:border-accent-primary hover:shadow-md hover:-translate-y-0.5 active:scale-[0.98] transition-all duration-200 group"
             >
               <div className="flex justify-between w-full mb-2">
-                <h3 className="font-semibold text-text-primary group-hover:text-accent-primary transition-colors">{challenge.title}</h3>
+                <h3 className="font-semibold text-text-primary group-hover:text-accent-primary transition-colors">{(t as any)(challenge.titleKey)}</h3>
                 <span className="font-mono text-xs bg-background-base text-accent-primary px-2 py-1 rounded">
                   {challenge.labType}
                 </span>
               </div>
               <p className="text-sm text-text-secondary leading-relaxed">
-                {challenge.description}
+                {(t as any)(challenge.descKey)}
               </p>
             </button>
           ))}
