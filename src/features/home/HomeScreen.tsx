@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { useLocation } from 'wouter';
 import SearchOmnibox from '@/features/search/SearchOmnibox';
 import { useProjectStore } from '@/store/useProjectStore';
 import { useChallengeStore } from '@/store/useChallengeStore';
@@ -7,12 +8,8 @@ import { CHALLENGES, type Challenge } from '@/core/challenges/content';
 import { Play } from 'lucide-react';
 import type { Project } from '@/services/storage/db';
 
-interface HomeScreenProps {
-  onNavigateToLab: (labType: 'FIRST_ORDER' | 'SECOND_ORDER' | 'PID' | 'DC_MOTOR') => void;
-  onLoadProject: (project: Project) => void;
-}
-
-export default function HomeScreen({ onNavigateToLab, onLoadProject }: HomeScreenProps) {
+export default function HomeScreen() {
+  const [, setLocation] = useLocation();
   const { projects } = useProjectStore();
   const { setActiveChallenge } = useChallengeStore();
   const { t } = useTranslation();
@@ -25,9 +22,23 @@ export default function HomeScreen({ onNavigateToLab, onLoadProject }: HomeScree
     else setGreetingKey('home.greeting.evening');
   }, []);
 
+  const handleNavigateToLab = (labType: string) => {
+    const mapping: Record<string, string> = {
+      'FIRST_ORDER': 'first-order',
+      'SECOND_ORDER': 'second-order',
+      'PID': 'pid',
+      'DC_MOTOR': 'dc-motor'
+    };
+    setLocation(`/labs/${mapping[labType] || labType}`);
+  };
+
   const handleStartChallenge = (challenge: Challenge) => {
     setActiveChallenge(challenge);
-    onNavigateToLab(challenge.labType);
+    handleNavigateToLab(challenge.labType);
+  };
+
+  const handleLoadProject = (project: Project) => {
+    handleNavigateToLab(project.labType);
   };
 
   const recentProjects = [...projects]
@@ -77,7 +88,7 @@ export default function HomeScreen({ onNavigateToLab, onLoadProject }: HomeScree
         <h2 className="text-lg font-semibold text-text-primary mb-4 uppercase tracking-wider text-sm">{t('home.quickLabs')}</h2>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
           <button 
-            onClick={() => onNavigateToLab('FIRST_ORDER')}
+            onClick={() => handleNavigateToLab('FIRST_ORDER')}
             className="flex flex-col items-center justify-center p-4 bg-background-elevated border border-border-subtle rounded-xl hover:border-accent-primary hover:shadow-md transition-all group"
           >
             <div className="font-mono text-accent-primary mb-2 text-2xl group-hover:scale-110 transition-transform">1°</div>
@@ -85,7 +96,7 @@ export default function HomeScreen({ onNavigateToLab, onLoadProject }: HomeScree
           </button>
           
           <button 
-            onClick={() => onNavigateToLab('SECOND_ORDER')}
+            onClick={() => handleNavigateToLab('SECOND_ORDER')}
             className="flex flex-col items-center justify-center p-4 bg-background-elevated border border-border-subtle rounded-xl hover:border-accent-primary hover:shadow-md transition-all group"
           >
             <div className="font-mono text-accent-primary mb-2 text-2xl group-hover:scale-110 transition-transform">2°</div>
@@ -93,7 +104,7 @@ export default function HomeScreen({ onNavigateToLab, onLoadProject }: HomeScree
           </button>
 
           <button 
-            onClick={() => onNavigateToLab('PID')}
+            onClick={() => handleNavigateToLab('PID')}
             className="flex flex-col items-center justify-center p-4 bg-background-elevated border border-border-subtle rounded-xl hover:border-accent-primary hover:shadow-md transition-all group"
           >
             <div className="font-mono text-accent-primary mb-2 text-2xl group-hover:scale-110 transition-transform">PID</div>
@@ -101,7 +112,7 @@ export default function HomeScreen({ onNavigateToLab, onLoadProject }: HomeScree
           </button>
 
           <button 
-            onClick={() => onNavigateToLab('DC_MOTOR')}
+            onClick={() => handleNavigateToLab('DC_MOTOR')}
             className="flex flex-col items-center justify-center p-4 bg-background-elevated border border-border-subtle rounded-xl hover:border-accent-primary hover:shadow-md transition-all group"
           >
             <div className="font-mono text-accent-primary mb-2 text-2xl group-hover:scale-110 transition-transform">DC</div>
@@ -112,10 +123,10 @@ export default function HomeScreen({ onNavigateToLab, onLoadProject }: HomeScree
 
       {/* Recent Projects */}
       <div className="w-full">
-        <h2 className="text-lg font-semibold text-text-primary mb-4 uppercase tracking-wider text-sm">{t('home.recent')}</h2>
+        <h2 className="text-lg font-semibold text-text-primary mb-4 uppercase tracking-wider text-sm">{(t as any)('home.recent')}</h2>
         {recentProjects.length === 0 ? (
           <div className="text-center text-text-muted py-8 border border-dashed border-border-strong rounded-xl bg-background-surface">
-            {t('home.noRecent')}
+            {(t as any)('home.noRecent')}
           </div>
         ) : (
           <div className="flex flex-col gap-3">
@@ -126,7 +137,7 @@ export default function HomeScreen({ onNavigateToLab, onLoadProject }: HomeScree
                   <span className="font-mono text-xs text-text-muted">{project.labType}</span>
                 </div>
                 <button
-                  onClick={() => onLoadProject(project)}
+                  onClick={() => handleLoadProject(project)}
                   className="p-2 bg-background-base text-accent-primary rounded hover:bg-accent-primary hover:text-white transition-colors"
                 >
                   <Play className="w-4 h-4" />

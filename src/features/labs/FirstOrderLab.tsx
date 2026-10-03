@@ -1,6 +1,7 @@
 import { useFirstOrderStore } from '@/store/useFirstOrderStore';
 import { useProjectStore } from '@/store/useProjectStore';
 import { useSettingsStore } from '@/store/useSettingsStore';
+import { useTranslation } from '@/store/useLocaleStore';
 import { EntitlementEngine } from '@/core/entitlements/EntitlementEngine';
 import { HapticService } from '@/services/haptics/HapticService';
 import { explainFirstOrder } from '@/core/rules/explainWhy';
@@ -15,6 +16,7 @@ export default function FirstOrderLab() {
   const { K, tau, result, setParameters } = useFirstOrderStore();
   const { projects, addProject } = useProjectStore();
   const { isPro } = useSettingsStore();
+  const { t } = useTranslation();
 
   const explanation = explainFirstOrder(K, tau);
 
@@ -38,21 +40,21 @@ export default function FirstOrderLab() {
 
   return (
     <SimulatorWorkspace 
-      title="First-Order System"
-      actions={<Button onClick={handleSave} size="sm">Save</Button>}
+      title={(t as any)('tools.firstOrder.title')}
+      actions={<Button onClick={handleSave} size="sm">{(t as any)('common.save')}</Button>}
       graph={result ? <Graph output={result.output} time={result.time} width={600} height={300} /> : <div />}
       controls={
         <>
-          <SliderField label="Gain (K)" max={5} min={0.1} step={0.1} value={K} onChange={(val) => setParameters(val, tau)} />
-          <SliderField label="Time Constant (τ)" max={5} min={0.1} step={0.1} unit="s" value={tau} onChange={(val) => setParameters(K, val)} />
+          <SliderField label={(t as any)('params.gain')} max={5} min={0.1} step={0.1} value={K} onChange={(val) => setParameters(val, tau)} />
+          <SliderField label={(t as any)('params.tau')} max={5} min={0.1} step={0.1} unit="s" value={tau} onChange={(val) => setParameters(K, val)} />
         </>
       }
       metrics={
         result ? (
           <>
-            <MetricCard label="Rise Time" unit="s" value={result.metrics.riseTime?.toFixed(2) || '-'} />
-            <MetricCard label="Settling Time" unit="s" value={result.metrics.settlingTime?.toFixed(2) || '-'} />
-            <MetricCard label="SS Error" value={result.metrics.steadyStateError.toFixed(2)} />
+            <MetricCard label={(t as any)('metrics.riseTime')} unit="s" value={result.metrics.riseTime?.toFixed(2) || '-'} />
+            <MetricCard label={(t as any)('metrics.settlingTime')} unit="s" value={result.metrics.settlingTime?.toFixed(2) || '-'} />
+            <MetricCard label={(t as any)('metrics.steadyStateError')} value={result.metrics.steadyStateError.toFixed(2)} />
           </>
         ) : null
       }

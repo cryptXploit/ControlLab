@@ -5,13 +5,11 @@ import { usePidStore } from '@/store/usePidStore';
 import { useDCMotorStore } from '@/store/useDCMotorStore';
 import { Play, Trash2 } from 'lucide-react';
 import type { Project } from '@/services/storage/db';
+import { useLocation } from 'wouter';
 
-interface ProjectsScreenProps {
-  onLoadProject: (labType: 'FIRST_ORDER' | 'SECOND_ORDER' | 'PID' | 'DC_MOTOR') => void;
-}
-
-export default function ProjectsScreen({ onLoadProject }: ProjectsScreenProps) {
+export default function ProjectsScreen() {
   const { projects, removeProject } = useProjectStore();
+  const [, setLocation] = useLocation();
 
   const handleLoad = (project: Project) => {
     const p = project.parameters as any;
@@ -29,8 +27,13 @@ export default function ProjectsScreen({ onLoadProject }: ProjectsScreenProps) {
         useDCMotorStore.getState().setParameters(p.Kp, p.Kd, p.setpoint);
         break;
     }
-    // Navigate to Labs
-    onLoadProject(project.labType);
+    const mapping: Record<string, string> = {
+      'FIRST_ORDER': 'first-order',
+      'SECOND_ORDER': 'second-order',
+      'PID': 'pid',
+      'DC_MOTOR': 'dc-motor'
+    };
+    setLocation(`/labs/${mapping[project.labType] || project.labType}`);
   };
 
   return (

@@ -1,6 +1,7 @@
 import { useSecondOrderStore } from '@/store/useSecondOrderStore';
 import { useProjectStore } from '@/store/useProjectStore';
 import { useSettingsStore } from '@/store/useSettingsStore';
+import { useTranslation } from '@/store/useLocaleStore';
 import { EntitlementEngine } from '@/core/entitlements/EntitlementEngine';
 import { HapticService } from '@/services/haptics/HapticService';
 import { explainSecondOrder } from '@/core/rules/explainWhy';
@@ -15,6 +16,7 @@ export default function SecondOrderLab() {
   const { K, zeta, wn, result, setParameters } = useSecondOrderStore();
   const { projects, addProject } = useProjectStore();
   const { isPro } = useSettingsStore();
+  const { t } = useTranslation();
 
   const explanation = explainSecondOrder(K, zeta, wn);
 
@@ -38,23 +40,23 @@ export default function SecondOrderLab() {
 
   return (
     <SimulatorWorkspace 
-      title="Second-Order System"
-      actions={<Button onClick={handleSave} size="sm">Save</Button>}
+      title={(t as any)('tools.secondOrder.title')}
+      actions={<Button onClick={handleSave} size="sm">{(t as any)('common.save')}</Button>}
       graph={result ? <Graph output={result.output} time={result.time} width={600} height={300} /> : <div />}
       controls={
         <>
-          <SliderField label="Gain (K)" max={5} min={0.1} step={0.1} value={K} onChange={(val) => setParameters(val, zeta, wn)} />
-          <SliderField label="Damping Ratio (ζ)" max={3.0} min={0.1} step={0.1} value={zeta} onChange={(val) => setParameters(K, val, wn)} />
-          <SliderField label="Natural Freq (ωn)" max={10.0} min={0.1} step={0.1} unit="rad/s" value={wn} onChange={(val) => setParameters(K, zeta, val)} />
+          <SliderField label={(t as any)('params.gain')} max={5} min={0.1} step={0.1} value={K} onChange={(val) => setParameters(val, zeta, wn)} />
+          <SliderField label={(t as any)('params.zeta')} max={3.0} min={0.1} step={0.1} value={zeta} onChange={(val) => setParameters(K, val, wn)} />
+          <SliderField label={(t as any)('params.wn')} max={10.0} min={0.1} step={0.1} unit="rad/s" value={wn} onChange={(val) => setParameters(K, zeta, val)} />
         </>
       }
       metrics={
         result ? (
           <>
-            <MetricCard label="Overshoot" unit="%" value={result.metrics.overshoot.toFixed(1)} />
-            <MetricCard label="Peak Time" unit="s" value={result.metrics.peakTime > 0 ? result.metrics.peakTime.toFixed(2) : '-'} />
-            <MetricCard label="Settling Time" unit="s" value={result.metrics.settlingTime.toFixed(2)} />
-            <MetricCard label="SS Error" value={result.metrics.steadyStateError.toFixed(2)} />
+            <MetricCard label={(t as any)('metrics.overshoot')} unit="%" value={result.metrics.overshoot.toFixed(1)} />
+            <MetricCard label={(t as any)('metrics.peakTime')} unit="s" value={result.metrics.peakTime > 0 ? result.metrics.peakTime.toFixed(2) : '-'} />
+            <MetricCard label={(t as any)('metrics.settlingTime')} unit="s" value={result.metrics.settlingTime.toFixed(2)} />
+            <MetricCard label={(t as any)('metrics.steadyStateError')} value={result.metrics.steadyStateError.toFixed(2)} />
           </>
         ) : null
       }

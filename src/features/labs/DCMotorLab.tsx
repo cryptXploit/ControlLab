@@ -3,6 +3,7 @@ import { useDCMotorStore } from '@/store/useDCMotorStore';
 import { useProjectStore } from '@/store/useProjectStore';
 import { useChallengeStore } from '@/store/useChallengeStore';
 import { useSettingsStore } from '@/store/useSettingsStore';
+import { useTranslation } from '@/store/useLocaleStore';
 import { EntitlementEngine } from '@/core/entitlements/EntitlementEngine';
 import { HapticService } from '@/services/haptics/HapticService';
 import { explainDCMotor } from '@/core/rules/explainWhy';
@@ -20,6 +21,7 @@ export default function DCMotorLab() {
   const { projects, addProject } = useProjectStore();
   const { isPro } = useSettingsStore();
   const { activeChallenge, isCompleted, evaluateChallenge, clearChallenge } = useChallengeStore();
+  const { t } = useTranslation();
 
   const [isPlaying, setIsPlaying] = useState(false);
   const motorRef = useRef<HTMLDivElement>(null);
@@ -120,8 +122,8 @@ export default function DCMotorLab() {
       )}
 
       <SimulatorWorkspace 
-        title="DC Motor Position Control"
-        actions={<Button onClick={handleSave} size="sm" variant="secondary">Save</Button>}
+        title={(t as any)('tools.dcMotor.title')}
+        actions={<Button onClick={handleSave} size="sm" variant="secondary">{(t as any)('common.save')}</Button>}
         graph={
           <div className="flex flex-col gap-4 h-full">
             <div className="flex justify-center items-center p-4 bg-background-base rounded-lg border border-border-subtle shrink-0">
@@ -149,10 +151,10 @@ export default function DCMotorLab() {
         metrics={
           result ? (
             <>
-              <MetricCard label="Overshoot" unit="%" value={result.metrics.overshoot.toFixed(1)} />
-              <MetricCard label="Settling Time" unit="s" value={result.metrics.settlingTime.toFixed(2)} />
+              <MetricCard label={(t as any)('metrics.overshoot')} unit="%" value={result.metrics.overshoot.toFixed(1)} />
+              <MetricCard label={(t as any)('metrics.settlingTime')} unit="s" value={result.metrics.settlingTime.toFixed(2)} />
               <div className="col-span-2">
-                <MetricCard label="Steady-State Error" unit="°" value={result.metrics.steadyStateError.toFixed(2)} />
+                <MetricCard label={(t as any)('metrics.steadyStateError')} unit="°" value={result.metrics.steadyStateError.toFixed(2)} />
               </div>
             </>
           ) : null

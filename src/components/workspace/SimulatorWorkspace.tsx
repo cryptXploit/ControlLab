@@ -1,4 +1,5 @@
 import React from 'react';
+import { useTranslation } from '@/store/useLocaleStore';
 
 interface SimulatorWorkspaceProps {
   title: string;
@@ -10,6 +11,8 @@ interface SimulatorWorkspaceProps {
 }
 
 export function SimulatorWorkspace({ title, graph, controls, metrics, explanation, actions }: SimulatorWorkspaceProps) {
+  const { t } = useTranslation();
+  
   return (
     <div className="flex flex-col md:flex-row h-full w-full max-w-screen-2xl mx-auto overflow-hidden bg-bg-base">
       
@@ -28,14 +31,14 @@ export function SimulatorWorkspace({ title, graph, controls, metrics, explanatio
       <div className="w-full md:w-1/3 flex flex-col order-2 md:order-1 overflow-y-auto pb-24 md:pb-6">
         <div className="p-4 space-y-6">
           <section>
-            <h3 className="text-xs font-bold text-text-secondary uppercase tracking-wider mb-3">Parameters</h3>
+            <h3 className="text-xs font-bold text-text-secondary uppercase tracking-wider mb-3">{(t as any)('workspace.parameters')}</h3>
             <div className="space-y-1">
               {controls}
             </div>
           </section>
           
           <section>
-            <h3 className="text-xs font-bold text-text-secondary uppercase tracking-wider mb-3">Metrics</h3>
+            <h3 className="text-xs font-bold text-text-secondary uppercase tracking-wider mb-3">{(t as any)('workspace.metrics')}</h3>
             <div className="grid grid-cols-2 gap-2">
               {metrics}
             </div>

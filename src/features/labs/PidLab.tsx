@@ -2,6 +2,7 @@ import { usePidStore } from '@/store/usePidStore';
 import { useProjectStore } from '@/store/useProjectStore';
 import { useChallengeStore } from '@/store/useChallengeStore';
 import { useSettingsStore } from '@/store/useSettingsStore';
+import { useTranslation } from '@/store/useLocaleStore';
 import { EntitlementEngine } from '@/core/entitlements/EntitlementEngine';
 import { HapticService } from '@/services/haptics/HapticService';
 import { explainPID } from '@/core/rules/explainWhy';
@@ -18,6 +19,7 @@ export default function PidLab() {
   const { projects, addProject } = useProjectStore();
   const { isPro } = useSettingsStore();
   const { activeChallenge, isCompleted, evaluateChallenge, clearChallenge } = useChallengeStore();
+  const { t } = useTranslation();
 
   const explanation = explainPID(
     Kp, Ki, Kd, 
@@ -73,8 +75,8 @@ export default function PidLab() {
       )}
 
       <SimulatorWorkspace 
-        title="PID Controller"
-        actions={<Button onClick={handleSave} size="sm" variant="secondary">Save</Button>}
+        title={(t as any)('tools.pid.title')}
+        actions={<Button onClick={handleSave} size="sm" variant="secondary">{(t as any)('common.save')}</Button>}
         graph={result ? <Graph output={result.output} time={result.time} setpoint={result.setpoint} /> : <div />}
         controls={
           <>
@@ -86,10 +88,10 @@ export default function PidLab() {
         metrics={
           result ? (
             <>
-              <MetricCard label="Overshoot" unit="%" value={result.metrics.overshoot.toFixed(1)} />
-              <MetricCard label="Settling Time" unit="s" value={result.metrics.settlingTime.toFixed(2)} />
+              <MetricCard label={(t as any)('metrics.overshoot')} unit="%" value={result.metrics.overshoot.toFixed(1)} />
+              <MetricCard label={(t as any)('metrics.settlingTime')} unit="s" value={result.metrics.settlingTime.toFixed(2)} />
               <div className="col-span-2">
-                <MetricCard label="Steady-State Error" value={result.metrics.steadyStateError.toFixed(2)} />
+                <MetricCard label={(t as any)('metrics.steadyStateError')} value={result.metrics.steadyStateError.toFixed(2)} />
               </div>
             </>
           ) : null
