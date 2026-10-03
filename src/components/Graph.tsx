@@ -137,7 +137,7 @@ export default function Graph({ time, output, setpoint }: GraphProps) {
     <div className="relative w-full h-full flex justify-center items-center">
       <div 
         ref={containerRef} 
-        className="w-full h-full bg-bg-surface overflow-hidden rounded-lg" 
+        className="w-full h-full min-h-[200px] bg-background-surface overflow-hidden rounded-lg" 
       />
       {isZoomed && (
         <div className="absolute top-2 right-2 z-10 animate-in fade-in">

@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import { HapticService } from '@/services/haptics/HapticService';
 
 interface SliderFieldProps {
@@ -13,6 +13,11 @@ interface SliderFieldProps {
 
 export function SliderField({ label, value, min, max, step, unit = '', onChange }: SliderFieldProps) {
   const lastInt = useRef(Math.floor(value));
+  const [inputValue, setInputValue] = useState(value.toString());
+
+  useEffect(() => {
+    setInputValue(value.toString());
+  }, [value]);
 
   const handleChange = (val: number) => {
     const newInt = Math.floor(val);
@@ -23,12 +28,28 @@ export function SliderField({ label, value, min, max, step, unit = '', onChange 
     onChange(val);
   };
 
-  const handleNumberChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    let val = parseFloat(e.target.value);
-    if (!isNaN(val)) {
-      if (val < min) val = min;
-      if (val > max) val = max;
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setInputValue(e.target.value);
+  };
+
+  const handleBlur = () => {
+    let val = parseFloat(inputValue);
+    if (isNaN(val)) {
+      setInputValue(value.toString());
+      return;
+    }
+    if (val < min) val = min;
+    if (val > max) val = max;
+    
+    setInputValue(val.toString());
+    if (val !== value) {
       handleChange(val);
+    }
+  };
+
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter') {
+      handleBlur();
     }
   };
 
@@ -39,12 +60,14 @@ export function SliderField({ label, value, min, max, step, unit = '', onChange 
         <div className="flex items-center gap-1">
           <input 
             type="number" 
-            value={value} 
+            value={inputValue} 
             min={min} 
             max={max} 
             step={step}
-            onChange={handleNumberChange}
-            className="w-20 px-2 py-1 text-sm text-right bg-bg-surface border border-border-strong rounded-md focus:outline-none focus:border-accent-primary text-text-primary font-mono"
+            onChange={handleInputChange}
+            onBlur={handleBlur}
+            onKeyDown={handleKeyDown}
+            className="w-20 px-2 py-1 text-sm text-right bg-background-surface border border-border-strong rounded-md focus:outline-none focus:border-accent-primary text-text-primary font-mono"
           />
           {unit && <span className="text-xs text-text-secondary w-6">{unit}</span>}
         </div>
@@ -56,7 +79,7 @@ export function SliderField({ label, value, min, max, step, unit = '', onChange 
         step={step}
         value={value}
         onChange={(e) => handleChange(parseFloat(e.target.value))}
-        className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer dark:bg-gray-700 accent-accent-primary"
+        className="w-full h-2 bg-border-strong rounded-lg appearance-none cursor-pointer accent-accent-primary"
       />
     </div>
   );
