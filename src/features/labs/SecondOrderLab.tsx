@@ -5,7 +5,11 @@ import { EntitlementEngine } from '@/core/entitlements/EntitlementEngine';
 import { HapticService } from '@/services/haptics/HapticService';
 import { explainSecondOrder } from '@/core/rules/explainWhy';
 import Graph from '@/components/Graph';
-import { Save } from 'lucide-react';
+import { SimulatorWorkspace } from '@/components/workspace/SimulatorWorkspace';
+import { SliderField } from '@/components/ui/SliderField';
+import { MetricCard } from '@/components/ui/MetricCard';
+import { Card } from '@/components/ui/Card';
+import { Button } from '@/components/ui/Button';
 
 export default function SecondOrderLab() {
   const { K, zeta, wn, result, setParameters } = useSecondOrderStore();
@@ -33,112 +37,35 @@ export default function SecondOrderLab() {
   };
 
   return (
-    <div className="bg-background-elevated border border-border-subtle p-8 rounded-xl shadow-lg max-w-5xl w-full mt-4 mb-16">
-      <div className="flex justify-between items-center mb-6">
-        <h2 className="text-2xl font-bold text-text-primary">Second-Order System (Step Response)</h2>
-        <button
-          onClick={handleSave}
-          className="flex items-center gap-2 px-4 py-2 bg-accent-primary text-white rounded-md font-medium hover:opacity-90 transition-opacity"
-        >
-          <Save className="w-4 h-4" /> Save to Projects
-        </button>
-      </div>
-      
-      <div className="flex flex-col lg:flex-row gap-8">
-        {/* Left Column: Controls */}
-        <div className="flex-1 flex flex-col gap-6">
-          <div className="flex flex-col gap-2">
-            <label className="text-sm font-medium text-text-secondary flex justify-between">
-              <span>Gain (K)</span>
-              <span className="font-mono text-accent-primary bg-background-base px-2 py-0.5 rounded">{K.toFixed(1)}</span>
-            </label>
-            <input
-              type="range"
-              min="0"
-              max="5"
-              step="0.1"
-              value={K}
-              onChange={(e) => setParameters(parseFloat(e.target.value), zeta, wn)}
-              className="w-full accent-accent-primary"
-            />
+    <SimulatorWorkspace 
+      title="Second-Order System"
+      actions={<Button onClick={handleSave} size="sm">Save</Button>}
+      graph={result ? <Graph output={result.output} time={result.time} width={600} height={300} /> : <div />}
+      controls={
+        <>
+          <SliderField label="Gain (K)" max={5} min={0.1} step={0.1} value={K} onChange={(val) => setParameters(val, zeta, wn)} />
+          <SliderField label="Damping Ratio (ζ)" max={3.0} min={0.1} step={0.1} value={zeta} onChange={(val) => setParameters(K, val, wn)} />
+          <SliderField label="Natural Freq (ωn)" max={10.0} min={0.1} step={0.1} unit="rad/s" value={wn} onChange={(val) => setParameters(K, zeta, val)} />
+        </>
+      }
+      metrics={
+        result ? (
+          <>
+            <MetricCard label="Overshoot" unit="%" value={result.metrics.overshoot.toFixed(1)} />
+            <MetricCard label="Peak Time" unit="s" value={result.metrics.peakTime > 0 ? result.metrics.peakTime.toFixed(2) : '-'} />
+            <MetricCard label="Settling Time" unit="s" value={result.metrics.settlingTime.toFixed(2)} />
+            <MetricCard label="SS Error" value={result.metrics.steadyStateError.toFixed(2)} />
+          </>
+        ) : null
+      }
+      explanation={
+        <Card className="p-4 bg-background-surface border border-accent-primary/20">
+          <p className="text-sm text-text-primary mb-2 leading-relaxed">{explanation.why}</p>
+          <div className="text-xs text-text-secondary bg-background-base p-2 rounded inline-block">
+            <strong className="text-text-primary">Suggestion:</strong> {explanation.nextAction}
           </div>
-
-          <div className="flex flex-col gap-2">
-            <label className="text-sm font-medium text-text-secondary flex justify-between">
-              <span>Damping Ratio (ζ)</span>
-              <span className="font-mono text-accent-primary bg-background-base px-2 py-0.5 rounded">{zeta.toFixed(1)}</span>
-            </label>
-            <input
-              type="range"
-              min="0.1"
-              max="3.0"
-              step="0.1"
-              value={zeta}
-              onChange={(e) => setParameters(K, parseFloat(e.target.value), wn)}
-              className="w-full accent-accent-primary"
-            />
-          </div>
-
-          <div className="flex flex-col gap-2">
-            <label className="text-sm font-medium text-text-secondary flex justify-between">
-              <span>Natural Freq (ωn)</span>
-              <span className="font-mono text-accent-primary bg-background-base px-2 py-0.5 rounded">{wn.toFixed(1)} rad/s</span>
-            </label>
-            <input
-              type="range"
-              min="0.1"
-              max="10.0"
-              step="0.1"
-              value={wn}
-              onChange={(e) => setParameters(K, zeta, parseFloat(e.target.value))}
-              className="w-full accent-accent-primary"
-            />
-          </div>
-
-          {result && (
-            <div className="grid grid-cols-2 gap-4 mt-2">
-              <div className="bg-background-base border border-border-subtle p-3 rounded-md">
-                <div className="text-xs text-text-muted font-medium uppercase mb-1">Overshoot</div>
-                <div className="text-lg font-mono text-text-primary">{result.metrics.overshoot.toFixed(1)}%</div>
-              </div>
-              <div className="bg-background-base border border-border-subtle p-3 rounded-md">
-                <div className="text-xs text-text-muted font-medium uppercase mb-1">Peak Time</div>
-                <div className="text-lg font-mono text-text-primary">{result.metrics.peakTime > 0 ? result.metrics.peakTime.toFixed(2) + 's' : 'N/A'}</div>
-              </div>
-              <div className="bg-background-base border border-border-subtle p-3 rounded-md">
-                <div className="text-xs text-text-muted font-medium uppercase mb-1">Settling Time</div>
-                <div className="text-lg font-mono text-text-primary">{result.metrics.settlingTime.toFixed(2)}s</div>
-              </div>
-              <div className="bg-background-base border border-border-subtle p-3 rounded-md">
-                <div className="text-xs text-text-muted font-medium uppercase mb-1">Steady-State Error</div>
-                <div className="text-lg font-mono text-text-primary">{result.metrics.steadyStateError.toFixed(2)}</div>
-              </div>
-            </div>
-          )}
-        </div>
-
-        {/* Right Column: Graph & Explain */}
-        <div className="flex-[2] flex flex-col gap-6">
-          <div className="w-full min-h-[300px]">
-            {result && (
-              <Graph 
-                time={result.time} 
-                output={result.output} 
-                width={600} 
-                height={300} 
-              />
-            )}
-          </div>
-
-          <div className="bg-background-surface border border-accent-primary/20 p-5 rounded-lg">
-            <h3 className="text-sm font-semibold text-accent-primary uppercase tracking-wider mb-2">Explain Why</h3>
-            <p className="text-text-primary leading-relaxed">{explanation.why}</p>
-            <div className="mt-3 text-sm text-text-secondary bg-background-base p-2 rounded inline-block">
-              <strong className="text-text-primary">Suggestion:</strong> {explanation.nextAction}
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
+        </Card>
+      }
+    />
   );
 }
