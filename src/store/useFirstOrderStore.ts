@@ -6,6 +6,8 @@ interface FirstOrderState {
   K: number;
   tau: number;
   result: SimulationResult | null;
+  isDirty: boolean;
+  markClean: () => void;
   setParameters: (K: number, tau: number) => void;
 }
 
@@ -18,9 +20,11 @@ export const useFirstOrderStore = create<FirstOrderState>((set) => {
     K: initialK,
     tau: initialTau,
     result: initialResult,
+    isDirty: false,
+    markClean: () => set({ isDirty: false }),
     setParameters: (K: number, tau: number) => {
       const result = simulateFirstOrderStep(K, tau, 15, 0.05);
-      set({ K, tau, result });
+      set({ K, tau, result, isDirty: true });
     }
   };
 });

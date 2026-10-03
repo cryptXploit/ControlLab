@@ -8,6 +8,8 @@ interface PidState {
   Kd: number;
   setpoint: number;
   result: SimulationResult | null;
+  isDirty: boolean;
+  markClean: () => void;
   setParameters: (Kp: number, Ki: number, Kd: number, setpoint: number) => void;
 }
 
@@ -24,9 +26,11 @@ export const usePidStore = create<PidState>((set) => {
     Kd: initialKd,
     setpoint: initialSetpoint,
     result: initialResult,
+    isDirty: false,
+    markClean: () => set({ isDirty: false }),
     setParameters: (Kp: number, Ki: number, Kd: number, setpoint: number) => {
       const result = simulatePIDStep(Kp, Ki, Kd, setpoint, 15, 0.05);
-      set({ Kp, Ki, Kd, setpoint, result });
+      set({ Kp, Ki, Kd, setpoint, result, isDirty: true });
     }
   };
 });

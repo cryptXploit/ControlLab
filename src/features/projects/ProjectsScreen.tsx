@@ -1,9 +1,5 @@
 import { useState } from 'react';
 import { useProjectStore } from '@/store/useProjectStore';
-import { useFirstOrderStore } from '@/store/useFirstOrderStore';
-import { useSecondOrderStore } from '@/store/useSecondOrderStore';
-import { usePidStore } from '@/store/usePidStore';
-import { useDCMotorStore } from '@/store/useDCMotorStore';
 import { Play, Trash2, Folder } from 'lucide-react';
 import type { Project } from '@/services/storage/db';
 import { useLocation } from 'wouter';
@@ -20,28 +16,13 @@ export default function ProjectsScreen() {
   const [deleteId, setDeleteId] = useState<string | null>(null);
 
   const handleLoad = (project: Project) => {
-    const p = project.parameters as any;
-    switch (project.labType) {
-      case 'FIRST_ORDER':
-        useFirstOrderStore.getState().setParameters(p.K, p.tau);
-        break;
-      case 'SECOND_ORDER':
-        useSecondOrderStore.getState().setParameters(p.K, p.zeta, p.wn);
-        break;
-      case 'PID':
-        usePidStore.getState().setParameters(p.Kp, p.Ki, p.Kd, p.setpoint);
-        break;
-      case 'DC_MOTOR':
-        useDCMotorStore.getState().setParameters(p.Kp, p.Kd, p.setpoint);
-        break;
-    }
     const mapping: Record<string, string> = {
       'FIRST_ORDER': 'first-order',
       'SECOND_ORDER': 'second-order',
       'PID': 'pid',
       'DC_MOTOR': 'dc-motor'
     };
-    setLocation(`/labs/${mapping[project.labType] || project.labType}`);
+    setLocation(`/labs/${mapping[project.labType] || project.labType}?projectId=${project.id}`);
   };
 
   const confirmDelete = () => {

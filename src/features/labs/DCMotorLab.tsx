@@ -54,6 +54,7 @@ export default function DCMotorLab() {
     HapticService.triggerSuccess();
     useToastStore.getState().showToast((t as any)('messages.projectSaved'), 'success');
     setIsSaveModalOpen(false);
+    import('@/store/useDCMotorStore').then(m => m.useDCMotorStore.getState().markClean());
   };
 
   const handleCheckSolution = () => {

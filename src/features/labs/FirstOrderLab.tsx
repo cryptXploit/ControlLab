@@ -44,6 +44,7 @@ export default function FirstOrderLab() {
     HapticService.triggerSuccess();
     useToastStore.getState().showToast((t as any)('messages.projectSaved'), 'success');
     setIsSaveModalOpen(false);
+    import('@/store/useFirstOrderStore').then(m => m.useFirstOrderStore.getState().markClean());
   };
 
   return (

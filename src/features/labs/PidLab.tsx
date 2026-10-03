@@ -52,6 +52,7 @@ export default function PidLab() {
     HapticService.triggerSuccess();
     useToastStore.getState().showToast((t as any)('messages.projectSaved'), 'success');
     setIsSaveModalOpen(false);
+    import('@/store/usePidStore').then(m => m.usePidStore.getState().markClean());
   };
 
   const handleCheckSolution = () => {

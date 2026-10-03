@@ -1,5 +1,10 @@
-import { useEffect } from 'react';
-import { Route, Switch, Link, useLocation } from 'wouter';
+import { useEffect, useState } from 'react';
+import { Route, Switch, useLocation } from 'wouter';
+import { ConfirmDialog } from '@/components/ui/ConfirmDialog';
+import { useFirstOrderStore } from '@/store/useFirstOrderStore';
+import { useSecondOrderStore } from '@/store/useSecondOrderStore';
+import { usePidStore } from '@/store/usePidStore';
+import { useDCMotorStore } from '@/store/useDCMotorStore';
 import { useTranslation } from '@/store/useLocaleStore';
 import { useProjectStore } from '@/store/useProjectStore';
 import { initializeThemeListener } from '@/store/useThemeStore';
@@ -13,7 +18,31 @@ import { ToastContainer } from '@/components/ui/ToastContainer';
 
 export default function App() {
   const { t } = useTranslation();
-  const [location] = useLocation();
+  const [location, setLocation] = useLocation();
+  const [pendingRoute, setPendingRoute] = useState<string | null>(null);
+  const [isWarningOpen, setIsWarningOpen] = useState(false);
+
+  const checkDirtyAndNavigate = (path: string) => {
+    const isDirty = useFirstOrderStore.getState().isDirty || 
+                    useSecondOrderStore.getState().isDirty || 
+                    usePidStore.getState().isDirty || 
+                    useDCMotorStore.getState().isDirty;
+    if (isDirty) {
+      setPendingRoute(path);
+      setIsWarningOpen(true);
+    } else {
+      setLocation(path);
+    }
+  };
+
+  const handleConfirmLeave = () => {
+    useFirstOrderStore.getState().markClean();
+    useSecondOrderStore.getState().markClean();
+    usePidStore.getState().markClean();
+    useDCMotorStore.getState().markClean();
+    setIsWarningOpen(false);
+    if (pendingRoute) setLocation(pendingRoute);
+  };
 
   useEffect(() => {
     const cleanupTheme = initializeThemeListener();
@@ -31,6 +60,15 @@ export default function App() {
   return (
     <div className="min-h-screen bg-bg-base text-text-primary font-sans flex flex-col relative w-full overflow-x-hidden">
       <ToastContainer />
+      <ConfirmDialog 
+        isOpen={isWarningOpen} 
+        title={(t as any)('workspace.unsavedChanges')} 
+        description={(t as any)('workspace.unsavedWarning')} 
+        confirmText={(t as any)('common.leave')} 
+        onConfirm={handleConfirmLeave} 
+        onCancel={() => setIsWarningOpen(false)} 
+        isDanger 
+      />
       <main className="flex-1 flex flex-col w-full max-w-screen-xl mx-auto overflow-y-auto pb-24 overflow-x-hidden">
         <Switch>
           <Route component={HomeScreen} path="/" />
@@ -52,10 +90,14 @@ export default function App() {
             // Match exactly or if we are inside a sub-route (like /labs/pid)
             const isActive = item.href === '/' ? location === '/' : location.startsWith(item.href);
             return (
-              <Link href={item.href} key={item.href} className={`flex flex-col items-center justify-center w-full h-full space-y-1 transition-colors ${isActive ? 'text-accent-primary' : 'text-text-muted hover:text-text-primary'}`}>
+              <button 
+                onClick={() => checkDirtyAndNavigate(item.href)}
+                key={item.href} 
+                className={`flex flex-col items-center justify-center w-full h-full space-y-1 transition-colors ${isActive ? 'text-accent-primary' : 'text-text-muted hover:text-text-primary'}`}
+              >
                 <Icon size={20} strokeWidth={isActive ? 2.5 : 2} />
                 <span className="text-[10px] font-medium">{item.label}</span>
-              </Link>
+              </button>
             );
           })}
         </div>

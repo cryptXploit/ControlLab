@@ -7,6 +7,8 @@ interface DCMotorState {
   Kd: number;
   setpoint: number;
   result: SimulationResult | null;
+  isDirty: boolean;
+  markClean: () => void;
   setParameters: (Kp: number, Kd: number, setpoint: number) => void;
 }
 
@@ -21,9 +23,11 @@ export const useDCMotorStore = create<DCMotorState>((set) => {
     Kd: initialKd,
     setpoint: initialSetpoint,
     result: initialResult,
+    isDirty: false,
+    markClean: () => set({ isDirty: false }),
     setParameters: (Kp: number, Kd: number, setpoint: number) => {
       const result = simulateDCMotor(Kp, Kd, setpoint, 5, 0.01);
-      set({ Kp, Kd, setpoint, result });
+      set({ Kp, Kd, setpoint, result, isDirty: true });
     }
   };
 });

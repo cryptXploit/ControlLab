@@ -44,6 +44,7 @@ export default function SecondOrderLab() {
     HapticService.triggerSuccess();
     useToastStore.getState().showToast((t as any)('messages.projectSaved'), 'success');
     setIsSaveModalOpen(false);
+    import('@/store/useSecondOrderStore').then(m => m.useSecondOrderStore.getState().markClean());
   };
 
   return (
