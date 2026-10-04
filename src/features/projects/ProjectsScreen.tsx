@@ -35,7 +35,7 @@ export default function ProjectsScreen() {
   };
 
   return (
-    <div className="flex flex-col gap-6 w-full max-w-3xl mx-auto pb-24 p-4">
+    <div className="flex flex-col gap-6 w-full max-w-3xl mx-auto p-4 min-h-full shrink-0">
       <div className="mb-2">
         <h1 className="text-3xl font-bold text-text-primary">{(t as any)('nav.projects')}</h1>
       </div>
@@ -96,6 +96,7 @@ export default function ProjectsScreen() {
         onConfirm={confirmDelete} 
         onCancel={() => setDeleteId(null)} 
       />
+      <div className="h-[calc(5rem+env(safe-area-inset-bottom))] shrink-0 w-full" />
     </div>
   );
 }

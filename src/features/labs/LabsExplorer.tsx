@@ -21,7 +21,7 @@ export function LabsExplorer() {
   }, {} as Record<string, ToolDefinition[]>);
 
   return (
-    <div className="p-4 md:p-6 w-full max-w-7xl mx-auto pb-24">
+    <div className="flex flex-col p-4 md:p-6 w-full max-w-7xl mx-auto min-h-full shrink-0">
       <h1 className="text-3xl font-bold text-text-primary mb-8">{(t as any)('nav.labs')}</h1>
       
       <div className="flex flex-col gap-10">
@@ -98,6 +98,7 @@ export function LabsExplorer() {
           </div>
         </div>
       )}
+      <div className="h-[calc(5rem+env(safe-area-inset-bottom))] shrink-0 w-full" />
     </div>
   );
 }

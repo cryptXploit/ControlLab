@@ -23,7 +23,7 @@ export default function PracticeScreen() {
   };
 
   return (
-    <div className="flex-1 w-full max-w-2xl mx-auto p-4 md:p-6 space-y-6 animate-in fade-in slide-in-from-bottom-4">
+    <div className="flex flex-col w-full max-w-2xl mx-auto p-4 md:p-6 space-y-6 animate-in fade-in slide-in-from-bottom-4 min-h-full shrink-0">
       <header className="mb-8">
         <h1 className="text-3xl font-black tracking-tight text-text-primary">
           {(t as any)('practice.title')}
@@ -63,6 +63,7 @@ export default function PracticeScreen() {
           );
         })}
       </div>
+      <div className="h-[calc(5rem+env(safe-area-bottom))] shrink-0 w-full" />
     </div>
   );
 }

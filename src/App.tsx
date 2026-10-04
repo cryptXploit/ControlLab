@@ -82,7 +82,7 @@ export default function App() {
         onCancel={() => setIsWarningOpen(false)} 
         isDanger 
       />
-      <main className="flex-1 flex flex-col w-full max-w-screen-xl mx-auto overflow-y-auto pb-[calc(4rem+env(safe-area-inset-bottom))] overflow-x-hidden min-h-0 relative z-0">
+      <main className="flex-1 flex flex-col w-full max-w-screen-xl mx-auto overflow-y-auto overflow-x-hidden min-h-0 relative z-0">
         <Switch>
           <Route component={HomeScreen} path="/" />
           <Route component={LabsExplorer} path="/labs" />

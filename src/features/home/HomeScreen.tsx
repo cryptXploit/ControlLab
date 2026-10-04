@@ -41,7 +41,7 @@ export default function HomeScreen() {
     .slice(0, 3);
 
   return (
-    <div className="flex flex-col w-full max-w-5xl mx-auto px-4 sm:px-6 py-8 pb-28 min-h-full">
+    <div className="flex flex-col w-full max-w-5xl mx-auto px-4 sm:px-6 py-8 min-h-full shrink-0">
       
       {/* Header */}
       <div className="mt-2 mb-8 md:mb-12">
@@ -160,6 +160,9 @@ export default function HomeScreen() {
           
         </div>
       </div>
+      
+      {/* Explicit spacer to guarantee scroll clearance for bottom nav */}
+      <div className="h-[calc(5rem+env(safe-area-inset-bottom))] shrink-0 w-full" />
     </div>
   );
 }
