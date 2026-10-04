@@ -16,6 +16,8 @@ const PidLab = lazy(() => import('@/features/labs/PidLab'));
 const DCMotorLab = lazy(() => import('@/features/labs/DCMotorLab'));
 const BodeLab = lazy(() => import('@/features/labs/BodeLab'));
 const PoleZeroLab = lazy(() => import('@/features/labs/PoleZeroLab'));
+const NyquistLab = lazy(() => import('@/features/labs/NyquistLab'));
+const RootLocusLab = lazy(() => import('@/features/labs/RootLocusLab'));
 
 export const TOOL_REGISTRY: ToolDefinition[] = [
   {
@@ -49,6 +51,22 @@ export const TOOL_REGISTRY: ToolDefinition[] = [
     categoryKey: 'category.frequencyDomain',
     route: '/labs/pole-zero',
     component: PoleZeroLab
+  },
+  {
+    id: 'nyquist',
+    titleKey: 'tools.nyquist.title',
+    descKey: 'tools.nyquist.desc',
+    categoryKey: 'category.frequencyDomain',
+    route: '/labs/nyquist',
+    component: NyquistLab
+  },
+  {
+    id: 'root-locus',
+    titleKey: 'tools.rootLocus.title',
+    descKey: 'tools.rootLocus.desc',
+    categoryKey: 'category.frequencyDomain',
+    route: '/labs/root-locus',
+    component: RootLocusLab
   },
   {
     id: 'pid',
