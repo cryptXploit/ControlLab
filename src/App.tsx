@@ -22,6 +22,7 @@ import { ToastContainer } from '@/components/ui/ToastContainer';
 
 import { useNyquistStore } from '@/store/useNyquistStore';
 import { useMarginStore } from '@/store/useMarginStore';
+import { useDisturbanceStore } from '@/store/useDisturbanceStore';
 
 export default function App() {
   useBannerAd();
@@ -36,7 +37,8 @@ export default function App() {
                     usePidStore.getState().isDirty || 
                     useNyquistStore.getState().isDirty ||
                     useMarginStore.getState().isDirty ||
-                    useDCMotorStore.getState().isDirty;
+                    useDCMotorStore.getState().isDirty ||
+                    useDisturbanceStore.getState().isDirty;
     if (isDirty) {
       setPendingRoute(path);
       setIsWarningOpen(true);
@@ -54,6 +56,7 @@ export default function App() {
     useDCMotorStore.getState().markClean();
     useNyquistStore.getState().markClean();
     useMarginStore.getState().markClean();
+    useDisturbanceStore.getState().markClean();
     setIsWarningOpen(false);
     
     AdPolicy.registerTransition();

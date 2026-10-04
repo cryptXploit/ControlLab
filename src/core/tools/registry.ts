@@ -21,6 +21,7 @@ const RootLocusLab = lazy(() => import('@/features/labs/RootLocusLab'));
 const MarginLab = lazy(() => import('@/features/labs/MarginLab'));
 const CompareLab = lazy(() => import('@/features/labs/CompareLab'));
 const SweepLab = lazy(() => import('@/features/labs/SweepLab'));
+const DisturbanceLab = lazy(() => import('@/features/labs/DisturbanceLab'));
 
 export const TOOL_REGISTRY: ToolDefinition[] = [
   {
@@ -110,5 +111,13 @@ export const TOOL_REGISTRY: ToolDefinition[] = [
     categoryKey: 'category.analysis',
     route: '/labs/sweep',
     component: SweepLab
+  },
+  {
+    id: 'disturbance',
+    titleKey: 'tools.disturbance.title',
+    descKey: 'tools.disturbance.desc',
+    categoryKey: 'category.timeDomain',
+    route: '/labs/disturbance',
+    component: DisturbanceLab
   }
 ];

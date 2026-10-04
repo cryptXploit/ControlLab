@@ -36,6 +36,8 @@ export const en = {
   'tools.compare.desc': 'Superimpose and compare two saved experiments.',
   'tools.sweep.title': 'Parameter Sweep',
   'tools.sweep.desc': 'Analyze sensitivity by sweeping a parameter across a range.',
+  'tools.disturbance.title': 'Disturbance Rejection',
+  'tools.disturbance.desc': 'Analyze PID recovery from external load disturbances.',
   'category.frequencyDomain': 'Frequency Domain',
   'category.analysis': 'Analysis & Ecosystem',
   'metrics.riseTime': 'Rise Time',

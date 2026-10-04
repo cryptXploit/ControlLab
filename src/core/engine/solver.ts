@@ -247,3 +247,65 @@ export function simulateDCMotor(
     }
   };
 }
+
+export function simulateDisturbanceRejection(
+  Kp: number,
+  Ki: number,
+  Kd: number,
+  distMag: number,
+  distTime: number,
+  duration: number,
+  stepSize: number
+): SimulationResult & { disturbance: Float32Array } {
+  const numSteps = Math.ceil(duration / stepSize) + 1;
+  const time = new Float32Array(numSteps);
+  const output = new Float32Array(numSteps);
+  const disturbance = new Float32Array(numSteps);
+  const setpointArr = new Float32Array(numSteps);
+
+  const setpoint = 1.0;
+  let y = 0, y_vel = 0, integral = 0, prev_error = setpoint;
+
+  for (let i = 0; i < numSteps; i++) {
+    const t = i * stepSize;
+    time[i] = t;
+    setpointArr[i] = setpoint;
+
+    const error = setpoint - y;
+    integral += error * stepSize;
+    
+    // Anti-windup
+    if (integral > 100) integral = 100;
+    if (integral < -100) integral = -100;
+
+    const derivative = (error - prev_error) / stepSize;
+    const u = (Kp * error) + (Ki * integral) + (Kd * derivative);
+    
+    const d = t >= distTime ? distMag : 0;
+    disturbance[i] = d;
+
+    const v = u + d;
+    
+    // Plant: 1 / (s^2 + 2s + 1)
+    // y'' + 2y' + y = v
+    const y_accel = v - (2.0 * y_vel) - y;
+    y_vel += y_accel * stepSize;
+    y += y_vel * stepSize;
+    
+    output[i] = y;
+    prev_error = error;
+  }
+
+  const finalOutput = output[numSteps - 1];
+  const steadyStateError = Math.abs(setpoint - finalOutput);
+
+  return {
+    time,
+    output,
+    disturbance,
+    setpoint: setpointArr,
+    metrics: {
+      steadyStateError
+    }
+  };
+}
