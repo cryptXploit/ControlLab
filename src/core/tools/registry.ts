@@ -8,6 +8,7 @@ export interface ToolDefinition {
   categoryKey: string;
   route: string;
   component: ComponentType;
+  relatedTools?: string[];
 }
 
 const FirstOrderLab = lazy(() => import('@/features/labs/FirstOrderLab'));
@@ -45,7 +46,8 @@ export const TOOL_REGISTRY: ToolDefinition[] = [
     descKey: 'tools.secondOrder.desc',
     categoryKey: 'category.timeDomain',
     route: '/labs/second-order',
-    component: SecondOrderLab
+    component: SecondOrderLab,
+    relatedTools: ['massSpring', 'sweep', 'compare']
   },
   {
     id: 'bode',
@@ -53,7 +55,8 @@ export const TOOL_REGISTRY: ToolDefinition[] = [
     descKey: 'tools.bode.desc',
     categoryKey: 'category.frequencyDomain',
     route: '/labs/bode',
-    component: BodeLab
+    component: BodeLab,
+    relatedTools: ['margin', 'nyquist', 'leadLag']
   },
   {
     id: 'pole-zero',
@@ -93,7 +96,8 @@ export const TOOL_REGISTRY: ToolDefinition[] = [
     descKey: 'tools.pid.desc',
     categoryKey: 'category.controllers',
     route: '/labs/pid',
-    component: PidLab
+    component: PidLab,
+    relatedTools: ['disturbance', 'antiWindup', 'sweep', 'compare']
   },
   {
     id: 'dc-motor',
@@ -101,7 +105,8 @@ export const TOOL_REGISTRY: ToolDefinition[] = [
     descKey: 'tools.dcMotor.desc',
     categoryKey: 'category.systems',
     route: '/labs/dc-motor',
-    component: DCMotorLab
+    component: DCMotorLab,
+    relatedTools: ['pid', 'signal']
   },
   {
     id: 'compare',
@@ -181,6 +186,7 @@ export const TOOL_REGISTRY: ToolDefinition[] = [
     descKey: 'tools.zieglerNichols.desc',
     categoryKey: 'category.controllers',
     route: '/labs/ziegler-nichols',
-    component: ZieglerNicholsLab
+    component: ZieglerNicholsLab,
+    relatedTools: ['pid', 'compare']
   }
 ];

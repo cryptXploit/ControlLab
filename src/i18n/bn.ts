@@ -13,6 +13,7 @@ export const bn: Record<TranslationKey, string> = {
   'common.suggestion': 'à¦ªà¦°à¦¾à¦®à¦°à§à¦¶:',
   'workspace.parameters': 'à¦ªà§à¦¯à¦¾à¦°à¦¾à¦®à¦¿à¦Ÿà¦¾à¦°',
   'workspace.metrics': 'à¦®à§‡à¦Ÿà§à¦°à¦¿à¦•à§à¦¸',
+  'workspace.nextActions': 'পরবর্তী দরকারি টুলসমূহ',
   'search.placeholder': 'à¦Ÿà§à¦²à¦¸ à¦¬à¦¾ à¦²à§à¦¯à¦¾à¦¬ à¦–à§à¦à¦œà§à¦¨...',
   'search.noResults': 'à¦•à§‹à¦¨ à¦«à¦²à¦¾à¦«à¦² à¦ªà¦¾à¦“à¦¯à¦¼à¦¾ à¦¯à¦¾à¦¯à¦¼à¦¨à¦¿',
   'category.timeDomain': 'à¦Ÿà¦¾à¦‡à¦® à¦¡à§‹à¦®à§‡à¦‡à¦¨',

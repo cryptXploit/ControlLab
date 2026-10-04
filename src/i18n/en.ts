@@ -10,6 +10,7 @@
   'common.suggestion': 'Suggestion:',
   'workspace.parameters': 'Parameters',
   'workspace.metrics': 'Metrics',
+  'workspace.nextActions': 'Next Useful Actions',
   'search.placeholder': 'Search tools, labs...',
   'search.noResults': 'No results found',
   'category.timeDomain': 'Time Domain',

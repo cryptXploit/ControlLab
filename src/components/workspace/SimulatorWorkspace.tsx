@@ -1,6 +1,8 @@
 import React from 'react';
 import { useTranslation } from '@/store/useLocaleStore';
 
+import { ContextualActions } from '@/components/workspace/ContextualActions';
+
 interface SimulatorWorkspaceProps {
   title: string;
   graph: React.ReactNode;
@@ -61,6 +63,7 @@ export function SimulatorWorkspace({ title, graph, controls, metrics, explanatio
               {explanation}
             </section>
           </div>
+          <ContextualActions />
         </div>
       </div>
 
