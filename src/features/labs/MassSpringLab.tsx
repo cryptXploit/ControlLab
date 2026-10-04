@@ -11,6 +11,8 @@ import { SaveDialog } from '@/components/ui/SaveDialog';
 import { projectService } from '@/services/storage/projectService';
 import { Button } from '@/components/ui/Button';
 import { Save } from 'lucide-react';
+import { MASS_SPRING_PRESETS } from '@/core/tools/presets';
+import { HapticService } from '@/services/haptics/HapticService';
 
 export default function MassSpringLab() {
   const { t } = useTranslation();
@@ -90,6 +92,28 @@ export default function MassSpringLab() {
         }
         controls={
           <div className="flex flex-col gap-4">
+            <Card className="p-3 bg-background-base border-border-subtle">
+              <div className="flex justify-between items-center mb-3">
+                <h5 className="text-[10px] font-bold text-text-secondary uppercase">{(t as any)('common.presets') || 'Presets'}</h5>
+              </div>
+              <div className="flex gap-2 overflow-x-auto pb-1 no-scrollbar">
+                {MASS_SPRING_PRESETS.map((preset) => (
+                  <button
+                    key={preset.id}
+                    onClick={() => {
+                      HapticService.triggerSelection();
+                      setM(preset.params.m);
+                      setB(preset.params.b);
+                      setK(preset.params.k);
+                      setF(preset.params.F);
+                    }}
+                    className="shrink-0 px-3 py-1.5 text-xs font-medium rounded-full bg-background-surface border border-border-subtle text-text-secondary hover:text-text-primary hover:border-accent-primary transition-colors"
+                  >
+                    {(t as any)(preset.labelKey)}
+                  </button>
+                ))}
+              </div>
+            </Card>
             <Card className="p-3 bg-background-base border-border-subtle">
               <h5 className="text-[10px] font-bold text-text-secondary uppercase mb-2">Physical Constants</h5>
               <div className="flex flex-col gap-1">

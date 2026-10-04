@@ -16,6 +16,7 @@ import { Card } from '@/components/ui/Card';
 import { Button } from '@/components/ui/Button';
 import { CheckCircle } from 'lucide-react';
 import { SaveDialog } from '@/components/ui/SaveDialog';
+import { PID_PRESETS } from '@/core/tools/presets';
 
 export default function PidLab() {
   const { Kp, Ki, Kd, setpoint, result, setParameters } = usePidStore();
@@ -101,11 +102,35 @@ export default function PidLab() {
         actions={<Button onClick={handleSaveClick} size="sm" variant="secondary">{(t as any)('common.save')}</Button>}
         graph={result ? <Graph output={result.output} time={result.time} setpoint={result.setpoint} /> : <div />}
         controls={
-          <>
-            <SliderField label="Proportional (Kp)" max={10} min={0} step={0.1} value={Kp} onChange={(val) => setParameters(val, Ki, Kd, setpoint)} />
-            <SliderField label="Integral (Ki)" max={10} min={0} step={0.1} value={Ki} onChange={(val) => setParameters(Kp, val, Kd, setpoint)} />
-            <SliderField label="Derivative (Kd)" max={10} min={0} step={0.1} value={Kd} onChange={(val) => setParameters(Kp, Ki, val, setpoint)} />
-          </>
+          <div className="flex flex-col gap-4">
+            <Card className="p-3 bg-background-base border-border-subtle">
+              <div className="flex justify-between items-center mb-3">
+                <h5 className="text-[10px] font-bold text-text-secondary uppercase">{(t as any)('common.presets') || 'Presets'}</h5>
+              </div>
+              <div className="flex gap-2 overflow-x-auto pb-1 no-scrollbar">
+                {PID_PRESETS.map((preset) => (
+                  <button
+                    key={preset.id}
+                    onClick={() => {
+                      HapticService.triggerSelection();
+                      setParameters(preset.params.Kp, preset.params.Ki, preset.params.Kd, preset.params.setpoint);
+                    }}
+                    className="shrink-0 px-3 py-1.5 text-xs font-medium rounded-full bg-background-surface border border-border-subtle text-text-secondary hover:text-text-primary hover:border-accent-primary transition-colors"
+                  >
+                    {(t as any)(preset.labelKey)}
+                  </button>
+                ))}
+              </div>
+            </Card>
+            <Card className="p-3 bg-background-base border-border-subtle">
+              <h5 className="text-[10px] font-bold text-text-secondary uppercase mb-2">Controller Parameters</h5>
+              <div className="flex flex-col gap-1">
+                <SliderField label="Proportional (Kp)" max={10} min={0} step={0.1} value={Kp} onChange={(val) => setParameters(val, Ki, Kd, setpoint)} />
+                <SliderField label="Integral (Ki)" max={10} min={0} step={0.1} value={Ki} onChange={(val) => setParameters(Kp, val, Kd, setpoint)} />
+                <SliderField label="Derivative (Kd)" max={10} min={0} step={0.1} value={Kd} onChange={(val) => setParameters(Kp, Ki, val, setpoint)} />
+              </div>
+            </Card>
+          </div>
         }
         metrics={
           result ? (
