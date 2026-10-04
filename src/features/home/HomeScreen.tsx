@@ -7,6 +7,7 @@ import { useTranslation } from '@/store/useLocaleStore';
 import { CHALLENGES } from '@/core/challenges/content';
 import { TOOL_REGISTRY } from '@/core/tools/registry';
 import { Play, FlaskConical, Target, Clock, ArrowRight } from 'lucide-react';
+import { ToolIcon } from '@/components/ui/ToolIcon';
 import type { Project } from '@/services/storage/db';
 
 export default function HomeScreen() {
@@ -80,12 +81,17 @@ export default function HomeScreen() {
                   onClick={() => setLocation(tool.route)}
                   className="group text-left p-5 flex flex-col bg-background-elevated border border-border-subtle rounded-2xl hover:border-accent-primary focus:border-accent-primary outline-none transition-all duration-200"
                 >
-                  <h3 className="text-base sm:text-lg font-bold text-text-primary group-hover:text-accent-primary transition-colors">
-                    {(t as any)(tool.titleKey)}
-                  </h3>
-                  <p className="text-xs sm:text-sm text-text-secondary mt-2 line-clamp-2 leading-relaxed">
-                    {(t as any)(tool.descKey)}
-                  </p>
+                  <div className="flex items-start gap-4">
+                    <ToolIcon id={tool.id} className="scale-90 origin-top-left" />
+                    <div>
+                      <h3 className="text-base sm:text-lg font-bold text-text-primary group-hover:text-accent-primary transition-colors">
+                        {(t as any)(tool.titleKey)}
+                      </h3>
+                      <p className="text-xs sm:text-sm text-text-secondary mt-1 line-clamp-2 leading-relaxed">
+                        {(t as any)(tool.descKey)}
+                      </p>
+                    </div>
+                  </div>
                 </button>
               ))}
             </div>

@@ -6,6 +6,7 @@ import { useTranslation } from '@/store/useLocaleStore';
 import { Card } from '@/components/ui/Card';
 import { Button } from '@/components/ui/Button';
 import { X, Play } from 'lucide-react';
+import { ToolIcon } from '@/components/ui/ToolIcon';
 
 export function LabsExplorer() {
   const { t } = useTranslation();
@@ -39,12 +40,17 @@ export function LabsExplorer() {
                   className="block group h-full cursor-pointer"
                 >
                   <Card interactive className="p-5 h-full flex flex-col bg-background-surface border border-border-subtle hover:-translate-y-0.5 hover:shadow-md hover:border-accent-primary transition-all duration-200">
-                    <h3 className="text-lg font-bold text-text-primary group-hover:text-accent-primary transition-colors">
-                      {(t as any)(tool.titleKey)}
-                    </h3>
-                    <p className="text-sm text-text-secondary mt-2 flex-1 leading-relaxed">
-                      {(t as any)(tool.descKey)}
-                    </p>
+                    <div className="flex items-start gap-4">
+                      <ToolIcon id={tool.id} />
+                      <div>
+                        <h3 className="text-lg font-bold text-text-primary group-hover:text-accent-primary transition-colors">
+                          {(t as any)(tool.titleKey)}
+                        </h3>
+                        <p className="text-sm text-text-secondary mt-1 flex-1 leading-relaxed">
+                          {(t as any)(tool.descKey)}
+                        </p>
+                      </div>
+                    </div>
                   </Card>
                 </div>
               ))}
