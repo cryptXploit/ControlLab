@@ -26,6 +26,7 @@ const RouthLab = lazy(() => import('@/features/labs/RouthLab'));
 const AntiWindupLab = lazy(() => import('@/features/labs/AntiWindupLab'));
 const TransferFunctionLab = lazy(() => import('@/features/labs/TransferFunctionLab'));
 const MassSpringLab = lazy(() => import('@/features/labs/MassSpringLab'));
+const SignalLab = lazy(() => import('@/features/labs/SignalLab'));
 
 export const TOOL_REGISTRY: ToolDefinition[] = [
   {
@@ -155,5 +156,13 @@ export const TOOL_REGISTRY: ToolDefinition[] = [
     categoryKey: 'category.systems',
     route: '/labs/mass-spring',
     component: MassSpringLab
+  },
+  {
+    id: 'signal',
+    titleKey: 'tools.signal.title',
+    descKey: 'tools.signal.desc',
+    categoryKey: 'category.timeDomain',
+    route: '/labs/signal',
+    component: SignalLab
   }
 ];

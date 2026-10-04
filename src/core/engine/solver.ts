@@ -402,3 +402,21 @@ export function simulateWindupComparison(
     metrics
   };
 }
+
+export function calculateDerivative(array: Float32Array, dt: number): Float32Array {
+  const result = new Float32Array(array.length);
+  result[0] = 0; // Or forward diff (array[1] - array[0]) / dt
+  for (let i = 1; i < array.length; i++) {
+    result[i] = (array[i] - array[i - 1]) / dt;
+  }
+  return result;
+}
+
+export function calculateIntegral(array: Float32Array, dt: number): Float32Array {
+  const result = new Float32Array(array.length);
+  result[0] = 0;
+  for (let i = 1; i < array.length; i++) {
+    result[i] = result[i - 1] + array[i] * dt;
+  }
+  return result;
+}

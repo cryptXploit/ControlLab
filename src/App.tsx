@@ -27,6 +27,7 @@ import { useRouthStore } from '@/store/useRouthStore';
 import { useAntiWindupStore } from '@/store/useAntiWindupStore';
 import { useTransferFunctionStore } from '@/store/useTransferFunctionStore';
 import { useMassSpringStore } from '@/store/useMassSpringStore';
+import { useSignalStore } from '@/store/useSignalStore';
 
 export default function App() {
   useBannerAd();
@@ -46,7 +47,8 @@ export default function App() {
                     useRouthStore.getState().isDirty ||
                     useAntiWindupStore.getState().isDirty ||
                     useTransferFunctionStore.getState().isDirty ||
-                    useMassSpringStore.getState().isDirty;
+                    useMassSpringStore.getState().isDirty ||
+                    useSignalStore.getState().isDirty;
     if (isDirty) {
       setPendingRoute(path);
       setIsWarningOpen(true);
@@ -69,6 +71,7 @@ export default function App() {
     useAntiWindupStore.getState().markClean();
     useTransferFunctionStore.getState().markClean();
     useMassSpringStore.getState().markClean();
+    useSignalStore.getState().markClean();
     setIsWarningOpen(false);
     
     AdPolicy.registerTransition();
