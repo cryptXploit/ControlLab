@@ -25,6 +25,7 @@ const DisturbanceLab = lazy(() => import('@/features/labs/DisturbanceLab'));
 const RouthLab = lazy(() => import('@/features/labs/RouthLab'));
 const AntiWindupLab = lazy(() => import('@/features/labs/AntiWindupLab'));
 const TransferFunctionLab = lazy(() => import('@/features/labs/TransferFunctionLab'));
+const MassSpringLab = lazy(() => import('@/features/labs/MassSpringLab'));
 
 export const TOOL_REGISTRY: ToolDefinition[] = [
   {
@@ -146,5 +147,13 @@ export const TOOL_REGISTRY: ToolDefinition[] = [
     categoryKey: 'category.frequencyDomain',
     route: '/labs/transfer-function',
     component: TransferFunctionLab
+  },
+  {
+    id: 'massSpring',
+    titleKey: 'tools.massSpring.title',
+    descKey: 'tools.massSpring.desc',
+    categoryKey: 'category.systems',
+    route: '/labs/mass-spring',
+    component: MassSpringLab
   }
 ];

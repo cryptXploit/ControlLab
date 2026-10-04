@@ -44,6 +44,8 @@ export const en = {
   'tools.antiWindup.desc': 'Analyze actuator saturation and integral windup prevention.',
   'tools.transferFunction.title': 'Transfer Function Explorer',
   'tools.transferFunction.desc': 'Analyze arbitrary systems via polynomial coefficients.',
+  'tools.massSpring.title': 'Mass-Spring-Damper',
+  'tools.massSpring.desc': 'Translate mechanical physics into control theory responses.',
   'category.frequencyDomain': 'Frequency Domain',
   'category.analysis': 'Analysis & Ecosystem',
   'metrics.riseTime': 'Rise Time',
