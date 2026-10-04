@@ -5,6 +5,8 @@ import { SliderField } from '@/components/ui/SliderField';
 import { Card } from '@/components/ui/Card';
 import Graph from '@/components/Graph';
 
+import { evaluateSecondOrderFrequencyResponse } from '@/core/engine/frequency';
+
 export default function BodeLab() {
   const { t } = useTranslation();
   const [K, setK] = useState(1.0);
@@ -26,19 +28,9 @@ export default function BodeLab() {
       const currentW = Math.pow(10, logW);
       w[i] = logW; // Use logW for linear plotting in uPlot
 
-      // H(jw) = K / ( (wn^2 - w^2) + j(2*zeta*wn*w) )
-      const real = wn*wn - currentW*currentW;
-      const imag = 2 * zeta * wn * currentW;
-      
-      const denomMag = Math.sqrt(real*real + imag*imag);
-      const magVal = K * (wn*wn) / denomMag; 
-      
-      mag[i] = 20 * Math.log10(magVal);
-      
-      // Phase
-      let phaseRad = -Math.atan2(imag, real);
-      if (phaseRad > 0) phaseRad -= 2*Math.PI; // Keep it continuous around -180
-      phase[i] = phaseRad * 180 / Math.PI;
+      const { magDb, phaseDeg } = evaluateSecondOrderFrequencyResponse(K, zeta, wn, currentW);
+      mag[i] = magDb;
+      phase[i] = phaseDeg;
     }
 
     return { time: w, output: mag, setpoint: phase };

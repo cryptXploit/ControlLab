@@ -20,6 +20,8 @@ import PracticeScreen from '@/features/practice/PracticeScreen';
 import { Home, FlaskConical, Target, Folder, Settings } from 'lucide-react';
 import { ToastContainer } from '@/components/ui/ToastContainer';
 
+import { useNyquistStore } from '@/store/useNyquistStore';
+
 export default function App() {
   useBannerAd();
   const { t } = useTranslation();
@@ -31,6 +33,7 @@ export default function App() {
     const isDirty = useFirstOrderStore.getState().isDirty || 
                     useSecondOrderStore.getState().isDirty || 
                     usePidStore.getState().isDirty || 
+                    useNyquistStore.getState().isDirty ||
                     useDCMotorStore.getState().isDirty;
     if (isDirty) {
       setPendingRoute(path);
@@ -47,6 +50,7 @@ export default function App() {
     useSecondOrderStore.getState().markClean();
     usePidStore.getState().markClean();
     useDCMotorStore.getState().markClean();
+    useNyquistStore.getState().markClean();
     setIsWarningOpen(false);
     
     AdPolicy.registerTransition();

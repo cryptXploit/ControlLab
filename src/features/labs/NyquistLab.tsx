@@ -1,69 +1,96 @@
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import { useTranslation } from '@/store/useLocaleStore';
 import { SimulatorWorkspace } from '@/components/workspace/SimulatorWorkspace';
 import { SliderField } from '@/components/ui/SliderField';
 import { MetricCard } from '@/components/ui/MetricCard';
 import { Card } from '@/components/ui/Card';
 import Graph from '@/components/Graph';
+import { evaluateSecondOrderFrequencyResponse } from '@/core/engine/frequency';
+import { useNyquistStore } from '@/store/useNyquistStore';
+import { SaveDialog } from '@/components/ui/SaveDialog';
+import { projectService } from '@/services/storage/projectService';
+import { Button } from '@/components/ui/Button';
+import { Save } from 'lucide-react';
 
 export default function NyquistLab() {
   const { t } = useTranslation();
   const [K, setK] = useState(1.0);
   const [zeta, setZeta] = useState(0.5);
   const [wn, setWn] = useState(10.0);
+  
+  const [isSaveOpen, setIsSaveOpen] = useState(false);
+  const { isDirty, markDirty, markClean } = useNyquistStore();
+
+  // Mark dirty on change
+  useEffect(() => {
+    markDirty();
+  }, [K, zeta, wn, markDirty]);
 
   const result = useMemo(() => {
-    // Generate linear-spaced w values to capture the curve shape smoothly
     const numSteps = 200;
     const realAxis = new Float32Array(numSteps * 2);
     const imagAxis = new Float32Array(numSteps * 2);
 
-    // We sweep w from a small number to a large number
     const wMax = wn * 5; 
     
-    // Positive frequencies
     for (let i = 0; i < numSteps; i++) {
       const currentW = (i / (numSteps - 1)) * wMax + 0.01;
 
-      // G(jw) = K * wn^2 / ( (wn^2 - w^2) + j(2*zeta*wn*w) )
-      const realDenom = wn*wn - currentW*currentW;
-      const imagDenom = 2 * zeta * wn * currentW;
+      const { real, imag } = evaluateSecondOrderFrequencyResponse(K, zeta, wn, currentW);
       
-      const denomMagSq = realDenom*realDenom + imagDenom*imagDenom;
-      
-      const real = (K * wn*wn * realDenom) / denomMagSq;
-      const imag = (K * wn*wn * -imagDenom) / denomMagSq;
-      
-      // Store positive frequency curve
+      // Positive frequency curve
       realAxis[numSteps + i] = real;
       imagAxis[numSteps + i] = imag;
 
-      // Store negative frequency curve (complex conjugate)
+      // Negative frequency curve (complex conjugate)
       realAxis[numSteps - 1 - i] = real;
       imagAxis[numSteps - 1 - i] = -imag;
     }
     
-    // Find (-1, 0) point for stability context
-    const criticalX = new Float32Array(1);
-    const criticalY = new Float32Array(1);
-    criticalX[0] = -1;
-    criticalY[0] = 0;
-
-    // Check stability (for this system, it's always stable for K > 0, zeta > 0)
+    // Stable for typical K>0, zeta>0 second order systems
     const isStable = true; 
 
-    return { realAxis, imagAxis, criticalX, criticalY, isStable };
+    return { realAxis, imagAxis, isStable };
   }, [K, zeta, wn]);
+
+  const handleSave = async (name: string) => {
+    await projectService.createProject(
+      name,
+      'NYQUIST',
+      { K, zeta, wn },
+      'Nyquist Stability Analysis'
+    );
+    markClean();
+  };
 
   return (
     <div className="w-full flex flex-col flex-1">
       <SimulatorWorkspace 
         title={(t as any)('tools.nyquist.title') || 'Nyquist Plot'}
-        actions={null}
+        actions={
+          <div className="flex gap-2 relative z-10">
+            <Button
+              variant="primary"
+              size="sm"
+              onClick={() => setIsSaveOpen(true)}
+              className="relative overflow-hidden"
+            >
+              <Save className="w-4 h-4 mr-1 md:mr-2" />
+              <span className="hidden md:inline">{(t as any)('actions.save')}</span>
+              {isDirty && (
+                <div className="absolute top-0 right-0 w-2 h-2 bg-status-warning rounded-full border-2 border-accent-primary transform translate-x-1/3 -translate-y-1/3" />
+              )}
+            </Button>
+          </div>
+        }
         graph={
-          <div className="flex flex-col h-full relative">
-            {/* The Graph expects time (x) and output (y). We pass real (x) and imag (y). */}
-            <Graph output={result.imagAxis} time={result.realAxis} />
+          <div className="flex flex-col h-full relative min-h-[400px]">
+            <Graph 
+              time={result.realAxis} 
+              output={result.imagAxis} 
+              mode={2}
+              criticalPoint={{ x: -1, y: 0 }}
+            />
             <div className="absolute top-2 left-2 bg-background-base/80 backdrop-blur px-2 py-1 rounded text-[10px] font-mono text-text-muted border border-border-subtle">
               Re vs Im
             </div>
@@ -71,9 +98,9 @@ export default function NyquistLab() {
         }
         controls={
           <>
-            <SliderField label="Gain (K)" max={5} min={0.1} step={0.1} value={K} onChange={setK} />
-            <SliderField label="Damping (ζ)" max={2} min={0.05} step={0.05} value={zeta} onChange={setZeta} />
-            <SliderField label="Natural Freq (ωn)" max={50} min={1} step={1} value={wn} onChange={setWn} />
+            <SliderField label={(t as any)('params.gain') || 'Gain (K)'} max={5} min={0.1} step={0.1} value={K} onChange={setK} />
+            <SliderField label={(t as any)('params.zeta') || 'Damping (ζ)'} max={2} min={0.05} step={0.05} value={zeta} onChange={setZeta} />
+            <SliderField label={(t as any)('params.wn') || 'Natural Freq (ωn)'} max={50} min={1} step={1} value={wn} onChange={setWn} />
           </>
         }
         metrics={
@@ -95,10 +122,16 @@ export default function NyquistLab() {
               It is used to evaluate closed-loop stability using the criterion <span className="font-mono">Z = N + P</span>.
             </p>
             <div className="text-xs text-text-secondary bg-background-base p-2 rounded inline-block">
-              <strong className="text-text-primary">Observation:</strong> The curve does not encircle the critical point (-1, 0), confirming stability for all <span className="font-mono">K {'>'} 0</span> in this 2nd-order system.
+              <strong className="text-text-primary">Observation:</strong> The curve does not encircle the critical point (-1, 0), confirming stability.
             </div>
           </Card>
         }
+      />
+      <SaveDialog
+        isOpen={isSaveOpen}
+        onCancel={() => setIsSaveOpen(false)}
+        onSave={handleSave}
+        defaultName="Nyquist Analysis"
       />
     </div>
   );

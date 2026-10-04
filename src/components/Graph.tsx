@@ -9,9 +9,11 @@ interface GraphProps {
   time: Float32Array;
   output: Float32Array;
   setpoint?: Float32Array;
+  mode?: 1 | 2; // 1 = aligned time series (default), 2 = parametric XY
+  criticalPoint?: { x: number; y: number };
 }
 
-export default function Graph({ time, output, setpoint }: GraphProps) {
+export default function Graph({ time, output, setpoint, mode = 1, criticalPoint }: GraphProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const plotRef = useRef<uPlot | null>(null);
   const { theme } = useThemeStore();
@@ -47,6 +49,7 @@ export default function Graph({ time, output, setpoint }: GraphProps) {
       }
 
       const options: Options = {
+        mode,
         width: initialWidth,
         height: initialHeight,
         axes: [
@@ -64,6 +67,20 @@ export default function Graph({ time, output, setpoint }: GraphProps) {
           setSelect: [
             () => {
               setIsZoomed(true);
+            }
+          ],
+          drawAxes: [
+            (u) => {
+              if (criticalPoint) {
+                const cx = u.valToPos(criticalPoint.x, 'x', true);
+                const cy = u.valToPos(criticalPoint.y, 'y', true);
+                u.ctx.save();
+                u.ctx.beginPath();
+                u.ctx.arc(cx, cy, 4, 0, 2 * Math.PI);
+                u.ctx.fillStyle = getColor('--status-error', '#ef4444');
+                u.ctx.fill();
+                u.ctx.restore();
+              }
             }
           ]
         }
