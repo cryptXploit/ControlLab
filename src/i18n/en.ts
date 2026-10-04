@@ -48,6 +48,8 @@ export const en = {
   'tools.massSpring.desc': 'Translate mechanical physics into control theory responses.',
   'tools.signal.title': 'Signal Response',
   'tools.signal.desc': 'Analyze system tracking against Step, Ramp, and Impulse inputs.',
+  'tools.leadLag.title': 'Lead/Lag Compensator',
+  'tools.leadLag.desc': 'Shape frequency responses to improve stability margins.',
   'category.frequencyDomain': 'Frequency Domain',
   'category.analysis': 'Analysis & Ecosystem',
   'metrics.riseTime': 'Rise Time',

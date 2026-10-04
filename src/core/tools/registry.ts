@@ -27,6 +27,7 @@ const AntiWindupLab = lazy(() => import('@/features/labs/AntiWindupLab'));
 const TransferFunctionLab = lazy(() => import('@/features/labs/TransferFunctionLab'));
 const MassSpringLab = lazy(() => import('@/features/labs/MassSpringLab'));
 const SignalLab = lazy(() => import('@/features/labs/SignalLab'));
+const LeadLagLab = lazy(() => import('@/features/labs/LeadLagLab'));
 
 export const TOOL_REGISTRY: ToolDefinition[] = [
   {
@@ -164,5 +165,13 @@ export const TOOL_REGISTRY: ToolDefinition[] = [
     categoryKey: 'category.timeDomain',
     route: '/labs/signal',
     component: SignalLab
+  },
+  {
+    id: 'leadLag',
+    titleKey: 'tools.leadLag.title',
+    descKey: 'tools.leadLag.desc',
+    categoryKey: 'category.controllers',
+    route: '/labs/lead-lag',
+    component: LeadLagLab
   }
 ];
