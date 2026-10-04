@@ -20,6 +20,7 @@ const NyquistLab = lazy(() => import('@/features/labs/NyquistLab'));
 const RootLocusLab = lazy(() => import('@/features/labs/RootLocusLab'));
 const MarginLab = lazy(() => import('@/features/labs/MarginLab'));
 const CompareLab = lazy(() => import('@/features/labs/CompareLab'));
+const SweepLab = lazy(() => import('@/features/labs/SweepLab'));
 
 export const TOOL_REGISTRY: ToolDefinition[] = [
   {
@@ -101,5 +102,13 @@ export const TOOL_REGISTRY: ToolDefinition[] = [
     categoryKey: 'category.analysis',
     route: '/labs/compare',
     component: CompareLab
+  },
+  {
+    id: 'sweep',
+    titleKey: 'tools.sweep.title',
+    descKey: 'tools.sweep.desc',
+    categoryKey: 'category.analysis',
+    route: '/labs/sweep',
+    component: SweepLab
   }
 ];

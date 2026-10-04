@@ -6,7 +6,8 @@ import { useTranslation } from '@/store/useLocaleStore';
 import { Button } from '@/components/ui/Button';
 
 interface GraphProps {
-  time: Float32Array;
+  time?: Float32Array; // Legacy name for x-axis
+  xData?: Float32Array; // Explicit x-axis
   output: Float32Array;
   outputB?: Float32Array;
   setpoint?: Float32Array;
@@ -14,7 +15,7 @@ interface GraphProps {
   criticalPoint?: { x: number; y: number };
 }
 
-export default function Graph({ time, output, outputB, setpoint, mode = 1, criticalPoint }: GraphProps) {
+export default function Graph({ time, xData, output, outputB, setpoint, mode = 1, criticalPoint }: GraphProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const plotRef = useRef<uPlot | null>(null);
   const { theme } = useThemeStore();
@@ -94,8 +95,9 @@ export default function Graph({ time, output, outputB, setpoint, mode = 1, criti
         }
       };
 
+      const resolvedX = xData || time || new Float32Array();
       const data: any[] = [
-        Array.from(time),
+        Array.from(resolvedX),
         Array.from(output)
       ];
       
@@ -127,13 +129,14 @@ export default function Graph({ time, output, outputB, setpoint, mode = 1, criti
 
   useEffect(() => {
     if (plotRef.current) {
-      const data: any[] = [Array.from(time), Array.from(output)];
+      const resolvedX = xData || time || new Float32Array();
+      const data: any[] = [Array.from(resolvedX), Array.from(output)];
       if (outputB) data.push(Array.from(outputB));
       if (setpoint) data.push(Array.from(setpoint));
       plotRef.current.setData(data as uPlot.AlignedData);
       setIsZoomed(false);
     }
-  }, [time, output, outputB, setpoint]);
+  }, [time, xData, output, outputB, setpoint]);
 
   useEffect(() => {
     if (!containerRef.current) return;
@@ -157,7 +160,8 @@ export default function Graph({ time, output, outputB, setpoint, mode = 1, criti
 
   const handleResetZoom = () => {
     if (!plotRef.current) return;
-    const data: any[] = [Array.from(time), Array.from(output)];
+    const resolvedX = xData || time || new Float32Array();
+    const data: any[] = [Array.from(resolvedX), Array.from(output)];
     if (outputB) data.push(Array.from(outputB));
     if (setpoint) data.push(Array.from(setpoint));
     plotRef.current.setData(data as uPlot.AlignedData);
