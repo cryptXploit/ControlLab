@@ -5,7 +5,8 @@ export const bn: Record<TranslationKey, string> = {
   'nav.labs': 'à¦²à§à¦¯à¦¾à¦¬à¦¸',
   'nav.projects': 'à¦ªà§à¦°à¦œà§‡à¦•à§à¦Ÿà¦¸',
   'nav.settings': 'à¦¸à§‡à¦Ÿà¦¿à¦‚à¦¸',
-  'common.save': 'à¦¸à§‡à¦­ à¦•à¦°à§à¦¨',
+  'common.save': 'à¦¸à§‡à¦­ à¦•à¦°à§à¦¨'
+,
   'common.presets': 'Presets',
   'common.cancel': 'à¦¬à¦¾à¦¤à¦¿à¦²',
   'common.delete': 'à¦¡à¦¿à¦²à¦¿à¦Ÿ',
@@ -34,12 +35,17 @@ export const bn: Record<TranslationKey, string> = {
   'params.tau': 'à¦Ÿà¦¾à¦‡à¦® à¦•à¦¨à¦¸à§à¦Ÿà§à¦¯à¦¾à¦¨à§à¦Ÿ (Ï„)',
   'params.zeta': 'à¦¡à§à¦¯à¦¾à¦®à§à¦ªà¦¿à¦‚ (Î¶)',
   'params.wn': 'à¦¨à§à¦¯à¦¾à¦šà¦¾à¦°à¦¾à¦² à¦«à§à¦°à¦¿à¦•à§‹à¦¯à¦¼à§‡à¦¨à§à¦¸à¦¿ (Ï‰n)',
+  'labels.overdampedPlant': 'Overdamped Plant',
+  'labels.deadTime': 'Dead Time (L)',
+  'labels.timeConstant': 'Time Constant (T)',
+  'labels.controller': 'Controller',
   'fingerprint.stable': 'Stable',
   'fingerprint.unstable': 'Unstable',
   'fingerprint.underdamped': 'Underdamped',
   'fingerprint.overdamped': 'Overdamped',
   'fingerprint.criticallyDamped': 'Critically Damped',
-  'errors.toolNotFound': 'à¦Ÿà§à¦² à¦ªà¦¾à¦“à¦¯à¦¼à¦¾ à¦¯à¦¾à¦¯à¦¼à¦¨à¦¿à¥¤',
+  'errors.toolNotFound': 'à¦Ÿà§à¦² à¦ªà¦¾à¦“à¦¯à¦¼à¦¾ à¦¯à¦¾à¦¯à¦¼à¦¨à¦¿à¥¤'
+,
   'presets.pid.cruiseControl': 'Automotive Cruise Control',
   'presets.pid.quadcopter': 'Quadcopter Roll Axis',
   'presets.massSpring.suspension': 'Car Suspension',
@@ -168,6 +174,8 @@ export const bn: Record<TranslationKey, string> = {
   'tools.signal.desc': 'Step, Ramp ??? Impulse ?????????????????? ??????????????? ???????????????????????? ??????????????? ?????????',
   'tools.leadLag.title': 'Lead/Lag Compensator',
   'tools.leadLag.desc': 'Stability margin ???????????? ?????? ?????????????????? ????????????????????? shape ?????????',
+  'tools.zieglerNichols.title': 'Ziegler-Nichols Autotuner',
+  'tools.zieglerNichols.desc': 'ওপেন-লুপ রিঅ্যাকশন কার্ভ বিশ্লেষণের মাধ্যমে PID প্যারামিটার নির্ণয় করুন।',
   'category.frequencyDomain': 'Frequency Domain',
   'category.analysis': 'Analysis & Ecosystem'
 };

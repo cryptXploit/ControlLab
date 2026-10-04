@@ -29,6 +29,7 @@ import { useTransferFunctionStore } from '@/store/useTransferFunctionStore';
 import { useMassSpringStore } from '@/store/useMassSpringStore';
 import { useSignalStore } from '@/store/useSignalStore';
 import { useLeadLagStore } from '@/store/useLeadLagStore';
+import { useZieglerNicholsStore } from '@/store/useZieglerNicholsStore';
 
 export default function App() {
   useBannerAd();
@@ -50,7 +51,8 @@ export default function App() {
                     useTransferFunctionStore.getState().isDirty ||
                     useMassSpringStore.getState().isDirty ||
                     useSignalStore.getState().isDirty ||
-                    useLeadLagStore.getState().isDirty;
+                    useLeadLagStore.getState().isDirty ||
+                    useZieglerNicholsStore.getState().isDirty;
     if (isDirty) {
       setPendingRoute(path);
       setIsWarningOpen(true);
@@ -75,6 +77,7 @@ export default function App() {
     useMassSpringStore.getState().markClean();
     useSignalStore.getState().markClean();
     useLeadLagStore.getState().markClean();
+    useZieglerNicholsStore.getState().markClean();
     setIsWarningOpen(false);
     
     AdPolicy.registerTransition();

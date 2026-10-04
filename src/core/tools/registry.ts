@@ -28,6 +28,7 @@ const TransferFunctionLab = lazy(() => import('@/features/labs/TransferFunctionL
 const MassSpringLab = lazy(() => import('@/features/labs/MassSpringLab'));
 const SignalLab = lazy(() => import('@/features/labs/SignalLab'));
 const LeadLagLab = lazy(() => import('@/features/labs/LeadLagLab'));
+const ZieglerNicholsLab = lazy(() => import('@/features/labs/ZieglerNicholsLab'));
 
 export const TOOL_REGISTRY: ToolDefinition[] = [
   {
@@ -173,5 +174,13 @@ export const TOOL_REGISTRY: ToolDefinition[] = [
     categoryKey: 'category.controllers',
     route: '/labs/lead-lag',
     component: LeadLagLab
+  },
+  {
+    id: 'zieglerNichols',
+    titleKey: 'tools.zieglerNichols.title',
+    descKey: 'tools.zieglerNichols.desc',
+    categoryKey: 'category.controllers',
+    route: '/labs/ziegler-nichols',
+    component: ZieglerNicholsLab
   }
 ];

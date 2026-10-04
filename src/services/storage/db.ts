@@ -1,6 +1,6 @@
 import Dexie, { type Table } from 'dexie';
 
-export type LabType = 'FIRST_ORDER' | 'SECOND_ORDER' | 'PID' | 'DC_MOTOR' | 'NYQUIST' | 'ROOT_LOCUS' | 'MARGIN' | 'DISTURBANCE' | 'ROUTH' | 'ANTI_WINDUP' | 'TRANSFER_FUNCTION' | 'MASS_SPRING' | 'SIGNAL_RESPONSE' | 'LEAD_LAG';
+export type LabType = 'FIRST_ORDER' | 'SECOND_ORDER' | 'PID' | 'DC_MOTOR' | 'NYQUIST' | 'ROOT_LOCUS' | 'MARGIN' | 'DISTURBANCE' | 'ROUTH' | 'ANTI_WINDUP' | 'TRANSFER_FUNCTION' | 'MASS_SPRING' | 'SIGNAL_RESPONSE' | 'LEAD_LAG' | 'ZIEGLER_NICHOLS';
 
 export interface Project {
   id: string;
