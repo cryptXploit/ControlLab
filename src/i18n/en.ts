@@ -40,6 +40,8 @@ export const en = {
   'tools.disturbance.desc': 'Analyze PID recovery from external load disturbances.',
   'tools.routh.title': 'Routh-Hurwitz',
   'tools.routh.desc': 'Algebraic stability analysis via characteristic polynomials.',
+  'tools.antiWindup.title': 'Anti-Windup Inspector',
+  'tools.antiWindup.desc': 'Analyze actuator saturation and integral windup prevention.',
   'category.frequencyDomain': 'Frequency Domain',
   'category.analysis': 'Analysis & Ecosystem',
   'metrics.riseTime': 'Rise Time',

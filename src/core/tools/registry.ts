@@ -23,6 +23,7 @@ const CompareLab = lazy(() => import('@/features/labs/CompareLab'));
 const SweepLab = lazy(() => import('@/features/labs/SweepLab'));
 const DisturbanceLab = lazy(() => import('@/features/labs/DisturbanceLab'));
 const RouthLab = lazy(() => import('@/features/labs/RouthLab'));
+const AntiWindupLab = lazy(() => import('@/features/labs/AntiWindupLab'));
 
 export const TOOL_REGISTRY: ToolDefinition[] = [
   {
@@ -128,5 +129,13 @@ export const TOOL_REGISTRY: ToolDefinition[] = [
     categoryKey: 'category.analysis',
     route: '/labs/routh',
     component: RouthLab
+  },
+  {
+    id: 'antiWindup',
+    titleKey: 'tools.antiWindup.title',
+    descKey: 'tools.antiWindup.desc',
+    categoryKey: 'category.controllers',
+    route: '/labs/anti-windup',
+    component: AntiWindupLab
   }
 ];

@@ -24,6 +24,7 @@ import { useNyquistStore } from '@/store/useNyquistStore';
 import { useMarginStore } from '@/store/useMarginStore';
 import { useDisturbanceStore } from '@/store/useDisturbanceStore';
 import { useRouthStore } from '@/store/useRouthStore';
+import { useAntiWindupStore } from '@/store/useAntiWindupStore';
 
 export default function App() {
   useBannerAd();
@@ -40,7 +41,8 @@ export default function App() {
                     useMarginStore.getState().isDirty ||
                     useDCMotorStore.getState().isDirty ||
                     useDisturbanceStore.getState().isDirty ||
-                    useRouthStore.getState().isDirty;
+                    useRouthStore.getState().isDirty ||
+                    useAntiWindupStore.getState().isDirty;
     if (isDirty) {
       setPendingRoute(path);
       setIsWarningOpen(true);
@@ -60,6 +62,7 @@ export default function App() {
     useMarginStore.getState().markClean();
     useDisturbanceStore.getState().markClean();
     useRouthStore.getState().markClean();
+    useAntiWindupStore.getState().markClean();
     setIsWarningOpen(false);
     
     AdPolicy.registerTransition();

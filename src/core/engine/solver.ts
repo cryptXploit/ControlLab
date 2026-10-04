@@ -309,3 +309,96 @@ export function simulateDisturbanceRejection(
     }
   };
 }
+
+export function simulateWindupComparison(
+  Kp: number,
+  Ki: number,
+  Kd: number,
+  satLimit: number,
+  duration: number,
+  stepSize: number
+) {
+  const numSteps = Math.ceil(duration / stepSize) + 1;
+  const time = new Float32Array(numSteps);
+  const responseWindup = new Float32Array(numSteps);
+  const responseAntiWindup = new Float32Array(numSteps);
+  const setpointArr = new Float32Array(numSteps);
+
+  const setpoint = 1.0;
+  
+  // State for Windup (No anti-windup)
+  let yw = 0, yw_vel = 0, int_w = 0, prev_err_w = setpoint;
+  
+  // State for Anti-Windup (Clamping)
+  let yaw = 0, yaw_vel = 0, int_aw = 0, prev_err_aw = setpoint;
+
+  for (let i = 0; i < numSteps; i++) {
+    time[i] = i * stepSize;
+    setpointArr[i] = setpoint;
+
+    // --- Windup System ---
+    const err_w = setpoint - yw;
+    int_w += err_w * stepSize;
+    const der_w = (err_w - prev_err_w) / stepSize;
+    const uw_raw = Kp * err_w + Ki * int_w + Kd * der_w;
+    // Bounded actuator
+    let vw = uw_raw;
+    if (vw > satLimit) vw = satLimit;
+    if (vw < -satLimit) vw = -satLimit;
+    
+    // Plant: 1 / (s^2 + 2s + 1)
+    const yw_accel = vw - 2.0 * yw_vel - yw;
+    yw_vel += yw_accel * stepSize;
+    yw += yw_vel * stepSize;
+    
+    responseWindup[i] = yw;
+    prev_err_w = err_w;
+
+    // --- Anti-Windup System ---
+    const err_aw = setpoint - yaw;
+    const der_aw = (err_aw - prev_err_aw) / stepSize;
+    
+    // Tentative control effort
+    const P_aw = Kp * err_aw;
+    const I_aw = Ki * int_aw;
+    const D_aw = Kd * der_aw;
+    const uaw_raw = P_aw + I_aw + D_aw;
+    
+    // Clamping logic
+    let isSaturated = false;
+    if (uaw_raw >= satLimit && err_aw > 0) isSaturated = true;
+    if (uaw_raw <= -satLimit && err_aw < 0) isSaturated = true;
+    
+    if (!isSaturated) {
+      int_aw += err_aw * stepSize;
+    }
+    
+    // Recalculate uaw_raw just in case int_aw was updated
+    const uaw_actual = P_aw + (Ki * int_aw) + D_aw;
+    
+    let vaw = uaw_actual;
+    if (vaw > satLimit) vaw = satLimit;
+    if (vaw < -satLimit) vaw = -satLimit;
+    
+    const yaw_accel = vaw - 2.0 * yaw_vel - yaw;
+    yaw_vel += yaw_accel * stepSize;
+    yaw += yaw_vel * stepSize;
+    
+    responseAntiWindup[i] = yaw;
+    prev_err_aw = err_aw;
+  }
+
+  // Calculate simple metrics for display
+  const metrics = {
+    windupSSE: Math.abs(setpoint - responseWindup[numSteps - 1]),
+    antiWindupSSE: Math.abs(setpoint - responseAntiWindup[numSteps - 1])
+  };
+
+  return {
+    time,
+    responseWindup,
+    responseAntiWindup,
+    setpoint: setpointArr,
+    metrics
+  };
+}
