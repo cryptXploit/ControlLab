@@ -8,12 +8,13 @@ import { Button } from '@/components/ui/Button';
 interface GraphProps {
   time: Float32Array;
   output: Float32Array;
+  outputB?: Float32Array;
   setpoint?: Float32Array;
   mode?: 1 | 2; // 1 = aligned time series (default), 2 = parametric XY
   criticalPoint?: { x: number; y: number };
 }
 
-export default function Graph({ time, output, setpoint, mode = 1, criticalPoint }: GraphProps) {
+export default function Graph({ time, output, outputB, setpoint, mode = 1, criticalPoint }: GraphProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const plotRef = useRef<uPlot | null>(null);
   const { theme } = useThemeStore();
@@ -39,6 +40,13 @@ export default function Graph({ time, output, setpoint, mode = 1, criticalPoint 
           width: 2
         }
       ];
+
+      if (outputB) {
+        seriesOptions.push({
+          stroke: getColor('--graph-secondary', '#f59e0b'), // Amber color for secondary curve
+          width: 2
+        });
+      }
 
       if (setpoint) {
         seriesOptions.push({
@@ -90,6 +98,10 @@ export default function Graph({ time, output, setpoint, mode = 1, criticalPoint 
         Array.from(time),
         Array.from(output)
       ];
+      
+      if (outputB) {
+        data.push(Array.from(outputB));
+      }
 
       if (setpoint) {
         data.push(Array.from(setpoint));
@@ -102,7 +114,7 @@ export default function Graph({ time, output, setpoint, mode = 1, criticalPoint 
       plotRef.current = new uPlot(options, data as uPlot.AlignedData, containerRef.current!);
     };
 
-    // Initialize or Reinitialize when theme / setpoint presence changes
+    // Initialize or Reinitialize when theme / setpoint / outputB presence changes
     setTimeout(initChart, 50);
 
     return () => {
@@ -111,16 +123,17 @@ export default function Graph({ time, output, setpoint, mode = 1, criticalPoint 
         plotRef.current = null;
       }
     };
-  }, [theme, !!setpoint]); 
+  }, [theme, !!setpoint, !!outputB]); 
 
   useEffect(() => {
     if (plotRef.current) {
       const data: any[] = [Array.from(time), Array.from(output)];
+      if (outputB) data.push(Array.from(outputB));
       if (setpoint) data.push(Array.from(setpoint));
       plotRef.current.setData(data as uPlot.AlignedData);
       setIsZoomed(false);
     }
-  }, [time, output, setpoint]);
+  }, [time, output, outputB, setpoint]);
 
   useEffect(() => {
     if (!containerRef.current) return;
@@ -145,6 +158,7 @@ export default function Graph({ time, output, setpoint, mode = 1, criticalPoint 
   const handleResetZoom = () => {
     if (!plotRef.current) return;
     const data: any[] = [Array.from(time), Array.from(output)];
+    if (outputB) data.push(Array.from(outputB));
     if (setpoint) data.push(Array.from(setpoint));
     plotRef.current.setData(data as uPlot.AlignedData);
     setIsZoomed(false);

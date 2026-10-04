@@ -19,6 +19,7 @@ const PoleZeroLab = lazy(() => import('@/features/labs/PoleZeroLab'));
 const NyquistLab = lazy(() => import('@/features/labs/NyquistLab'));
 const RootLocusLab = lazy(() => import('@/features/labs/RootLocusLab'));
 const MarginLab = lazy(() => import('@/features/labs/MarginLab'));
+const CompareLab = lazy(() => import('@/features/labs/CompareLab'));
 
 export const TOOL_REGISTRY: ToolDefinition[] = [
   {
@@ -92,5 +93,13 @@ export const TOOL_REGISTRY: ToolDefinition[] = [
     categoryKey: 'category.systems',
     route: '/labs/dc-motor',
     component: DCMotorLab
+  },
+  {
+    id: 'compare',
+    titleKey: 'tools.compare.title',
+    descKey: 'tools.compare.desc',
+    categoryKey: 'category.analysis',
+    route: '/labs/compare',
+    component: CompareLab
   }
 ];

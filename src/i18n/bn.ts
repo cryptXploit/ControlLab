@@ -140,5 +140,8 @@ export const bn: Record<TranslationKey, string> = {
   'tools.margin.desc': 'Gain ????????? Phase margin ?????????????????????????????? ?????????',
   'tools.rootLocus.title': 'Root Locus',
   'tools.rootLocus.desc': 'Track pole trajectories as proportional gain varies.',
-  'category.frequencyDomain': 'Frequency Domain'
+  'tools.compare.title': 'Experiment Compare',
+  'tools.compare.desc': 'Superimpose and compare two saved experiments.',
+  'category.frequencyDomain': 'Frequency Domain',
+  'category.analysis': 'Analysis & Ecosystem'
 };
