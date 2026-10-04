@@ -1,5 +1,8 @@
 import { useEffect, useState } from 'react';
 import { Route, Switch, useLocation } from 'wouter';
+import { AdService } from '@/services/ads/AdService';
+import { AdPolicy } from '@/services/ads/AdPolicy';
+import { useBannerAd } from '@/hooks/useBannerAd';
 import { ConfirmDialog } from '@/components/ui/ConfirmDialog';
 import { useFirstOrderStore } from '@/store/useFirstOrderStore';
 import { useSecondOrderStore } from '@/store/useSecondOrderStore';
@@ -18,6 +21,7 @@ import { Home, FlaskConical, Target, Folder, Settings } from 'lucide-react';
 import { ToastContainer } from '@/components/ui/ToastContainer';
 
 export default function App() {
+  useBannerAd();
   const { t } = useTranslation();
   const [location, setLocation] = useLocation();
   const [pendingRoute, setPendingRoute] = useState<string | null>(null);
@@ -32,6 +36,8 @@ export default function App() {
       setPendingRoute(path);
       setIsWarningOpen(true);
     } else {
+      AdPolicy.registerTransition();
+      AdService.showInterstitial('navigation');
       setLocation(path);
     }
   };
@@ -42,6 +48,10 @@ export default function App() {
     usePidStore.getState().markClean();
     useDCMotorStore.getState().markClean();
     setIsWarningOpen(false);
+    
+    AdPolicy.registerTransition();
+    AdService.showInterstitial('navigation');
+    
     if (pendingRoute) setLocation(pendingRoute);
   };
 

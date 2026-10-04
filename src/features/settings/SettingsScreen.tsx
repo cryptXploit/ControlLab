@@ -149,16 +149,30 @@ export default function SettingsScreen() {
           </li>
         </ul>
 
-        {!isPro ? (
-          <button
-            onClick={handleUpgrade}
-            className="w-full py-3 bg-accent-primary text-white rounded-lg font-bold shadow-md hover:shadow-lg hover:opacity-95 transition-all active:scale-[0.98] relative z-10"
-          >
-            Unlock Pro
-          </button>
+        {import.meta.env.DEV ? (
+          <div className="mt-4 p-4 border-2 border-dashed border-status-warning rounded-lg relative z-10 bg-background-base">
+            <h3 className="text-xs font-bold text-status-warning uppercase mb-2">Dev Entitlement Simulator</h3>
+            <button
+              onClick={handleUpgrade}
+              className={`w-full py-2 rounded-lg font-bold transition-all ${!isPro ? 'bg-accent-primary text-white' : 'bg-status-error text-white'}`}
+            >
+              {isPro ? 'Revoke Pro (Test)' : 'Grant Pro (Test)'}
+            </button>
+          </div>
         ) : (
-          <div className="w-full py-3 bg-status-success/10 border border-status-success/20 text-status-success rounded-lg font-bold text-center relative z-10">
-            Pro Active 🎉
+          <div className="mt-4 relative z-10">
+            {!isPro ? (
+              <button
+                className="w-full py-3 bg-accent-primary text-white rounded-lg font-bold shadow-md hover:shadow-lg hover:opacity-95 transition-all active:scale-[0.98]"
+                onClick={() => window.alert('Google Play Billing not yet implemented')}
+              >
+                Upgrade to Pro
+              </button>
+            ) : (
+              <div className="w-full py-3 bg-status-success/10 border border-status-success/20 text-status-success rounded-lg font-bold text-center">
+                Pro Active 🎉
+              </div>
+            )}
           </div>
         )}
       </div>
