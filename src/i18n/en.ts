@@ -42,6 +42,8 @@ export const en = {
   'tools.routh.desc': 'Algebraic stability analysis via characteristic polynomials.',
   'tools.antiWindup.title': 'Anti-Windup Inspector',
   'tools.antiWindup.desc': 'Analyze actuator saturation and integral windup prevention.',
+  'tools.transferFunction.title': 'Transfer Function Explorer',
+  'tools.transferFunction.desc': 'Analyze arbitrary systems via polynomial coefficients.',
   'category.frequencyDomain': 'Frequency Domain',
   'category.analysis': 'Analysis & Ecosystem',
   'metrics.riseTime': 'Rise Time',

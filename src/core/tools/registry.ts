@@ -24,6 +24,7 @@ const SweepLab = lazy(() => import('@/features/labs/SweepLab'));
 const DisturbanceLab = lazy(() => import('@/features/labs/DisturbanceLab'));
 const RouthLab = lazy(() => import('@/features/labs/RouthLab'));
 const AntiWindupLab = lazy(() => import('@/features/labs/AntiWindupLab'));
+const TransferFunctionLab = lazy(() => import('@/features/labs/TransferFunctionLab'));
 
 export const TOOL_REGISTRY: ToolDefinition[] = [
   {
@@ -137,5 +138,13 @@ export const TOOL_REGISTRY: ToolDefinition[] = [
     categoryKey: 'category.controllers',
     route: '/labs/anti-windup',
     component: AntiWindupLab
+  },
+  {
+    id: 'transferFunction',
+    titleKey: 'tools.transferFunction.title',
+    descKey: 'tools.transferFunction.desc',
+    categoryKey: 'category.frequencyDomain',
+    route: '/labs/transfer-function',
+    component: TransferFunctionLab
   }
 ];

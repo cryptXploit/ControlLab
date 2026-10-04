@@ -65,3 +65,64 @@ export function calculateMargins(wArr: Float32Array, magDbArr: Float32Array, pha
 
   return { w_gc, w_pc, GM, PM };
 }
+
+export function calculateTransferFunctionFrequencyResponse(
+  numCoeffs: number[], 
+  denCoeffs: number[], 
+  wArr: Float32Array
+) {
+  const N = wArr.length;
+  const magDbArr = new Float32Array(N);
+  const phaseDegArr = new Float32Array(N);
+  const realArr = new Float32Array(N);
+  const imagArr = new Float32Array(N);
+  
+  const m = numCoeffs.length - 1;
+  const n = denCoeffs.length - 1;
+
+  const cNum = [...numCoeffs].reverse();
+  const cDen = [...denCoeffs].reverse();
+
+  for (let i = 0; i < N; i++) {
+    const w = wArr[i];
+    
+    let numRe = 0, numIm = 0;
+    for (let k = 0; k <= m; k++) {
+      const val = cNum[k] * Math.pow(w, k);
+      if (k % 4 === 0) numRe += val;
+      else if (k % 4 === 1) numIm += val;
+      else if (k % 4 === 2) numRe -= val;
+      else if (k % 4 === 3) numIm -= val;
+    }
+
+    let denRe = 0, denIm = 0;
+    for (let k = 0; k <= n; k++) {
+      const val = cDen[k] * Math.pow(w, k);
+      if (k % 4 === 0) denRe += val;
+      else if (k % 4 === 1) denIm += val;
+      else if (k % 4 === 2) denRe -= val;
+      else if (k % 4 === 3) denIm -= val;
+    }
+
+    let magD2 = denRe * denRe + denIm * denIm;
+    if (magD2 === 0) magD2 = 1e-10;
+
+    const gRe = (numRe * denRe + numIm * denIm) / magD2;
+    const gIm = (numIm * denRe - numRe * denIm) / magD2;
+    
+    realArr[i] = gRe;
+    imagArr[i] = gIm;
+
+    const mag = Math.sqrt(gRe * gRe + gIm * gIm) || 1e-10;
+    magDbArr[i] = 20 * Math.log10(mag);
+    phaseDegArr[i] = Math.atan2(gIm, gRe) * (180 / Math.PI);
+  }
+
+  // Basic phase unwrapping
+  for (let i = 1; i < N; i++) {
+    while (phaseDegArr[i] - phaseDegArr[i - 1] > 180) phaseDegArr[i] -= 360;
+    while (phaseDegArr[i] - phaseDegArr[i - 1] < -180) phaseDegArr[i] += 360;
+  }
+
+  return { magDbArr, phaseDegArr, realArr, imagArr };
+}
