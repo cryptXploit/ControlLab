@@ -4,10 +4,18 @@ export const ProjectSchema = z.object({
   id: z.string(),
   name: z.string(),
   labType: z.enum(['FIRST_ORDER', 'SECOND_ORDER', 'PID', 'DC_MOTOR', 'NYQUIST', 'ROOT_LOCUS', 'MARGIN', 'DISTURBANCE', 'ROUTH', 'ANTI_WINDUP', 'TRANSFER_FUNCTION', 'MASS_SPRING', 'SIGNAL_RESPONSE', 'LEAD_LAG']),
-  parameters: z.record(z.string(), z.number()),
+  parameters: z.record(z.string(), z.union([z.number(), z.string()])),
   notes: z.string().optional(),
   createdAt: z.number(),
   updatedAt: z.number(),
+  fingerprint: z.object({
+    typeKey: z.string().optional(),
+    metrics: z.array(z.object({
+      labelKey: z.string(),
+      value: z.union([z.number(), z.string()]),
+      unit: z.string().optional(),
+    })).optional(),
+  }).optional(),
 });
 
 export const HistorySchema = z.object({

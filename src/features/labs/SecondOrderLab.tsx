@@ -35,11 +35,25 @@ export default function SecondOrderLab() {
   };
 
   const confirmSave = async (projectName: string) => {
+    let typeKey = 'fingerprint.stable';
+    if (zeta < 1) typeKey = 'fingerprint.underdamped';
+    else if (zeta > 1) typeKey = 'fingerprint.overdamped';
+    else typeKey = 'fingerprint.criticallyDamped';
+
+    const fingerprint = {
+      typeKey,
+      metrics: result ? [
+        { labelKey: 'metrics.overshoot', value: result.metrics.overshoot.toFixed(1), unit: '%' },
+        { labelKey: 'metrics.settlingTime', value: result.metrics.settlingTime.toFixed(2), unit: 's' }
+      ] : []
+    };
+
     await addProject(
       projectName,
       'SECOND_ORDER',
       { K, zeta, wn },
-      (t as any)(explanation.whyKey)
+      (t as any)(explanation.whyKey),
+      fingerprint
     );
     HapticService.triggerSuccess();
     useToastStore.getState().showToast((t as any)('messages.projectSaved'), 'success');

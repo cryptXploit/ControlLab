@@ -68,6 +68,20 @@ export default function ProjectsScreen() {
                     {project.notes}
                   </p>
                 )}
+                {project.fingerprint && (
+                  <div className="flex flex-wrap gap-2 mt-3 pt-2">
+                    {project.fingerprint.typeKey && (
+                      <span className="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-semibold bg-background-elevated text-text-primary border border-border-subtle shadow-sm">
+                        {(t as any)(project.fingerprint.typeKey)}
+                      </span>
+                    )}
+                    {project.fingerprint.metrics?.map((metric, idx) => (
+                      <span key={idx} className="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-medium bg-background-base text-text-secondary border border-border-subtle">
+                        {(t as any)(metric.labelKey)}: <strong className="ml-1 text-text-primary">{metric.value}{metric.unit}</strong>
+                      </span>
+                    ))}
+                  </div>
+                )}
               </div>
               
               <div className="flex items-center justify-end gap-2 w-full pt-3 border-t border-border-subtle">

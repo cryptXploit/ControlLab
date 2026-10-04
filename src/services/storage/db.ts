@@ -6,10 +6,18 @@ export interface Project {
   id: string;
   name: string;
   labType: LabType;
-  parameters: Record<string, number>;
+  parameters: Record<string, number | string>;
   notes?: string;
   createdAt: number;
   updatedAt: number;
+  fingerprint?: {
+    typeKey?: string;
+    metrics?: {
+      labelKey: string;
+      value: string | number;
+      unit?: string;
+    }[];
+  };
 }
 
 export interface ExperimentHistory {

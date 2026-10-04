@@ -10,8 +10,9 @@ interface ProjectState {
   addProject: (
     name: string,
     labType: LabType,
-    parameters: Record<string, number>,
-    notes?: string
+    parameters: Record<string, number | string>,
+    notes?: string,
+    fingerprint?: Project['fingerprint']
   ) => Promise<void>;
   removeProject: (id: string) => Promise<void>;
 }
@@ -40,9 +41,9 @@ export const useProjectStore = create<ProjectState>((set) => ({
     }
   },
 
-  addProject: async (name, labType, parameters, notes) => {
+  addProject: async (name, labType, parameters, notes, fingerprint) => {
     try {
-      const newProject = await projectService.createProject(name, labType, parameters, notes);
+      const newProject = await projectService.createProject(name, labType, parameters, notes, fingerprint);
       set((state) => ({
         projects: [newProject, ...state.projects]
       }));

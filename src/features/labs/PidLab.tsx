@@ -43,11 +43,23 @@ export default function PidLab() {
   };
 
   const confirmSave = async (projectName: string) => {
+    let typeKey = 'fingerprint.stable';
+    if (result && result.metrics.overshoot > 5) typeKey = 'fingerprint.underdamped';
+
+    const fingerprint = {
+      typeKey,
+      metrics: result ? [
+        { labelKey: 'metrics.steadyStateError', value: result.metrics.steadyStateError.toFixed(2) },
+        { labelKey: 'metrics.overshoot', value: result.metrics.overshoot.toFixed(1), unit: '%' }
+      ] : []
+    };
+
     await addProject(
       projectName,
       'PID',
       { Kp, Ki, Kd, setpoint },
-      (t as any)(explanation.whyKey)
+      (t as any)(explanation.whyKey),
+      fingerprint
     );
     HapticService.triggerSuccess();
     useToastStore.getState().showToast((t as any)('messages.projectSaved'), 'success');

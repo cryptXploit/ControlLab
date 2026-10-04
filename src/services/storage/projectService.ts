@@ -4,15 +4,17 @@ export const projectService = {
   async createProject(
     name: string,
     labType: LabType,
-    parameters: Record<string, number>,
-    notes?: string
+    parameters: Record<string, number | string>,
+    notes?: string,
+    fingerprint?: Project['fingerprint']
   ): Promise<Project> {
     const newProject: Project = {
       id: crypto.randomUUID(),
       name,
       labType,
-      parameters,
+      parameters: parameters as any,
       notes,
+      fingerprint,
       createdAt: Date.now(),
       updatedAt: Date.now(),
     };

@@ -40,20 +40,20 @@ export default function CompareLab() {
 
     switch (domain) {
       case 'FIRST_ORDER':
-        resA = simulateFirstOrderStep(projA.parameters.K || 1, projA.parameters.tau || 1, duration, stepSize);
-        resB = simulateFirstOrderStep(projB.parameters.K || 1, projB.parameters.tau || 1, duration, stepSize);
+        resA = simulateFirstOrderStep(Number(projA.parameters.K) || 1, Number(projA.parameters.tau) || 1, duration, stepSize);
+        resB = simulateFirstOrderStep(Number(projB.parameters.K) || 1, Number(projB.parameters.tau) || 1, duration, stepSize);
         break;
       case 'SECOND_ORDER':
-        resA = simulateSecondOrderStep(projA.parameters.K || 1, projA.parameters.zeta || 0.5, projA.parameters.wn || 10, duration, stepSize);
-        resB = simulateSecondOrderStep(projB.parameters.K || 1, projB.parameters.zeta || 0.5, projB.parameters.wn || 10, duration, stepSize);
+        resA = simulateSecondOrderStep(Number(projA.parameters.K) || 1, Number(projA.parameters.zeta) || 0.5, Number(projA.parameters.wn) || 10, duration, stepSize);
+        resB = simulateSecondOrderStep(Number(projB.parameters.K) || 1, Number(projB.parameters.zeta) || 0.5, Number(projB.parameters.wn) || 10, duration, stepSize);
         break;
       case 'PID':
-        resA = simulatePIDStep(projA.parameters.Kp || 1, projA.parameters.Ki || 0, projA.parameters.Kd || 0, 1, duration, stepSize);
-        resB = simulatePIDStep(projB.parameters.Kp || 1, projB.parameters.Ki || 0, projB.parameters.Kd || 0, 1, duration, stepSize);
+        resA = simulatePIDStep(Number(projA.parameters.Kp) || 1, Number(projA.parameters.Ki) || 0, Number(projA.parameters.Kd) || 0, 1, duration, stepSize);
+        resB = simulatePIDStep(Number(projB.parameters.Kp) || 1, Number(projB.parameters.Ki) || 0, Number(projB.parameters.Kd) || 0, 1, duration, stepSize);
         break;
       case 'DC_MOTOR':
-        resA = simulateDCMotor(projA.parameters.Kp || 1, projA.parameters.Kd || 0, 1, duration, stepSize);
-        resB = simulateDCMotor(projB.parameters.Kp || 1, projB.parameters.Kd || 0, 1, duration, stepSize);
+        resA = simulateDCMotor(Number(projA.parameters.Kp) || 1, Number(projA.parameters.Kd) || 0, 1, duration, stepSize);
+        resB = simulateDCMotor(Number(projB.parameters.Kp) || 1, Number(projB.parameters.Kd) || 0, 1, duration, stepSize);
         break;
     }
 
