@@ -18,6 +18,7 @@ const BodeLab = lazy(() => import('@/features/labs/BodeLab'));
 const PoleZeroLab = lazy(() => import('@/features/labs/PoleZeroLab'));
 const NyquistLab = lazy(() => import('@/features/labs/NyquistLab'));
 const RootLocusLab = lazy(() => import('@/features/labs/RootLocusLab'));
+const MarginLab = lazy(() => import('@/features/labs/MarginLab'));
 
 export const TOOL_REGISTRY: ToolDefinition[] = [
   {
@@ -59,6 +60,14 @@ export const TOOL_REGISTRY: ToolDefinition[] = [
     categoryKey: 'category.frequencyDomain',
     route: '/labs/nyquist',
     component: NyquistLab
+  },
+  {
+    id: 'margin',
+    titleKey: 'tools.margin.title',
+    descKey: 'tools.margin.desc',
+    categoryKey: 'category.frequencyDomain',
+    route: '/labs/margin',
+    component: MarginLab
   },
   {
     id: 'root-locus',

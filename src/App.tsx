@@ -21,6 +21,7 @@ import { Home, FlaskConical, Target, Folder, Settings } from 'lucide-react';
 import { ToastContainer } from '@/components/ui/ToastContainer';
 
 import { useNyquistStore } from '@/store/useNyquistStore';
+import { useMarginStore } from '@/store/useMarginStore';
 
 export default function App() {
   useBannerAd();
@@ -34,6 +35,7 @@ export default function App() {
                     useSecondOrderStore.getState().isDirty || 
                     usePidStore.getState().isDirty || 
                     useNyquistStore.getState().isDirty ||
+                    useMarginStore.getState().isDirty ||
                     useDCMotorStore.getState().isDirty;
     if (isDirty) {
       setPendingRoute(path);
@@ -51,6 +53,7 @@ export default function App() {
     usePidStore.getState().markClean();
     useDCMotorStore.getState().markClean();
     useNyquistStore.getState().markClean();
+    useMarginStore.getState().markClean();
     setIsWarningOpen(false);
     
     AdPolicy.registerTransition();

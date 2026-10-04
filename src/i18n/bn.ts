@@ -136,6 +136,8 @@ export const bn: Record<TranslationKey, string> = {
   'tools.poleZero.desc': 'Analyze system stability on the complex s-plane.',
   'tools.nyquist.title': 'Nyquist Plot',
   'tools.nyquist.desc': 'Analyze closed-loop stability via frequency domain contours.',
+  'tools.margin.title': 'Stability Margins',
+  'tools.margin.desc': 'Gain ????????? Phase margin ?????????????????????????????? ?????????',
   'tools.rootLocus.title': 'Root Locus',
   'tools.rootLocus.desc': 'Track pole trajectories as proportional gain varies.',
   'category.frequencyDomain': 'Frequency Domain'
