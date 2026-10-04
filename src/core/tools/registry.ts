@@ -22,6 +22,7 @@ const MarginLab = lazy(() => import('@/features/labs/MarginLab'));
 const CompareLab = lazy(() => import('@/features/labs/CompareLab'));
 const SweepLab = lazy(() => import('@/features/labs/SweepLab'));
 const DisturbanceLab = lazy(() => import('@/features/labs/DisturbanceLab'));
+const RouthLab = lazy(() => import('@/features/labs/RouthLab'));
 
 export const TOOL_REGISTRY: ToolDefinition[] = [
   {
@@ -119,5 +120,13 @@ export const TOOL_REGISTRY: ToolDefinition[] = [
     categoryKey: 'category.timeDomain',
     route: '/labs/disturbance',
     component: DisturbanceLab
+  },
+  {
+    id: 'routh',
+    titleKey: 'tools.routh.title',
+    descKey: 'tools.routh.desc',
+    categoryKey: 'category.analysis',
+    route: '/labs/routh',
+    component: RouthLab
   }
 ];

@@ -38,6 +38,8 @@ export const en = {
   'tools.sweep.desc': 'Analyze sensitivity by sweeping a parameter across a range.',
   'tools.disturbance.title': 'Disturbance Rejection',
   'tools.disturbance.desc': 'Analyze PID recovery from external load disturbances.',
+  'tools.routh.title': 'Routh-Hurwitz',
+  'tools.routh.desc': 'Algebraic stability analysis via characteristic polynomials.',
   'category.frequencyDomain': 'Frequency Domain',
   'category.analysis': 'Analysis & Ecosystem',
   'metrics.riseTime': 'Rise Time',
