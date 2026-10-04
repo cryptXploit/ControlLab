@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react';
+import { useRef, useState, useEffect } from 'react';
 import { useDCMotorStore } from '@/store/useDCMotorStore';
 import { useProjectStore } from '@/store/useProjectStore';
 import { useChallengeStore } from '@/store/useChallengeStore';
@@ -29,6 +29,12 @@ export default function DCMotorLab() {
   const motorRef = useRef<HTMLDivElement>(null);
   const animationRef = useRef<number>(0);
   const startTimeRef = useRef<number>(0);
+
+  useEffect(() => {
+    return () => {
+      if (animationRef.current) cancelAnimationFrame(animationRef.current);
+    };
+  }, []);
 
   const explanation = explainDCMotor(Kp, Kd, result?.metrics.overshoot || 0);
 

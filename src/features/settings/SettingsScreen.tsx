@@ -2,7 +2,7 @@ import DataManagement from '@/features/settings/DataManagement';
 import { useSettingsStore } from '@/store/useSettingsStore';
 import { useTranslation, useLocaleStore } from '@/store/useLocaleStore';
 import { HapticService } from '@/services/haptics/HapticService';
-import { Sparkles, CheckCircle2, Globe, Bell, Monitor, Sun, Moon } from 'lucide-react';
+import { Sparkles, CheckCircle2, Globe, Bell, Monitor, Sun, Moon, Vibrate } from 'lucide-react';
 import { Card, CardHeader } from '@/components/ui/Card';
 import { NotificationService } from '@/services/notifications/NotificationService';
 import { useThemeStore } from '@/store/useThemeStore';
@@ -164,7 +164,7 @@ export default function SettingsScreen() {
       </div>
 
       <Card>
-        <CardHeader title={(t as any)('settings.notifications')} />
+        <CardHeader title={(t as any)('settings.notifications') || 'Preferences'} />
         <div className="p-4 flex flex-col gap-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
@@ -176,6 +176,27 @@ export default function SettingsScreen() {
               className={`w-12 h-6 rounded-full transition-colors relative ${notificationsEnabled ? 'bg-accent-primary' : 'bg-bg-surface border border-border-strong'}`}
             >
               <div className={`absolute top-0.5 w-5 h-5 rounded-full transition-all ${notificationsEnabled ? 'bg-white right-0.5' : 'bg-text-muted left-0.5'}`} />
+            </button>
+          </div>
+          <div className="h-px w-full bg-border-subtle my-2" />
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-2">
+              <Vibrate className="w-5 h-5 text-accent-primary" />
+              <h2 className="text-sm font-semibold text-text-primary">{(t as any)('settings.haptics') || 'Haptic Feedback'}</h2>
+            </div>
+            <button 
+              onClick={() => {
+                useSettingsStore.getState().toggleHaptics();
+                // We use Haptics directly here so we get feedback when turning it ON
+                if (!useSettingsStore.getState().hapticsEnabled) {
+                  if (typeof window !== 'undefined' && window.navigator && window.navigator.vibrate) {
+                    window.navigator.vibrate(10);
+                  }
+                }
+              }}
+              className={`w-12 h-6 rounded-full transition-colors relative ${useSettingsStore.getState().hapticsEnabled ? 'bg-accent-primary' : 'bg-bg-surface border border-border-strong'}`}
+            >
+              <div className={`absolute top-0.5 w-5 h-5 rounded-full transition-all ${useSettingsStore.getState().hapticsEnabled ? 'bg-white right-0.5' : 'bg-text-muted left-0.5'}`} />
             </button>
           </div>
         </div>

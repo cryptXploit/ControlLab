@@ -134,11 +134,13 @@ export default function Graph({ time, output, setpoint }: GraphProps) {
   };
 
   return (
-    <div className="relative w-full h-full flex justify-center items-center">
-      <div 
-        ref={containerRef} 
-        className="w-full h-full min-h-[200px] bg-background-surface overflow-hidden rounded-lg" 
-      />
+    <div className="relative w-full h-full flex justify-center items-center min-h-[200px]">
+      <div className="absolute inset-0">
+        <div 
+          ref={containerRef} 
+          className="w-full h-full bg-background-surface overflow-hidden rounded-lg" 
+        />
+      </div>
       {isZoomed && (
         <div className="absolute top-2 right-2 z-10 animate-in fade-in">
           <Button onClick={handleResetZoom} size="sm" variant="secondary">

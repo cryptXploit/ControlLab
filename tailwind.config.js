@@ -13,6 +13,10 @@ export default {
           surface: 'var(--bg-surface)',
           elevated: 'var(--bg-surface-elevated)',
         },
+        bg: {
+          surface: 'var(--bg-surface)',
+          'surface-elevated': 'var(--bg-surface-elevated)',
+        },
         text: {
           primary: 'var(--text-primary)',
           secondary: 'var(--text-secondary)',

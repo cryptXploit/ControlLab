@@ -1,7 +1,9 @@
 import { Haptics, ImpactStyle } from '@capacitor/haptics';
+import { useSettingsStore } from '@/store/useSettingsStore';
 
 export const HapticService = {
   triggerSelection: async () => {
+    if (!useSettingsStore.getState().hapticsEnabled) return;
     try {
       await Haptics.impact({ style: ImpactStyle.Light });
     } catch (e) {
@@ -11,6 +13,7 @@ export const HapticService = {
     }
   },
   triggerSuccess: async () => {
+    if (!useSettingsStore.getState().hapticsEnabled) return;
     try {
       await Haptics.impact({ style: ImpactStyle.Medium });
       setTimeout(async () => {
@@ -23,6 +26,7 @@ export const HapticService = {
     }
   },
   triggerWarning: async () => {
+    if (!useSettingsStore.getState().hapticsEnabled) return;
     try {
       await Haptics.impact({ style: ImpactStyle.Heavy });
     } catch (e) {

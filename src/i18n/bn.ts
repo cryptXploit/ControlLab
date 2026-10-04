@@ -129,5 +129,10 @@ export const bn: Record<TranslationKey, string> = {
   'challenge.aggressivePid.title': 'অ্যাগ্রেসিভ PID ট্র্যাকিং',
   'challenge.aggressivePid.desc': '0.05 এর নিচে স্টেডি-স্টেট এরর সহ 1.5s এর নিচে সেটলিং টাইম (Settling Time) অর্জন করুন। ওভারশুট গ্রহণযোগ্য রাখুন।',
   'challenge.criticalDamping.title': 'ক্রিটিক্যালি ড্যাম্পড ট্রানজিশন',
-  'challenge.criticalDamping.desc': '2.0s সেটলিং টাইম (Settling Time) অতিক্রম না করে ওভারশুট পুরোপুরি দূর করতে ড্যাম্পিং রেশিও (\u03B6) অ্যাডজাস্ট করুন।'
+  'challenge.criticalDamping.desc': '2.0s সেটলিং টাইম (Settling Time) অতিক্রম না করে ওভারশুট পুরোপুরি দূর করতে ড্যাম্পিং রেশিও (\u03B6) অ্যাডজাস্ট করুন।',
+  'tools.bode.title': 'Bode Plot',
+  'tools.bode.desc': 'Frequency response analysis for second-order systems.',
+  'tools.poleZero.title': 'Pole-Zero Map',
+  'tools.poleZero.desc': 'Analyze system stability on the complex s-plane.',
+  'category.frequencyDomain': 'Frequency Domain'
 };

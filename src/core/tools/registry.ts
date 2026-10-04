@@ -14,6 +14,8 @@ const FirstOrderLab = lazy(() => import('@/features/labs/FirstOrderLab'));
 const SecondOrderLab = lazy(() => import('@/features/labs/SecondOrderLab'));
 const PidLab = lazy(() => import('@/features/labs/PidLab'));
 const DCMotorLab = lazy(() => import('@/features/labs/DCMotorLab'));
+const BodeLab = lazy(() => import('@/features/labs/BodeLab'));
+const PoleZeroLab = lazy(() => import('@/features/labs/PoleZeroLab'));
 
 export const TOOL_REGISTRY: ToolDefinition[] = [
   {
@@ -31,6 +33,22 @@ export const TOOL_REGISTRY: ToolDefinition[] = [
     categoryKey: 'category.timeDomain',
     route: '/labs/second-order',
     component: SecondOrderLab
+  },
+  {
+    id: 'bode',
+    titleKey: 'tools.bode.title',
+    descKey: 'tools.bode.desc',
+    categoryKey: 'category.frequencyDomain',
+    route: '/labs/bode',
+    component: BodeLab
+  },
+  {
+    id: 'pole-zero',
+    titleKey: 'tools.poleZero.title',
+    descKey: 'tools.poleZero.desc',
+    categoryKey: 'category.frequencyDomain',
+    route: '/labs/pole-zero',
+    component: PoleZeroLab
   },
   {
     id: 'pid',

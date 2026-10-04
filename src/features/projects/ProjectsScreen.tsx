@@ -51,9 +51,9 @@ export default function ProjectsScreen() {
           {projects.map((project) => (
             <div 
               key={project.id} 
-              className="flex items-center justify-between p-5 rounded-xl border border-border-subtle bg-bg-surface-elevated shadow-sm hover:shadow-md transition-shadow"
+              className="flex flex-col p-4 rounded-xl border border-border-subtle bg-bg-surface-elevated shadow-sm hover:shadow-md transition-shadow"
             >
-              <div className="text-left flex-1">
+              <div className="text-left w-full mb-3">
                 <h3 className="font-semibold text-lg text-text-primary mb-1">{project.name}</h3>
                 <div className="flex items-center gap-3">
                   <span className="font-mono text-xs bg-bg-base text-accent-primary px-2 py-1 rounded">
@@ -70,19 +70,19 @@ export default function ProjectsScreen() {
                 )}
               </div>
               
-              <div className="flex items-center gap-2 ml-4">
+              <div className="flex items-center justify-end gap-2 w-full pt-3 border-t border-border-subtle">
                 <button
                   onClick={() => handleLoad(project)}
-                  className="flex items-center gap-1.5 px-4 py-2 bg-accent-primary text-white text-sm font-medium rounded-md hover:opacity-90 transition-opacity"
+                  className="flex items-center gap-1.5 px-3 py-1.5 bg-bg-surface border border-border-strong text-text-secondary text-xs font-medium rounded-md hover:text-text-primary hover:border-accent-primary transition-colors"
                 >
-                  <Play className="w-4 h-4" /> Load
+                  <Play className="w-3.5 h-3.5" /> {(t as any)('common.load') || 'Load'}
                 </button>
                 <button
                   onClick={() => setDeleteId(project.id)}
-                  className="p-2 text-text-muted hover:text-status-error hover:bg-status-error/10 rounded-md transition-colors"
+                  className="p-1.5 text-text-muted hover:text-status-error hover:bg-status-error/10 rounded-md transition-colors"
                   aria-label="Delete Project"
                 >
-                  <Trash2 className="w-5 h-5" />
+                  <Trash2 className="w-4 h-4" />
                 </button>
               </div>
             </div>

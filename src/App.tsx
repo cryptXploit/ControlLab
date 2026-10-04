@@ -82,7 +82,7 @@ export default function App() {
         onCancel={() => setIsWarningOpen(false)} 
         isDanger 
       />
-      <main className="flex-1 flex flex-col w-full max-w-screen-xl mx-auto overflow-y-auto pb-20 overflow-x-hidden min-h-0">
+      <main className="flex-1 flex flex-col w-full max-w-screen-xl mx-auto overflow-y-auto pb-[calc(4rem+env(safe-area-inset-bottom))] overflow-x-hidden min-h-0 relative z-0">
         <Switch>
           <Route component={HomeScreen} path="/" />
           <Route component={LabsExplorer} path="/labs" />
@@ -97,7 +97,7 @@ export default function App() {
       </main>
 
       {/* BOTTOM NAVIGATION */}
-      <nav className="fixed bottom-0 w-full bg-background-elevated z-[100] border-t border-border-subtle shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.05)] pb-safe pt-1">
+      <nav className="fixed bottom-0 left-0 right-0 w-full bg-background-elevated/95 backdrop-blur-md z-[100] border-t border-border-subtle shadow-lg pb-[env(safe-area-inset-bottom)] pt-1 isolate">
         <div className="flex justify-around items-center h-14">
           {navItems.map((item) => {
             const Icon = item.icon;
